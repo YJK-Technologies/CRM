@@ -1,0 +1,98 @@
+
+.addTab{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-color: none;
+    font-size: 14px;
+   
+}
+
+@media (min-width: 100px) and (max-width: 500px) {
+  .Des{
+    display: none;
+  }
+  
+
+}
+
+@media (min-width: 600px) and (max-width: 3000px) {
+.mobvi{
+  display:none;
+}
+}
+
+
+.addTab1{
+
+    color: black ;
+    background-color: var(--but);
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow:10px 5px 5px 5px;
+
+}
+
+.ESSbut{
+  background: var(--but-hover);
+  border: none;
+}
+.addTab{
+
+    color: rgb(255, 255, 255) ;
+    background: var(--but);
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    box-shadow:10px 5px 5px 5px;
+
+  }
+
+  .ESS-hov{
+    background-color : var(--ESS-hov) ;
+  }
+  .addTab{
+    background: var(--but-hover);
+  }
+  
+  .addTab:checked {
+    color : white;
+  }
+
+  
+  .addTab:hover .svg-icon {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    25% {
+      transform: rotate(-8deg);
+    }
+  
+    50% {
+      transform: rotate(0deg);
+    }
+  
+    75% {
+      transform: rotate(8deg);
+    }
+  
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  

@@ -1,0 +1,96 @@
+$rbc-text-color: #000;
+$rbc-active-color: #007bff; // optional - blue highlight when active
+$rbc-font-weight: 500;
+
+// Hide default button styles inside calendar date cells
+.rbc-button-link {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  color: #000 !important;
+  cursor: pointer !important;
+  font-weight: 400 !important;
+  font-size: 13px !important;
+  text-align: left !important;
+  user-select: text !important;
+}
+
+// Remove button look from active/hover states
+.rbc-button-link:focus,
+.rbc-button-link:hover,
+.rbc-button-link:active {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #000 !important;
+  outline: none !important;
+}
+
+.rbc-toolbar {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .rbc-toolbar-label {
+    font-weight: 600;
+    font-size: 16px;
+    color: darken($rbc-text-color, 20%);
+  }
+
+  button {
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: $rbc-text-color;
+    padding: 5px 10px;
+    font-weight: $rbc-font-weight;
+    cursor: pointer;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: $rbc-active-color;
+      text-decoration: underline;
+    }
+
+    &.rbc-active {
+      background-color: transparent;
+      color: $rbc-active-color;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.rbc-event {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: #007bff;
+  border-radius: 6px;
+  padding: 2px 4px;
+  font-size: 12px;
+  color: white;
+  margin-bottom: 2px;
+}
+
+.rbc-day-slot .rbc-event-content {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.rbc-month-row {
+  overflow-y: auto;
+  max-height: 120px; // adjust as needed
+}

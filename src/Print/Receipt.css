@@ -1,0 +1,56 @@
+/* Thermal Receipt Printer CSS */
+
+.receipt-container {
+    width: 58mm; /* Adjust for thermal printer width */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #000;
+}
+
+.receipt-header {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.receipt-details {
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 5px;
+}
+
+.receipt-table th, .receipt-table td {
+    border-bottom: 1px dashed #000;
+    padding: 2px 0;
+    font-size: 12px;
+}
+
+.receipt-summary {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.receipt-footer {
+    font-size: 10px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+@media print {
+    .receipt-container {
+        width: 58mm;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+    }
+}

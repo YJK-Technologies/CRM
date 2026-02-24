@@ -1,0 +1,71 @@
+.navbar-brand {
+    font-weight: bold;
+    color: #0d6efd;
+  }
+  
+  .navbar-brand:hover {
+    color: #084298;
+  }
+  
+  .badge {
+    font-size: 0.75rem;
+  }
+
+  .Topnav{
+    height:58px;
+  }
+
+  .Topnav{
+  position:fixed;
+  width:100%;
+  z-index:1000;
+  }
+  
+  .companyname{
+    font-size: "10px"; 
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #ffe676; 
+    text-align: center;
+  }
+
+  .vl {
+    border-left: 1px solid rgb(157, 157, 157);
+    border-radius: 10px;
+    max-height: 60px;
+    
+  }
+
+
+.Topnav-content.container-fluid{
+  display:flex;
+  justify-content:space-between;
+  margin-left:0;
+  margin-right:0;
+}
+
+.avatar-placeholder {
+  width: 35px;
+  display: flex;
+  height: 35px;
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+
+@media screen and (max-width: 899px) and (min-width: 500px) {
+  .Topnav{
+   
+    position:fixed;
+    width:100%;
+    z-index:1000;
+    
+     
+      
+    }
+}

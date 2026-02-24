@@ -1,0 +1,385 @@
+.invoice-container {
+    width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .header-section1 {
+    display: flex;
+    justify-content: space-between; 
+    font-family: Arial, sans-serif;
+  }
+  
+  .addressBox,
+  .addressSection {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  
+  .line {
+    border-top: 1px solid #000; 
+  }
+  
+  .text-container {
+    flex-grow: 1; 
+    text-align: left;
+  }
+  
+  .title-name {
+    font-family: 'Tw Cen MT', sans-serif;
+    font-size: 30px;
+    color:#001E62;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  
+  .subtitle-address { 
+    text-align: left;
+    color: #253F4E;
+    font-family: 'Tw Cen MT', sans-serif;
+  }
+  
+  .CompanyDetailstax {
+    font-size: 12px;
+    text-align: left;
+  }
+  
+  .CompanyDetailstax h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  
+  .CompanyDetailstax p {
+    font-size: 12px;
+  }
+  
+  .CompanyDetailstax{
+    border-bottom: #000 solid 1px;
+  }
+  
+  .InvoiceContainer {
+    width: 750px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .invoice-amount-words1 {
+    color: #000;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .text-amount{
+    border-left: 1px #000 solid ; 
+    border-right: 1px #000 solid ; 
+    border-top: 1px #000 solid ; 
+    border-bottom: 1px #000 solid ; 
+    margin-bottom: 0;
+  }
+  
+  .amount-in-words1 {
+    font-size: 12px;
+    color: #333;
+  }
+  .invoice-summary1 table {
+    width: 100%;
+    /* margin-top: 20px; */
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  
+  .invoice-summary1 td {
+    text-align: right;
+    padding: 4px;
+    border-bottom: 0px #000 solid ; 
+  }
+  
+  .invoice-summary1 tr td:first-child {
+    text-align: left;
+  }
+  
+  .left-section {
+    flex: 1;
+    max-width: 200%; 
+    font-size: 14px;
+    border-collapse: collapse ;
+    border: #000 solid 1px;
+  }
+   .address-section p {
+   padding-left: 4px;
+   padding-top:1px;
+  }
+  
+  .company-details  {
+   border-bottom: 1px solid #000;
+   }
+  .company-details p {
+    padding-left: 4px;
+    padding-top:1px;
+   }
+   .address-box p {
+    padding-left: 4px;
+    padding-top:1px;
+   }
+  
+  
+  .company-details h2 {
+    margin-bottom: 10px;
+    color: rgb(0, 128, 202);
+    font-size: 22px;
+  }
+  
+  .address-section {
+    margin-top: 10px;
+    display: flex;
+    border-bottom: 1px solid #000;
+  }
+  
+  .address-box {
+    font-size: 13px;    
+  }
+  
+  .invoice-info table{
+  border: #000 solid 1px;
+  border-right: #000 solid 1px;;
+  border-top: 0;
+  border-left: 0;
+  /* border-bottom: 0; */
+  padding:0;
+  width: 100%;
+  height: 400px;
+  }
+  
+  .invoice-info {
+    flex: 1; 
+    width: 100%;
+    font-size: 14px;
+    padding: 0px;
+    margin-bottom: 0;
+  }
+  
+  .invoice-info td  {
+    width:40%;
+    padding: 5px;
+    border-collapse: collapse;
+    border: 1px solid #000000; 
+    border-left: 0px solid #000000; 
+  }
+  
+  .TermsofDelivery{
+    width: 100px;
+    height: 150px;
+  }
+  
+  .TermsofDelivery p{
+    padding-left: 5px;
+  }
+  
+  .invoice-info div {
+    width: 100%;
+  }
+  
+  .invoice-info {
+    
+    text-align: left;
+    vertical-align: top;
+   
+  }
+  
+  .invoice-info td:last-child {
+    text-align: left; 
+  }
+  
+  hr {
+    /* margin: 10px 0; */
+    /* border: none; */
+    border-top: 1px solid #000;
+  }
+  
+  hr {
+    /* margin: 10px 0; */
+    border: 1px solid #000;
+  }
+  
+  .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .invoice-table th,
+  .invoice-table td {
+    border: 1px solid black;
+    border-top: 1px solid black;
+    text-align: left;
+    font-family: Arial, sans-serif;
+  }
+  
+  .invoice-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color:#000;
+  }
+  
+  /* .invoice-table td {
+    text-align: right;
+  }
+  
+  .invoice-table td:nth-child(2) {
+    text-align: left; 
+  }
+  
+  .invoice-table tr:last-child td {
+    font-weight: bold;
+    background-color: #f9f9f9;
+  } */
+  
+  .tax-section {
+   text-align: center;
+    border-collapse: collapse;
+  }
+  
+  .tax-section th,
+  .tax-section td {
+    border: 1px solid black;
+    border-top: 0;
+    padding: 1px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .tax-section th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color:#000;
+    font-size: 14px;
+    padding-right:50px;
+  }
+  
+  .tax-section td {
+    text-align: center;
+    font-size: 13px; 
+  }
+  
+  .tax-section td:nth-child(2) {
+    text-align: center;
+  }
+  
+  .tax-section tr:last-child td {
+    font-weight: bold;
+    background-color: #f9f9f9;
+  }
+  
+  .footer-section p {
+    padding-top:5px;
+    padding-bottom: 5px;
+     padding-left: 2px
+   }
+  
+  .footer-section {
+   padding-top: 0px;
+    border: 1px solid #000;
+    border-top: 0;
+  }
+  
+  .InvoiceContainer p{
+    font-size: 15px;
+    font-weight: normal;
+    padding-left: 5px;
+    padding-top: 0;
+  }
+  
+  .bank-details {
+     font-size: 14px;
+     /* display: flex; */
+     flex-direction: column;
+     justify-content: end;
+     border:#000 solid 1px;
+     border-top: 0
+  }
+  .pbdetails p {
+     display: flex;
+     flex-direction: column;
+     justify-content: end;
+  
+  }
+  .inwords { 
+    border: #000 solid 1px;
+    border-top: 0;
+    padding: 5px;
+  }
+  
+  .invoice-table{
+    margin-bottom: 0;
+  }
+  
+  
+  .qr-code {
+  width: 30%;
+   display: flex ;
+   justify-content:end
+  }
+  
+  .qr-code img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .bordered-table1 {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .bordered-table1 th, .bordered-table1 td {
+    border: 1px solid #000000;
+  }
+  
+  .bordered-table1 th {
+    background-color: #000;
+  }
+
+  .invoice-info {
+    flex: 1 1 48%;
+    max-width: 48%;
+}
+
+.addressBox, .addressSection {
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+}
+
+@media print {
+  @page {
+    margin: 0;
+  }
+
+  .header, .footer {
+    display: none !important;
+  }
+}
+
+/* code added by pavun 25-01-2025*/
+.small-row {
+  height: 50px;
+}
+
+.large-row {
+  height: 80px;
+}
+
+.label-top {
+  vertical-align: top;
+  padding-bottom: 5px;
+}
+
+.label-top strong {
+  display: block;
+  margin-top: 5px;
+}

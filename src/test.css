@@ -1,0 +1,47 @@
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-dropdown-button {
+    background-color: #4CAF50; /* Button background */
+    color: white; /* Button text color */
+    padding: 10px; /* Button padding */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute; /* Positioned relative to the dropdown */
+    background-color: #fff; /* Background color of dropdown */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    z-index: 1; /* On top of other elements */
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 5px; /* Space between button and dropdown */
+}
+
+.profile-dropdown:hover .dropdown-menu {
+    display: block; /* Show dropdown on hover */
+}
+
+.iconbutton {
+    padding: 10px; /* Space around each icon */
+    display: flex; /* Flex layout */
+    align-items: center; /* Center items vertically */
+}
+
+
+/* .icon i {
+    margin-right: 8px;} /* Space between icon and text */
+    .dropdown-menu {
+        padding: 0 5px 0 5px;
+        min-width:none;
+       --bs-dropdown-min-width: none;
+    }
+
+  .toast-design{
+    margin-top: 50px;
+    width : "430px",
+  }

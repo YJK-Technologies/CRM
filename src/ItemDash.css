@@ -1,0 +1,103 @@
+.App {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header input {
+    width: 300px;
+    padding: 5px;
+  }
+  
+  .add-sale, .add-purchase, .add-more {
+    padding: 10px;
+    margin: 5px;
+  }
+  
+  .header-icons i {
+    margin: 0 10px;
+    cursor: pointer;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+  }
+  
+  .filters select, .filters input {
+    padding: 5px;
+  }
+  
+  .date-range {
+    display: flex;
+    align-items: center;
+  }
+ 
+  
+  input[type="date"] {
+    /* Basic styling */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-color: #5b9bd5;
+  padding: 5px;
+  border-radius: 50%;
+}
+input[type="date"]::placeholder {
+  color: #aaa;
+}
+input[type="date"]:focus {
+  border-color: #5b9bd5;
+  box-shadow: 0 0 8px rgba(91, 155, 213, 0.5);
+  outline: none;
+}
+
+  
+  .paid {
+    background-color: #d4f0d4;
+  }
+  
+  .unpaid {
+    background-color: #f0d4d4;
+  }
+  
+  .total {
+    background-color: #f0f0d4;
+  }
+  
+  
+
+  
+  .SearchGrid{
+    background-color: rgb(252, 252, 252);
+    padding-top: 0.5px;
+    
+
+  }
+  
+  .Searchtrans{
+    margin-top: 3px;
+    margin-bottom: 10px;
+    padding: 5px 20px 5px 20px;
+    border-radius: 18px;
+    
+  }
+
+  .Searchtrans:active {
+    background-color: var(--but-hover);
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    box-shadow: none;
+    transform: scale(0.98);
+  }

@@ -1,0 +1,275 @@
+
+
+/* code added by pavun on 08/06/204*/
+p {
+  text-align: left;
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* code ended by pavun on 08/06/204*/
+/* code added by pavun on 07/07/2024*/
+.red {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
+  /* margin-bottom: 20px; */
+}
+
+/* code added by pavun on 09/07/2024*/
+.status {
+  font-size: 1rem; 
+  font-weight: bold; 
+  color: #4CAF50;
+  /* padding: 0.5rem; */
+  margin-left: 1rem; 
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  
+}
+
+.avatar-initials {
+  background-color: #f28b82; 
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 40px; 
+  height: 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+.react-calendar-datetime-picker .input-picker .input-picker--input{
+ margin-top:5px;
+ padding-bottom: 120px 16px;
+ height: auto;   
+ font-size: medium;
+ 
+ 
+}
+     
+/* added by balaji - 27_09_2024 */
+.container-fluid{
+  z-index:500;
+  width:100%;
+}
+
+.Topnav-screen{
+  margin-top:70px;
+
+}
+
+
+.content-container{
+    height:50vh;
+}
+
+
+.datepicker-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: #4CAF50;
+}
+.datepicker-input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+/* ::-webkit-datetime-edit { padding: 1em; }
+::-webkit-datetime-edit-fields-wrapper { background: silver; }
+::-webkit-datetime-edit-text { color: red; padding: 0 0.3em; }
+::-webkit-datetime-edit-month-field { color: blue; }
+::-webkit-datetime-edit-day-field { color: green; }
+::-webkit-datetime-edit-year-field { color: purple; }
+::-webkit-inner-spin-button { display: none; }
+::-webkit-calendar-picker-indicator { background: orange; } */
+
+
+/* Slide Down Animation */
+.dropdown-menu {
+  display: block;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out; /* Transition for smooth animation */
+  opacity: 0;
+}
+
+.dropdown-menu.show {
+  max-height: 500px; /* Adjust this value according to the dropdown height */
+  opacity: 1;
+}
+
+/* Balaji - 23-10-2024 */
+.popups-btn{
+  margin-left: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px 1px 1px 1px;
+  gap: 8px;
+  height: 40px;
+  width: 50px;
+  border: none;
+  background: #056bfa27;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+
+
+.popups-btn:hover {
+  background: #056bfa49;
+}
+
+.popups-btn:hover .svg-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-8deg);
+  }
+
+  50% {
+    transform: rotate(0deg);
+  }
+
+  75% {
+    transform: rotate(8deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+
+
+
+.ag-paging-row-summary-panel{ 
+  display: none;
+}
+
+
+
+.plus-button{
+  
+  position: fixed;
+  margin-top: 45px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  background-color: rgb(3, 233, 72);
+  padding: 10px;
+  margin-left: 3px;
+  color:white;
+
+}
+
+
+
+.minus-button{
+
+  margin-top: 8px;
+  position: fixed;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  background-color: rgb(252, 92, 92);
+  padding: 10px;
+  margin-left: 3px;
+  color:white;
+
+
+}
+
+/* Balaji - 23-10-2024   end line*/
+
+
+
+.closebtn2{
+
+  border-top-right-radius: 8px ;
+  border-bottom-right-radius: 1px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  background-color: #dc3545;
+  color:white;
+  padding: 10px;
+  border-color: #dc3545;
+  box-shadow: none;
+  font-size: large;
+
+
+
+}
+
+
+.ag-paging-panel {
+  height: 27px !important; 
+}
+
+.template-preview-box {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.placeholder-text {
+  color: #999;
+  font-size: 14px;
+  text-align: center;
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+}
+
+.left-arrow {
+  left: 10px;
+}
+
+.right-arrow {
+  right: 10px;
+}
+.list-group-item:hover {
+  background-color:rgb(109, 175, 194);
+}

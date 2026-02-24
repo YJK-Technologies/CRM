@@ -1,0 +1,320 @@
+/* Column.css */
+.Btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 35px;
+    height: 35px;
+    border-radius: calc(45px/2);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+    background: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+}
+
+.sign {
+    width: 100%;
+    font-size: '18px';
+    color: white;
+    transition-duration: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text {
+    position: absolute;
+    right: 0%;
+    width: 0%;
+    opacity: 0;
+    color: white;
+    font-size: '18px';
+    font-weight: 500;
+    transition-duration: .3s;
+    white-space: nowrap;
+}
+
+.Btn:hover {
+    width: 100px;
+    transition-duration: .3s;
+}
+
+.Btn:hover .sign {
+    width: 10%;
+    transition-duration: .3s;
+    /* padding-left: 15px; */
+}
+
+.rbc-day-bg .highlighted {
+  background-color: rgba(255, 193, 7, 0.3); /* light yellow highlight */
+  transition: background-color 0.2s ease;
+}
+
+
+.Btn:hover .text {
+    opacity: 1;
+    width: 70%;
+    transition-duration: .3s;
+    padding-right: 15px;
+}
+
+.Btn:active {
+    transform: translate(2px, 2px);
+}
+
+.gradientText {
+    background: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* CRM Board Css */
+.nav-btn-container {
+    padding: 0.5rem 0.75rem; 
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+    border-radius: 8px;
+    margin-right: 0.5rem; 
+}
+
+.nav-btn-container:hover {
+    transform: translateY(-2px);
+    background-color: #f0f0f0;
+}
+
+.nav-btn-icon {
+    font-size: 1.5rem;
+    color: #495057; 
+    transition: color 0.2s;
+}
+
+.nav-btn-kanban .nav-btn-icon {
+    background-image: linear-gradient(45deg, #af40ff, #5b42f3 60%, #00ddeb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; 
+}
+
+.nav-btn-list .nav-btn-icon {
+    background-image: linear-gradient(45deg, #00ddeb, #5b42f3 60%, #af40ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.nav-btn-calendar .nav-btn-icon {
+    background-image: linear-gradient(45deg, #e94e77, #af40ff 60%, #5b42f3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.nav-btn-chart .nav-btn-icon {
+    background-image: linear-gradient(45deg, #ff9800, #e94e77 60%, #af40ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.nav-btn-activity .nav-btn-icon {
+    background-image: linear-gradient(45deg, #e94e77, #ff9800 60%, #ffc107);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.nav-btn-location .nav-btn-icon {
+    background-image: linear-gradient(45deg, #00ddeb, #00897b 60%, #28a745);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.nav-btn-container.active {
+    background-color: #f0f0f0;
+    transform: none; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn-container.active:hover {
+    background-color: #f0f0f0;
+    transform: none;
+}
+
+/* Model Css*/
+.cancel-color{
+    background-color: #ddd;
+    box-shadow: none;
+}
+
+.cancel-color:hover{
+    background-color: #ddd;
+    color: black;
+}
+
+.Save-color{
+    background-color: #7747ff;
+    box-shadow: none;
+    color: white;
+}
+
+.Save-color:hover{
+    background-color: #7747ff;
+    color: white;
+}
+
+/* ----------------------------------------------------------------- */
+/* 1. LEAD CARD (3D EFFECT) */
+/* ----------------------------------------------------------------- */
+
+.lead-card-3d {
+    position: relative;
+    overflow: hidden;
+    background: #fff; 
+    border: 1px solid #ddd;
+    padding: 15px;
+    box-shadow: 
+        0 6px 12px rgba(0,0,0,0.15),
+        inset 0 1px 3px rgba(255,255,255,0.7),
+        inset 0 -1px 3px rgba(0,0,0,0.1); 
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.lead-card-3d:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 16px rgba(0,0,0,0.2), /* Stronger outer shadow */
+        inset 0 1px 3px rgba(255,255,255,0.8), 
+        inset 0 -1px 3px rgba(0,0,0,0.15);
+}
+
+/* ----------------------------------------------------------------- */
+/* 2. WON RIBBON STYLES */
+/* ----------------------------------------------------------------- */
+
+.won-ribbon-container {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    z-index: 10;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes ribbonPulse {
+    0% {
+        transform: rotate(45deg) scale(1) translateY(-20px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    }
+    50% {
+        /* Slightly increase size and shadow halfway through */
+        transform: rotate(45deg) scale(1.03) translateY(-20px);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+    }
+    100% {
+        transform: rotate(45deg) scale(1) translateY(-20px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+    }
+}
+
+.won-ribbon {
+    position: absolute;
+    width: 150%;
+    height: 40px;
+    /* Gradient for Victory */
+    background-image: linear-gradient(45deg, #00C853 0%, #00BFA5 60%, #4CAF50 100%);
+    
+    /* Original transform is included in the keyframes, but defined here for base state */
+    transform: rotate(45deg) translateY(-20px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3); 
+    text-align: center;
+    padding: 0;
+    
+    /* Apply the animation */
+    animation: ribbonPulse 2s infinite ease-in-out; 
+}
+
+.won-ribbon-text {
+    color: white;
+    font-size: 1em;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 40px;
+    display: block;
+    width: 100%;
+}
+
+/* CRM Chart */
+/* Container for the Tab Buttons */
+.tab-container {
+    display: flex; /* Buttons are arranged side-by-side */
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f8f9fa; /* Light background for the tab bar */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dee2e6;
+}
+
+/* Base style for all Tab Buttons */
+.tab-button {
+    flex-grow: 1; /* Make buttons take equal space */
+    padding: 10px 15px;
+    margin: 0 5px; /* Small gap between buttons */
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: none;
+    color: #495057; /* Default text color */
+    transition: background-color 0.3s, color 0.3s, border-bottom 0.3s;
+    border-radius: 6px;
+    outline: none; /* Remove focus outline */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Hover effect */
+.tab-button:hover:not(.tab-button-active) {
+    background-color: #e9ecef;
+}
+
+/* Active tab style */
+.tab-button-active {
+    background-color: #007bff; /* Primary color background */
+    color: #ffffff; /* White text for active tab */
+    font-weight: 600;
+}
+
+/* Responsive adjustment for smaller screens */
+@media (max-width: 768px) {
+    .tab-container {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+    .tab-button {
+        margin: 5px 0;
+    }
+}
+
+.cursor-pointer-on-hover:hover {
+  cursor: pointer;
+}

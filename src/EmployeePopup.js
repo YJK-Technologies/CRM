@@ -1,0 +1,495 @@
+import { useState } from "react";
+import * as React from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import "ag-grid-enterprise";
+import 'ag-grid-autocomplete-editor/dist/main.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { format } from 'date-fns';
+import { toast } from 'react-toastify';
+import LoadingScreen from './Loading';
+
+const config = require('./Apiconfig');
+
+
+  // Function to convert binary data to base64 string
+  const arrayBufferToBase64 = (buffer) => {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  };
+
+
+  const columnDefs = [
+  {
+    headerCheckbox: true,
+    checkboxSelection: true,
+    headerName: "Employee ID",
+    field: "EmployeeId",
+    editable: false,
+  },
+  {
+    headerName: "DOB",
+    field: "DOB",
+    editable: false,
+    valueFormatter: params => format(new Date(params.value), 'yyyy-MM-dd'),
+  },
+  {
+    headerName: "Image",
+    field: "Photos",
+    editable: false,
+    cellStyle: { textAlign: "center" },
+    cellRenderer: (params) => {
+      if (params.value) {
+        return (
+          <img
+            src={`data:image/jpeg;base64,${params.value}`}
+            alt="Item"
+            style={{ width: "50px", height: "50px" }}
+          />
+        );
+      } else {
+        return "No Image";
+      }
+    },
+  },
+  {
+    headerName: "First Name",
+    field: "First_Name",
+    editable: false,
+  },
+  {
+    headerName: "Middle Name",
+    field: "Middle_Name",
+    editable: false,
+  },
+  {
+    headerName: "Last Name",
+    field: "Last_Name",
+    editable: false,
+  },
+  {
+    headerName: "Father Name",
+    field: "father_name",
+    editable: false,
+  },
+  {
+    headerName: "Mother Name",
+    field: "mother_name",
+    editable: false,
+  },
+  {
+    headerName: "Gender",
+    field: "Gender",
+    editable: false,
+  },
+  {
+    headerName: "Email",
+    field: "email",
+    editable: false,
+  },
+  {
+    headerName: "Grade ID",
+    field: "Grade_id",
+    editable: false,
+  },
+  {
+    headerName: "Phone No",
+    field: "phone1",
+    editable: false,
+  },
+  {
+    headerName: "Alter Phone No",
+    field: "phone2",
+    editable: false,
+  },
+  {
+    headerName: "Address 1",
+    field: "address1",
+    editable: false,
+  },
+  {
+    headerName: "Address 2",
+    field: "address2",
+    editable: false,
+  },
+  {
+    headerName: "Address 3",
+    field: "address3",
+    editable: false,
+  },
+  {
+    headerName: "Permanent Address",
+    field: "PermanantAddress",
+    editable: false,
+  },
+  {
+    headerName: "Reference Name",
+    field: "Reference_name",
+    editable: false,
+  },
+  {
+    headerName: "Reference Phone No",
+    field: "Reference_Phone",
+    editable: false,
+  },
+  {
+    headerName: "Martial Status",
+    field: "marital_status",
+    editable: false,
+  },
+  {
+    headerName: "Pan No",
+    field: "Pan_No",
+    editable: false,
+  },
+  {
+    headerName: "Aadhaar No",
+    field: "Aadhar_no",
+    editable: false,
+  }, {
+    headerName: "Kids",
+    field: "Kids",
+    editable: false,
+  }
+];
+const gridOptions = {
+  pagination: true,
+  paginationPageSize: 10,
+};
+
+
+export default function EmployeeInfoPopup({ open, handleClose, EmployeeInfo }) {
+
+  const [rowData, setRowData] = useState([]);
+  const [EmployeeId, setEmployeeId] = useState("");
+  const [First_Name, setFirst_Name] = useState("");
+  const [Last_Name, setLast_Name] = useState("");
+  const [DOB, setDOB] = useState("");
+  const [loading, setLoading] = useState('');
+
+  
+  const handleSearch = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${config.apiBaseUrl}/EmployeePersonalSC`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({EmployeeId, Last_Name, First_Name, DOB,company_code: sessionStorage.getItem('selectedCompanyCode') })
+      });
+      if (response.ok) {
+        const searchData = await response.json();
+
+        const updatedData = await Promise.all(
+          searchData.map(async (item) => ({
+            ...item,
+            EmployeeId: item.EmployeeId,
+            First_Name: item.First_Name,
+            Middle_Name: item.Middle_Name,
+            Photos: item.Photos ? arrayBufferToBase64(item.Photos.data) : null,
+            Father_Name: item.father_name,
+            Last_Name: item.Last_Name,
+            Mother_Name: item.mother_name,
+            DOB: item.DOB,
+            selectedGender: item.Gender,
+            Email: item.email,
+            Phone1: item.phone1,
+            Phone2: item.phone2,
+            address1: item.address1,
+            address2: item.address2,
+            address3: item.address3,
+            permanantAddress: item.PermanantAddress,
+            reference_Name: item.Reference_name,
+            reference_Phone: item.Reference_Phone,
+            pan_No: item.Pan_No,
+            Aadhaar_no: item.Aadhar_no,
+            selectedmartial: item.marital_status,
+            selectedkids: item.Kids,
+            selectedgradeid: item.Grade_id,
+            company_code: sessionStorage.getItem('selectedCompanyCode'),
+          }))
+        );
+        setRowData(updatedData);
+        console.log("data fetched successfully")
+      } else if (response.status === 404) {
+       toast.error("Data Not found")
+       .then(() => {
+          setRowData([]);
+          clearInputs([])
+        });
+        console.log("Data not found"); // Log the message for 404 Not Found
+      } else {
+        console.log("Bad request"); // Log the message for other errors
+      }
+    } catch (error) {
+      console.error("Error fetching search data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReload = () => {
+    clearInputs([])
+    setRowData([])
+  };
+
+  const clearInputs = () => {
+    setEmployeeId("");
+    setFirst_Name("");
+    setLast_Name("");
+    setDOB("");
+  };
+
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  const handleRowSelected = (event) => {
+    setSelectedRows(event.api.getSelectedRows());
+  };
+
+  const handleConfirm = () => {
+    const selectedData = selectedRows.map(row => ({
+      EmployeeId: row.EmployeeId,
+      DOB: row.DOB,
+      First_Name: row.First_Name,
+      Middle_Name: row.Middle_Name,
+      Last_Name: row.Last_Name,
+      Father_Name: row.father_name,
+      Mother_Name: row.mother_name,
+      Gender: row.Gender,
+      Email: row.email,
+      grade_id: row.Grade_id,
+      phone1: row.phone1,
+      phone2: row.phone2,
+      Address1: row.address1,
+      Address2: row.address2,
+      Address3: row.address3,
+      PermanantAddress: row.PermanantAddress,
+      Reference_Name: row.Reference_name,
+      Reference_Phone: row.Reference_Phone,
+      Marital_Status: row.marital_status,
+      Pan_No: row.Pan_No,
+      Aadhar_no: row.Aadhar_no,
+      Kids: row.Kids,
+      Photos:row.Photos
+     
+    }));
+
+    EmployeeInfo(selectedData);
+    handleClose();
+    clearInputs([]);
+    setRowData([]);
+  }
+
+  return (
+    <div>
+      {open && (
+        <fieldset>
+          <div>
+            <div className="purbut">
+              {loading && <LoadingScreen />}
+              <div className="modal mt-5 Topnav-screen popup popupadj" tabIndex="-1" role="dialog" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                <div className="modal-dialog modal-xl ps-5 p-1 pe-5" role="document">
+                  <div className="modal-content">
+                    <div class="row justify-content-center">
+                      <div class="col-md-12 text-center">
+                        <div className="p-0 bg-body-tertiary">
+                          <div className="purbut mb-0 d-flex justify-content-between" >
+                            <h1 align="left" className="purbut">Employee Info Help</h1>
+                            <button onClick={handleClose} className="purbut btn btn-danger shadow-none rounded-0 h-70 fs-5" required title="Close">
+                            <i class="fa-solid fa-xmark"></i>
+                            </button>
+                          </div>
+                          <div class="d-flex justify-content-between">
+                            <div className="d-flex justify-content-start">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="modal-body">
+                        <div className="row ms-3 me-3">
+                          <div className="col-sm mb-2">
+                            <input
+                              type='text'
+                              id='IssuanceID'
+                              className='exp-input-field form-control'
+                              placeholder='Employee ID'
+                              value={EmployeeId}
+                              onChange={(e) => setEmployeeId(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                              autoComplete='off'
+                              maxLength={18}
+                            />
+                          </div>
+                          <div className="col-sm mb-2">
+                            <input
+                              type='Date'
+                              id='Issued_Type'
+                              className='exp-input-field form-control'
+                              placeholder='DOB'
+                              value={DOB}
+                              onChange={(e) => setDOB(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                              autoComplete='off'
+                            />
+                          </div>
+                          <div className="col-sm mb-2">
+                            <input
+                              type='text'
+                              id='DateIssued'
+                              className='exp-input-field form-control'
+                              placeholder='First Name'
+                              value={First_Name}
+                              onChange={(e) => setFirst_Name(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                              autoComplete='off'
+                              maxLength={75}
+                            />
+                          </div>
+                          <div className="col-sm mb-2">
+                            <input
+                              type='text'
+                              id='Issued_Type'
+                              className='exp-input-field form-control'
+                              placeholder='Last Name'
+                              value={Last_Name}
+                              onChange={(e) => setLast_Name(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                              autoComplete='off'
+                              maxLength={75}
+                            />
+                          </div>
+                        
+                          <div className="mb-2 mt-2 d-flex justify-content-end">
+                            <icon className="icon popups-btn" onClick={handleSearch} title="Search">
+                              <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            </icon>
+                            <icon className="icon popups-btn" onClick={handleReload} title="Reload">
+                              <i class="fa-solid fa-arrow-rotate-right"></i>
+                            </icon>
+                            <icon className="icon popups-btn" onClick={handleConfirm} title="Confirm">
+                              <FontAwesomeIcon icon="fa-solid fa-check" />
+                            </icon>
+                          </div>
+                        </div>
+                        <div className="ag-theme-alpine" style={{ height: '400px', width: '100%' }}>
+                          <AgGridReact
+                            rowData={rowData}
+                            columnDefs={columnDefs}
+                            // defaultColDef={defaultColDef}
+                            rowSelection="single"
+                            paginationAutoPageSize={true}
+                            gridOptions={gridOptions}
+                            onSelectionChanged={handleRowSelected}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mobileview">
+              {loading && <LoadingScreen />}
+              <div className="modal mt-5 Topnav-screen" tabIndex="-1" role="dialog" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                <div className="modal-dialog modal-xl ps-4 pe-4 p-1" role="document">
+                  <div className="modal-content">
+                    <div class="row justify-content-center">
+                      <div class="col-md-12 text-center">
+                        <div className="mb-0 d-flex justify-content-between">
+                          <div className="mb-0 d-flex justify-content-start me-4">
+                            <h1 className="h1">Employee Info  Help</h1>
+                          </div>
+                          <div className="mb-0 d-flex justify-content-end" >
+                            <button onClick={handleClose} className="closebtn2" required title="Close">
+                            <i class="fa-solid fa-xmark"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                          <div className="d-flex justify-content-start">
+                          </div>
+                        </div>
+                      </div>
+                      <div className="modal-body">
+                        <div className="row ms-3 me-3">
+                          <div className="col-sm mb-2">
+                            <input
+                              type='text'
+                              id='IssuanceID'
+                              className='exp-input-field form-control'
+                              placeholder='Issue Id'
+                              value={EmployeeId}
+                              onChange={(e) => setEmployeeId(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                              autoComplete='off'
+                              maxLength={18}
+                            />
+                          </div>
+                          <div className="col-sm mb-2">
+                            <input
+                              type='date'
+                              id='DateIssued'
+                              className='exp-input-field form-control'
+                              placeholder='First Name'
+                              value={First_Name}
+                              onChange={(e) => setFirst_Name(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                              autoComplete='off'
+                              maxLength={75}
+                            />
+                          </div>
+                          <div className="col-sm mb-2">
+                            <input
+                              type='text'
+                              id='Issued_Type'
+                              className='exp-input-field form-control'
+                              placeholder='Last name'
+                              value={Last_Name}
+                              onChange={(e) => setLast_Name(e.target.value)}
+                              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                              autoComplete='off'
+                              maxLength={75}
+                            />
+                          </div>
+                          <div className="mb-2 mt-2 d-flex justify-content-end">
+                            <button className="" onClick={handleSearch} title="Search">
+                              <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            </button>
+                            <button className="" onClick={handleReload} title="Reload">
+                              <i class="fa-solid fa-arrow-rotate-right"></i>
+                            </button>
+                            <button className="" onClick={handleConfirm} title="Confirm">
+                              <FontAwesomeIcon icon="fa-solid fa-check" />
+                            </button>
+                          </div>
+                          <div className="ag-theme-alpine" style={{ height: '400px', width: '100%' }}>
+                          <AgGridReact
+                            rowData={rowData}
+                            columnDefs={columnDefs}
+                            rowSelection="single"
+                            paginationAutoPageSize={true}
+                            gridOptions={gridOptions}
+                            onSelectionChanged={handleRowSelected}
+                          />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      )}
+    </div>
+  );
+}

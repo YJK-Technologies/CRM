@@ -1,0 +1,93 @@
+.Cards{
+    font-size: 12px;
+    font-style:normal;
+    font-weight:normal;
+    font-family: poppins;
+    
+}
+
+.Card-body{
+    font-size: 10px;
+}
+
+.table{
+    font-size: 14px;
+    
+}
+
+.ag-theme-alpine{
+    color: white;
+}
+
+
+
+button:active{
+    transform-origin: scale(0.5);
+    
+}
+
+
+.custom-shadow {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
+
+/* Popup.css */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+  }
+ 
+  .popup-inner {
+    background: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left : 0px;
+    padding-right: 0px;
+    border-radius: 5px;
+    max-width: 600px;
+    width: 90%;
+  }
+  h2{
+    font-family: sans-serif;
+    font-size: 30px;
+    font-weight:bold;
+  }
+
+  .SelectItems{
+    background-color: rgb(176, 206, 206);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size:15px;
+
+  }
+
+  .CreateBtn{
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+  .Convertbtn{
+    display: flex;
+    flex-direction: row;
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+
+  .inputVar{
+    padding-left: 100px;
+    padding-right: 100px;
+
+  }
+

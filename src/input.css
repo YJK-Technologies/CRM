@@ -1,0 +1,360 @@
+.exp-main {
+  background-color: #0c6e7a;
+  /*background-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), white);*/
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.exp-container {
+  background: white;
+  padding-bottom: 140px;
+  
+  
+  margin-top: 2px;
+  
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+/* Style the form container */
+.exp-form {
+  /*background-color: blue !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+  padding: 2px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 450px;
+}
+
+/* Style the form fields and labels */
+.exp-input-field {
+  width: 100% !important;
+  border: 1px solid var(--exp-input-field) !important;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+  
+  position:relative !important;
+  color: #070707 !important;
+  /* box-shadow: 1px 1px 3px 1px var(--exp-input-field); */
+}
+
+.exp-input-field:hover {
+  border-color: var(--but-hover);
+}
+.exp-form-floating {
+  position: relative;
+  margin-bottom: 0px !important;
+  margin-right: 5px;
+
+}
+
+.exp-input-field:focus,
+.exp-input-field:valid {
+  border-color: rgb(17, 157, 212);
+}
+
+.exp-input-field:focus + .exp-form-labels,
+.exp-input-field:valid + .exp-form-labels,
+.exp-input-field:focus + .exp-form-labels.filled,
+.exp-input-field:valid + .exp-form-labels.filled {
+  
+  font-size: 18px;
+  color: #12aaf0;
+  top: -13px;
+  left: 20px;
+}
+
+.exp-form-labels {
+  position:sticky;
+  color: rgb(66, 66, 66) !important;    
+  font-style:normal;
+  /* font-weight: bolder; */
+  justify-content: first;
+  display: flex;
+}
+
+/* Style the submit button */
+.exp-btn {
+  width: 20%;
+  padding: 10px;
+  background-color: var(--but-hover) !important;
+  color: rgb(250, 250, 250) !important;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 0;
+  margin-left: 5px;
+  position: absolute;
+  top: 95%;
+  left: 70% !important;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.exp-btn:hover {
+  background-color: var(--but-hover) !important;
+  border-color: rgb(248, 248, 248) !important;
+}
+.exp-display-3 {
+  border-radius: 6px;
+  border-color: #25aed8 !important;
+  /* background: radial-gradient(#4ac2f1d7, #005ba0cb ); */
+  color:#f1efe3 ;
+  text-shadow: none !important;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif !important;
+  padding: 10px;
+}
+/* .exp-display-3:hover {
+  color: rgb(0, 0, 0);
+  border-color: black !important;
+  background-color: rgb(16, 126, 216);;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif !important;
+} */
+
+.exp-input-field :focus + .exp-form-labels,
+.exp-input-field :not(:placeholder-shown) + .exp-form-labels {
+  font-size: 20px !important;
+  top: 0;
+  left: 0!important;
+  padding-bottom: 0;
+  font: 1em sans-serif;
+  color:rgb(16, 126, 216);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.exp-input-field :focus + .exp-form-labels,
+.exp-input-field :not(:placeholder-shown) + .exp-form-labels {
+  
+  font-size: 0.7rem;
+  color:rgb(16, 126, 216);
+}
+
+.exp-input-field:placeholder-shown {
+  padding-left: 1% !important;
+  font-style: normal;
+}
+
+.error {
+  color: "red" !important;
+  border: "1px solid red" !important;
+  padding: "5px" !important;
+  margin-bottom: "10px" !important;
+}
+/*code added by pavun 08/06/2024*/
+
+
+.input{
+  text-align: left;
+  padding-left: 10px;
+}
+
+
+
+
+/*code ended by pavun 08/06/2024
+
+.exp-input-field:focus + .exp-label,
+.exp-input-field:valid + .exp-label,
+.exp-input-field:focus + .exp-label.filled,
+.exp-input-field:valid + .exp-label.filled {
+  
+  font-size: 18px;
+  color: #12aaf0;
+  top: 10px;
+  left: -200px;
+} 
+
+input[type="date"]{
+  padding-left: 160px;
+} */
+/*----------------------------------------------------------------*/
+
+/*body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.input-gp {
+  margin-top: 150px;
+  position: relative;
+  
+}
+.input-gp input {
+  position: relative;
+  
+}
+.input-gp label{
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  transition: all .4s ease;
+}
+.input-gp input:placeholder-shown + label{
+  left: 10px;
+  bottom: 5px;
+}
+.input-gp input:focus + label,
+.input-gp input + label{
+  bottom: 30px;
+  left: 10px;
+}*/
+
+
+.atthdrcode{
+ /* Adjust based on your preference */
+ 
+ 
+  right: -55px;
+  top: 1; /* Adjust for proper alignment */
+  z-index: 1;
+ 
+
+
+
+}
+.stahdrcode{
+  right: -55px;
+   z-index: 1;
+}
+.inthdrcode{
+  right: -55px;
+   z-index: 1;
+}
+.prohdrcode, .taxhdrcode, .vendorhdrcode ,.cushdrcode{
+   right: -55px;
+   z-index: 1;
+ }
+
+ .userhdrcode{
+  right: -55px;
+  z-index: 1;
+ }
+
+ .prohdrcode:hover, 
+ .taxhdrcode:hover, 
+ .vendorhdrcode:hover, 
+ .cushdrcode:hover, 
+ .stahdrcode:hover, 
+ .inthdrcode:hover, 
+ .userhdrcode:hover, 
+ .atthdrcode:hover {
+   background-color: none;
+ }
+
+ .react-datepicker {
+  border-radius: 10px;
+  border: 2px solid #ff9800;
+}
+
+.react-datepicker__header {
+  background-color: #ff9800;
+  color: white;
+}
+
+.react-datepicker__day--selected {
+  background-color: #ff9800;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: #ff9800;
+}
+
+.react-datepicker__day:hover {
+  background-color: #fdd835;
+}
+
+
+
+  .searchIcon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .searchIcon:hover {
+    background-color: #007bff; /* Change to your preferred hover color */
+    color: #fff; /* Optional: Change the icon color on hover */
+  }
+
+ .Documents-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: fit-content;
+  height: 40px;
+  border: none;
+  padding: 0px 10px;
+  border-radius: 5px;
+  background-color: rgb(49, 49, 83);
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.folderContainer {
+  width: 40px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+.fileBack {
+  z-index: 1;
+  width: 80%;
+  height: auto;
+}
+.filePage {
+  width: 50%;
+  height: auto;
+  position: absolute;
+  z-index: 2;
+  transition: all 0.3s ease-out;
+}
+.fileFront {
+  width: 85%;
+  height: auto;
+  position: absolute;
+  z-index: 3;
+  opacity: 0.95;
+  transform-origin: bottom;
+  transition: all 0.3s ease-out;
+}
+.text {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.Documents-btn:hover .filePage {
+  transform: translateY(-5px);
+}
+.Documents-btn:hover {
+  background-color: rgb(58, 58, 94);
+}
+.Documents-btn:active {
+  transform: scale(0.95);
+}
+.Documents-btn:hover .fileFront {
+  transform: rotateX(30deg);
+}
+.proh1{
+  margin-left: 25px;
+}
+@media (max-width:767px){
+  .exp-form-floating .d-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+ }

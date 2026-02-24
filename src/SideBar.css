@@ -1,0 +1,472 @@
+/* General sidebar styling */
+.sidebar {
+  margin-top: 30px;
+  padding-top: 0;
+  width: 250px; /* Default width when expanded */
+  height: 100%; /* Adjust height based on viewport */
+  background-color: var(--sidenav-menu);
+  color: #fff;
+  transition: width 0.3s ease; /* Transition for sidebar width */
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; 
+  position: fixed;
+  font-size: 12px;
+  padding-bottom: 500px;
+}
+
+.sidebar.collapsed {
+  width: 100px; /* Collapsed width */
+}
+
+/* Container fluid styling */
+.container-fluid {
+  margin-left: 120px; /* Default margin to match sidebar width */
+  transition: margin-left 0.3s ease; /* Smooth transition for margin */
+  margin-right:110px;
+}
+
+.popup{
+  margin-left: 100px; /* Default margin to match sidebar width */
+  transition: margin-left 0.3s ease; /* Smooth transition for margin */
+  padding-right:120px;
+}
+
+/* .popupadj {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  background-color: #fff;
+  z-index: 1050; 
+  padding: 20px;
+  padding-right: 250px;
+  padding-left: 150px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+} */
+
+/* Adjust margin when the sidebar is collapsed */
+.sidebar.collapsed + .container-fluid {
+  margin-left: -30px;
+  margin-right:110px; /* Reduced margin when sidebar is collapsed */
+}
+
+
+
+
+
+
+/* Sidebar header */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.sidebar-logo {
+  width: 50px;
+  height: 50px;
+}
+
+.sidebar-title {
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.hidden {
+  display: none;
+}
+/* .sidebar-menu {
+  flex: 1;
+  padding: 20px 0;
+  transition: max-height 1s ease-out, transform 1ms ;
+}
+.sidebar-menu.collapse.open {
+  flex: 1;
+  padding: 20px 0;
+  transition: max-height 1ms ease-out, transform 1ms ;
+}
+
+.menu-section {
+  font-size: 13px;
+  color: #aaa;
+  padding: 10px 20px;
+}
+
+
+.menu-item {
+  display: flex;
+  align-items: start;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.menu-item:hover {
+  background-color: #5c6476;
+  transform: translateX(10px);
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+} */
+
+/* Sidebar Menu */
+.sidebar-menu {
+  flex: 1;
+  padding: 20px 0;
+  transition: max-height 0.5s ease-in;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+ 
+}
+
+.menu-item:hover {
+  background-color: var(--sidenav-hover);
+  /* transform: translateX(5px); */
+  color:var(--font-hover);
+}
+
+
+
+.admin-arrow {
+  margin-left: auto; /* Push chevron to the far right */
+}
+
+/* Collapsible section */
+
+
+
+
+
+.hidden {
+  display: none;
+}
+
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.menu-item svg {
+  font-size: 13px;
+  
+}
+
+/* Arrow icons with margin */
+.admin-arrow {
+  margin-left: 100px;
+}
+
+.master-arrow {
+  margin-left: 92px;
+}
+
+.accounts-arrow {
+  margin-left: 85px;
+}
+
+.transaction-arrow {
+  margin-left: 65px;
+}
+
+.purchase-arrow {
+  margin-left: 100px;
+}
+
+.sales-arrow {
+  margin-left: 125px;
+}
+
+.inventory-arrow {
+  margin-left: 100px;
+}
+
+.report-arrow {
+  margin-left: 100px;
+}
+
+.ESS-arrow{
+  margin-left: 115px;
+}
+
+.PMS-arrow{
+  margin-left: 112px;
+}
+
+.Payslip-arrow{
+  margin-left: 96px;
+}
+
+.PmsTransaction-arrow{
+  margin-left: 70px;
+}
+
+.PmsMaster-arrow{
+  margin-left: 95px;
+}
+
+.PmsReport-arrow{
+  margin-left: 97px;
+}
+
+.CRM-arrow{
+  margin-left: 112px;
+}
+/* When the sidebar is collapsed, hide the arrow icons */
+.sidebar.collapsed .admin-arrow,
+.sidebar.collapsed .master-arrow,
+.sidebar.collapsed .accounts-arrow,
+.sidebar.collapsed .transaction-arrow,
+.sidebar.collapsed .purchase-arrow,
+.sidebar.collapsed .sales-arrow,
+.sidebar.collapsed .inventory-arrow,
+.sidebar.collapsed .report-arrow,
+.sidebar.collapsed .ESS-arrow {
+  display: none; /* Hide the arrow icons */
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  padding: 6px;
+  margin-bottom: 10px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #f1d500;
+  border-radius: 35%;
+  box-shadow: 1px 1px 3px 2px rgb(128, 119, 0);
+  width: 40px;
+  color: rgb(0, 0, 0);
+  position: fixed;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  opacity: 0.2;
+}
+
+.sidebar:not(.collapsed) .sidebar-toggle {
+  left: 200px;
+  margin-top:20px;
+}
+
+/* Toggle button - Collapsed sidebar */
+.sidebar.collapsed .sidebar-toggle {
+  left: 50px;
+  margin-top:20px;
+}
+
+.sidebar-toggle:hover {
+  background-color:#f1d500;
+  color: rgb(0, 0, 0);
+  opacity: 1;
+}
+
+/* Sidebar submenu expand/collapse animation */
+.sub-nav {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.sub-nav.open {
+  max-height: 500px; /* Adjust based on content height */
+}
+
+.sub-nav-inner {
+  padding-left: 20px;
+  transition: transform 0.3s ease;
+}
+
+.sub-nav-inner button {
+  margin-left: 10px;
+}
+
+/* Container to hold both sidebar and content */
+.layout-container {
+  display: flex;
+  height: 100vh; /* Full height for the layout */
+  flex-direction: row; /* Aligns sidebar and content side-by-side */
+}
+
+.content-container {
+  height: 100%;
+}
+
+/* Responsive styles */
+@media (min-width: 100px) and (max-width: 500px) {
+  .sidebar {
+    position: fixed;
+    overflow: auto;
+    width: 250px;
+    padding-bottom: 500px;
+     /* Adjust height */
+  }
+  /* .popupadj {
+    display:none;
+   } */
+
+  
+/* Container fluid styling */
+.container-fluid, .popup {
+  margin-left: 35px; /* Default margin to match sidebar width */
+  transition: margin-left 0.3s ease; /* Smooth transition for margin */
+  margin-right:110px;
+}
+.chart-side{
+  margin-left: 0 ;
+}
+
+/* Adjust margin when the sidebar is collapsed */
+.sidebar.collapsed + .container-fluid, .popup {
+  margin-left: -30px;
+  margin-right:110px; /* Reduced margin when sidebar is collapsed */
+}
+
+
+  .sidebar.collapsed {
+    width: 15px; /* Collapsed width for small screens */
+  }
+  
+  .sidebar:not(.collapsed) .sidebar-toggle {
+    left: 235px; 
+    margin-top:20px;
+  }
+  
+  /* Toggle button - Collapsed sidebar */
+  .sidebar.collapsed .sidebar-toggle {
+    left: 0px; 
+    margin-top:20px;
+  }
+}
+
+@media (min-width: 500px) and (max-width: 3000px) {
+  .sidebar {
+    width: 250px;
+    /* min-height: calc(140vh - 58px); */
+    min-height: calc(140vh - 2px);
+    max-height: calc(140vh - 58px); /* Ensure it covers the full height */
+    overflow-y: auto;
+  }
+  
+  .collapsed {
+    font-size: 13px;
+  }
+}
+
+
+/* scroll design css  */
+
+/* Targeting the scrollbar for webkit browsers (Chrome, Safari, etc.) */
+
+
+/* Targeting the scrollbar for webkit browsers (Chrome, Safari, etc.) */
+::-webkit-scrollbar {
+  width: 12px; /* Width of the scrollbar */
+}
+
+/* The track of the scrollbar (background of the scrollbar) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray background */
+  border-radius: 10px; /* Rounded corners */
+}
+
+/* The handle (thumb) of the scrollbar */
+::-webkit-scrollbar-thumb {
+  background: #888; /* Dark gray scrollbar */
+  border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+}
+
+/* When the user hovers over the scrollbar */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker color when hovered */
+}
+
+/* For Firefox: Add scrollbar styles */
+* {
+  scrollbar-width: thin; /* Thin scrollbar */
+  scrollbar-color: #888 #f1f1f1; /* Dark gray thumb on light gray background */
+}
+
+
+
+
+.Dash-font{
+ background-color: rgb(253, 253, 253);
+ color: black;
+ border-radius:50%;
+}
+
+.Admin-font{
+  color: rgb(255, 111, 0);
+  
+  border-radius:30%;
+}
+
+.masters-font{
+  color: rgb(255, 242, 0);
+
+
+}
+
+.Accounts-font{
+  color: rgb(0, 242, 255);
+  
+}
+
+.Trans-font{
+  color: rgb(17, 255, 0);
+}
+
+.Report-font{
+  color: rgb(0, 255, 208);
+}
+
+.CRMFont{
+    color: rgb(255, 110, 248);
+
+}
+
+.PMS-font{
+    color: rgb(124, 117, 218);
+
+}
+
+.ESS-font{
+  color: rgb(214, 177, 147);
+}
+.sidebar.collapsed .sidebar-footer {
+  display: none;
+}
+
+.sidebar-footer {
+  padding: 20px;
+  color: #fff;
+  bottom: 0;
+  text-align: center;
+}
+
+.sidebar-footer h3 {
+  margin: 0;
+  font-size: 1em;
+}
+

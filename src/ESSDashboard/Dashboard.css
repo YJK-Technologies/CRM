@@ -1,0 +1,433 @@
+button{
+  background: var(--but);
+  color: white;
+  padding: 5px 20px;
+  border-radius: 10px;
+  box-shadow: 0.5px 0.5px 5px 0px rgb(65, 99, 126);
+  transition: 0.8s;
+  border-color: var(--but-border);  
+  font-weight: 500;
+  font-family: poppins;  
+  margin-left: 10px;
+  transition: background-color 0.8s ease, color 0.9s ease;
+  }
+  
+  .card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    font-weight: bold;
+    background-color: #fff;
+  }
+  
+  .badge {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  
+
+/* 
+  Attendance css */
+
+  .attendance-overview-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .card-title {
+    font-weight: bold;
+    margin: 0;
+    font-size: large;
+  }
+  
+  .dropdown-icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+  }
+  
+  .attendance-percentage {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .trend-icon {
+    color: #28a745;
+    font-size: 18px;
+    margin-right: 5px;
+  }
+  
+  .trend-text {
+    color: #28a745;
+    font-size: 14px;
+  }
+  
+  .progress-section .progress-bar.bg-info {
+    background-color: #17a2b8; /* Blue */
+  }
+  
+  .progress-section .progress-bar.bg-warning {
+    background-color: #ffc107; /* Yellow */
+  }
+  
+  .progress-section .progress-bar.bg-success {
+    background-color: #28a745; /* Green */
+  }
+  
+  .text-info {
+    color: #17a2b8;
+  }
+  
+  .text-warning {
+    color: #ffc107;
+  }
+  
+  .text-success {
+    color: #28a745;
+  }
+  
+
+
+  /* Attendance Leave */
+
+  .attendance-overview-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .card-title {
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .dropdown-icon {
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+  }
+  
+  .chart-container {
+    max-width: 100%;
+    max-height: 100% 
+  }
+  
+
+
+
+/* Attendance List  */
+/* Card styles */
+.attendance-list-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for the card */
+    border: none; /* No border */
+    border-radius: 10px; /* Rounded corners */
+    height: 100%; /* Fixed height for the card */
+    display: flex;
+    flex-direction: column; /* Ensures content stacks properly */
+  }
+  
+  /* Title styling */
+  .card-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  /* Overflow for the list */
+  .list-group.overflow-y {
+    flex-grow: 1; /* Makes the list grow to fill available space */
+    overflow-y: scroll; /* Adds vertical scrolling for overflowing content */
+    padding-right: 10px; /* Space to prevent content from overlapping scrollbar */
+    max-height: 260px; /* Adjustable based on layout */
+  }
+  
+  /* List item styles */
+  .list-group-item {
+    padding: 10px 15px; /* Clean padding */
+    border-bottom: 1px solid #f0f0f0; /* Subtle divider between items */
+    background-color: transparent; /* Transparent background */
+  }
+  
+  .list-group-item:last-child {
+    border-bottom: none; /* No border for the last item */
+  }
+  
+  /* Status color coding */
+  .text-success {
+    color: #28a745 !important; /* Green for "Taken" */
+  }
+  
+  .text-danger {
+    color: #dc3545 !important; /* Red for "Not Taken" */
+  }
+  
+  .text-warning {
+    color: #ffc107 !important; /* Yellow for "Calculating" */
+  }
+  
+  /* Font-weight modifiers */
+  .fw-medium {
+    font-weight: 500; /* Medium weight for names */
+  }
+  
+  .fw-bold {
+    font-weight: bold; /* Bold weight for statuses */
+  }
+  
+  /* Scrollbar styling (optional) */
+  .list-group.overflow-y::-webkit-scrollbar {
+    width: 8px; /* Width of scrollbar */
+  }
+  
+  .list-group.overflow-y::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Subtle scrollbar thumb */
+    border-radius: 4px; /* Rounded corners */
+  }
+  
+  
+  
+  
+  
+  /* Leave Approve css */
+
+  /* Card styling */
+  .leave-approvals-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: none; /* No border */
+    border-radius: 10px; /* Rounded corners */
+    height: 380px; /* Flexible height */
+    display: flex;
+    flex-direction: column;
+    max-height: 380px; /* Limit overall card height */
+  }
+
+  @media (min-width:100px) and (max-width:568px ){
+    .leave-approvals-card {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      border: none; /* No border */
+      border-radius: 10px; /* Rounded corners */
+      height: auto; /* Flexible height */
+      display: flex;
+      flex-direction: column;
+      max-height: 500px; /* Limit overall card height */
+    }
+  }
+  
+  .list-group {
+    flex-grow: 1; /* Allow it to grow within the card */
+    overflow-y: auto; /* Enable vertical scrolling */
+    /* max-height: 265px;  This code comment by pavun */ 
+  }
+  
+  .list-group-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0; /* Divider */
+  }
+  
+  .list-group-item:last-child {
+    border-bottom: none; /* No divider for the last item */
+  }
+  
+  .list-group-item img {
+    object-fit: cover; /* Ensure proper image fitting */
+    border-radius: 50%; /* Circular profile image */
+    width: 40px; /* Adjust profile picture size */
+    height: 40px; /* Keep it circular */
+  }
+  
+  .btn-sm {
+    font-size: 0.8rem; /* Adjust button text size */
+    padding: 5px 10px; /* Padding for buttons */
+  }
+  
+  /* Ensure the card's body isn't limiting the height */
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+  }
+  
+  
+  /* New Joinees  */
+
+  .new-joinees{
+    max-height: 300px;
+    padding-bottom:500px;
+  }
+  .new-joinees-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height:100%;
+    max-height: 300px;
+    padding-bottom:100px;
+  }
+  
+  .new-joinee-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    padding-left:10px;
+    margin-top:30px;
+    text-align: center;
+    background-color: #f9f9f9;
+  }
+  
+  .new-joinee-card img {
+    border-radius: 20px;
+  }
+  .NewJoineesbtn{
+    background-color:none;
+     border:0 ;
+     box-shadow:none ;
+     
+     border-radius:0;
+
+  }
+
+  .NewJoineesbtn:hover{
+    background-color: 0;
+    background:none;
+  }
+  
+  /* Card title styling */
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* Badge styling */
+  .badge {
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+  
+  /* Animation for sliding left and back */
+  @keyframes slide-left {
+    0% {
+      transform: translateX(0); /* Start at the initial position */
+    }
+    100% {
+      transform: translateX(calc(-100% + -0vw)); /* Move left across the full width of the container */
+    }
+  }
+  
+  
+  /* Birthday css  */
+
+
+  .birthday-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px 0;
+
+}
+
+.birthday-card {
+  flex: 0 0 auto;
+  width: 180px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  /* padding: 10px; */
+ 
+  transition: transform 0.3s ease-in-out;
+
+}
+
+
+.birthday-card:hover {
+  transform: scale(1.05);
+}
+
+
+
+/* Emloyeedash */
+
+.sickleave{
+  background-color: rgb(252, 193, 208);
+}
+
+.casualleave{
+  background-color: rgb(255, 222, 176);
+}
+.AnnualLeave{
+  background-color: rgb(255, 185, 240);
+}
+.weekoffleave{
+  background-color: rgb(189, 255, 176);
+}
+
+.sickleaveicon{
+  background-color: rgb(248, 145, 171);
+}
+
+.casualleaveicon{
+  background-color: rgb(254, 195, 112);
+}
+
+.AnnualLeaveicon{
+  background-color: rgb(255, 132, 228);
+}
+
+.weekoffleaveicon{
+  background-color: rgb(107, 255, 78);
+
+}
+/* 
+
+
+employee productivity chart */
+
+
+.productivity-chart-container {
+  background: #fff; /* White card background */
+  border-radius: 16px; /* Rounded corners */
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  */
+  padding: 20px;
+}
+
+.chart-footer {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555; /* Slightly darker text */
+}
+
+/* Code added by pavun for announcement*/
+.ticker-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+  height: 30px;
+  background-color: #6c757d; /* Bootstrap secondary background */
+  border-radius: 50px;
+  padding-left: 10px;
+}
+
+.ticker-text {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll-left 15s linear infinite;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Pause animation when hovered */
+.ticker-wrapper:hover .ticker-text {
+  animation-play-state: paused;
+  cursor: pointer;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

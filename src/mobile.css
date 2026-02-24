@@ -1,0 +1,484 @@
+:root{
+  --bg-color:#dafcff;
+  --font-color: #f1f1f1;
+  --sidenav-menu: #416680;
+  --ag-header: #416680;
+  --ag-row: #afc9dc;                        
+  --ag-col: #86a7c7;
+  --ag-h1: #416680;
+  --but: #3a6787;
+  --but-border: #3a6787;
+  --ag-row-even-hover: #bfe0de;
+  --ag-row-odd-hover : #afc9dc;
+  --but-hover: #1b72af;
+  --sidenav-hover: #499dd8;
+  --exp-input-field: #86a7c7;
+}
+
+@media (min-width: 100px) and (max-width: 500px) {
+  .borde-shape{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  .inthdrcode, .taxhdrcode, .cushdrcode, .atthdrcode{
+    margin-top:1.5px;
+  }
+  .ag-paging-page-summary-panel{
+    font-size: 12px;
+  }
+  .popupadj {
+   display:none;
+  }
+  .userhdrcode{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .stahdrcode{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .inthdrcode{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .cushdrcode{
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+  }
+  
+  .vendorhdrcode{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .taxhdrcode{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  .prohdrcode{
+     margin-top: 1px;
+   
+  }
+  .atthdrcode{
+    padding-top: 10px;
+    padding-bottom: 10px;
+  } 
+  
+  
+  .PASA{
+    font-size: 2em;
+    font-weight: bold;
+    padding-left: 0 ;
+    width: 140px;
+   }
+  
+   
+  
+  .Chart{
+    height: 1fr;
+    grid-template-columns: 1fr;
+
+   }
+.status{
+  
+  font-size: x-small;
+  display: flex;
+  flex-direction: row;
+
+  height: 0px;
+  margin-top: 0px;
+
+}
+
+
+.menu {
+  width: 50px;
+}
+
+.mobile{
+  width: 90px;
+}
+
+  .S1, p{
+    font-size: 15px;
+    padding-left: 10px
+    
+    
+  }
+  .S2{
+    display: none;
+  }
+
+  .btn-primary-link{
+    margin-left: 0px;
+    padding: 10px;
+    margin-left: 10px;
+    
+  }
+
+  .sb-sidenav-toggled{
+    padding-left: 0px;
+  }
+  
+  .BB{
+    display: none;
+  }
+ 
+  .logo{
+    width: 30;
+    height: 30;
+   }  
+  .price{
+   font-size: 15px;
+   display: flex;
+   flex-direction: column;
+   max-width: 100px;
+  }
+  .priceadj{
+    font-size: 10px;
+    margin :0;
+  }
+
+    .sb-sidenav {
+        width: 170px;
+        /* Adjust the width or other styles */
+    }
+    addbutton, delbutton, .save, .print, .purbut{
+      display:none;
+    }
+  
+   .FontAwesomeIcon{
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0px 90px 0px 90px;
+    margin: 0px 90px 0px 18px;
+  }
+  
+  
+  
+    .mobileview{
+       display: inline-block;
+       
+       font-size: 10px;
+    }
+  
+  .search-criteria-box, .ag-theme-alpine{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+   
+  }
+  
+  .dropdown{
+    padding-top: 2px;
+    font-size: 5px;
+  }
+  
+  .head{
+    padding-right: 200px;
+    padding-left: 50px;
+    justify-content: center;
+  }
+  
+   
+  
+    
+    hr{
+      /* margin-left: 20px; */
+      margin-right: 0px;
+    }
+    
+    
+    .sb-topnav{
+  
+      min-width: 200px;
+    }
+  
+    .layoutSidenav_nav{
+      width:10px;
+    }
+    .nav-link {
+        right: 5px;
+        font-size: 0.6rem;
+        /* Adjust styles for smaller screens */
+    }
+   
+    .backbutton{
+       display: none;
+      margin-left: 10px;
+      margin-right: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
+  
+    }
+  
+  
+  
+    
+    .exp-input-field{
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+      margin-right: 0px;
+      font-size: 14px;
+      
+    }
+  
+  
+  
+    .exp-form-labels{
+        font-size: 14px;
+        font-family: poppins;
+        margin-bottom: 2px;
+        margin-top: 2px;
+        padding-left: 2px;
+    }
+  
+  
+  
+    
+  
+    .ag-theme-alpine{
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-bottom: 0;
+      margin-right: 0;
+      margin-left: 0;
+      width: 230px;
+    }
+    .ag-role{
+       width: 200px;
+       padding-left: 0px;
+       padding-right: 0px;
+       margin-bottom: 0;
+       margin-right: 0;
+       margin-left: 20px;
+       width: 230px;
+  
+    }
+  
+    .ag-paging-panel{
+      font-size: 8px;
+     width: auto;
+      margin-bottom: 0;
+      margin-right: 10px;
+      margin-left: 0;
+      padding-right: 5px;
+      page-orientation: none;
+  
+    }
+    .ag-header-cell{
+      font-size: 12px;
+    }
+    .role-grid{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+      padding-left: 0px;
+      padding-right: 0px;
+      inline-size: 0;  
+    
+    }
+  
+    .scd{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+  
+  
+    }
+  
+  
+    .topu{
+      margin-left: 100px;
+    }
+  
+    .inputtopu{
+      
+      
+      font-size: 25px;
+    }
+  
+    .gridinbut{
+      display:flex;
+  
+    }
+  
+    .insave{
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 20px;
+      padding-right: 20px;
+      
+      margin: 50px 5px 50px 5px;
+      border-radius: 10px;
+      font-size: 20px;
+    }
+
+  
+    .grid{
+      
+      max-width: 230px;
+      margin-right: 0;
+    }
+  
+    .inputbtns{
+      display: flex;
+      flex-direction: row;
+    }
+  
+    .rolbtns{
+      display: flex;
+      justify-content: left;
+      flex-direction: row;
+      padding-right: 50px;
+    }
+  
+    body{
+     font-size: 12px;
+     
+    }
+    
+    .h1{
+      font-size: 20px;
+      color:var(--ag-h1);
+      font-weight: bold;
+      margin-right: 50px;
+      margin-top: 10px;
+    }
+  
+    
+  
+    .Search-criteria{
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+      margin-left: 20px;
+    }
+  
+  .tax,.item,.user{
+    padding-left: 30px;
+  }
+  
+   .bill{
+    display: flex;
+    flex-direction: column;
+   }
+  
+   .purbut{
+    display: none;
+   }
+  
+  
+   .tDesk{
+    display: none;
+   }
+   
+  }
+
+  @media (max-width: 500px){
+    .tDesk{
+      display: none;
+     }
+  }
+  
+  @media (max-width: 1160px){
+    body{
+      font-size: 12px;
+    }
+  }
+  
+  
+  @media (min-width: 500px)and (max-width:3000px ){
+   
+    
+    .S1{
+      display: none;
+    }
+    
+    .mobileview{
+      display: none; 
+   }
+  
+   .purbill{
+    display: flex;
+    justify-content: end;
+    padding-right: 50px;
+   }
+  
+   .purreturnbill{
+    display: flex;
+    justify-content: end;
+    padding-right: 50px;
+   }
+
+   .tMob{
+    display: none;
+   }
+  
+  }
+  
+  
+  /* Media query for screens smaller than 576px */
+  @media (max-width: 76px) {
+    .sb-sidenav {
+        display: none;
+        /* Hide the sidebar for extra small screens */
+    }
+  
+    .exp-input-field{
+      display: flex;
+      flex-direction: column;
+      justify-content: left;
+    }
+  
+  
+  
+    .nav-link {
+      right: 5px;
+      font-size: 0.3rem;
+      /* Adjust styles for smaller screens */
+  }
+  
+  svg{
+    font-size: 55px;
+  }
+  }
+  
+  
+  
+  .pursecrow{
+    display: flex;
+    justify-content:end;
+  }
+
+
+
+  @media  (max-width: 1520px){
+    .partyName{
+      font-size: 13px;
+    }
+  }
+
+
+  .has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
