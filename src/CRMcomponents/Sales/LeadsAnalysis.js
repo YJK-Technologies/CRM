@@ -3,7 +3,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import * as XLSX from "xlsx";
 const config = require("../../Apiconfig");
 
@@ -20,7 +20,8 @@ const LeadsAnalysis = () => {
   const company_code = sessionStorage.getItem("selectedCompanyCode");
   const navigate = useNavigate();
   const [groupByField, setGroupByField] = useState(null);
-  const companyName = sessionStorage.getItem('selectedCompanyName');
+  const [originalData, setOriginalData] = useState([]);
+  const companyName = sessionStorage.getItem("selectedCompanyName");
 
   const groupByOptions = [
     "Sales Team",
@@ -31,7 +32,21 @@ const LeadsAnalysis = () => {
     "Source",
     "Campaign",
     "Medium",
-  ]
+  ];
+
+  const tagFieldMap = {
+    "Opportunity Name": "OpportunityName",
+    Email: "Email_ID",
+    Phone: "ContactPhone",
+    City: "Followup_City",
+    Country: "Followup_Country",
+    Salesperson: "SalesPersonName",
+    "Sales Team": "Sales_Team",
+    Campaign: "CampaignName",
+    Medium: "MediumName",
+    Source: "SourceName",
+    Stage: "Stage",
+  };
 
   useEffect(() => {
     if (!clickedData) return;
@@ -46,7 +61,10 @@ const LeadsAnalysis = () => {
     if (datasetLabel === "Opportunity Count") {
       detail_name = name;
     } else {
-      const formattedLabel = String(datasetLabel || "").replace(/\s*\/\s*/g, ",");
+      const formattedLabel = String(datasetLabel || "").replace(
+        /\s*\/\s*/g,
+        ",",
+      );
       detail_name = `${name},${formattedLabel}`;
     }
 
@@ -60,11 +78,14 @@ const LeadsAnalysis = () => {
 
     const fetchDetails = async () => {
       try {
-        const response = await fetch(`${config.apiBaseUrl}/SalesTeamDetailChart`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
+        const response = await fetch(
+          `${config.apiBaseUrl}/SalesTeamDetailChart`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          },
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -83,9 +104,12 @@ const LeadsAnalysis = () => {
             MediumName: matchedItem.MediumName,
             SourceName: matchedItem.SourceName,
             Stage: matchedItem.Stage,
-            ExpectedRevenue: matchedItem.ExpectedRevenue
+            ExpectedRevenue: matchedItem.ExpectedRevenue,
           }));
-          const totalAmount = newRows.reduce((sum, row) => sum + row.ExpectedRevenue, 0);
+          const totalAmount = newRows.reduce(
+            (sum, row) => sum + row.ExpectedRevenue,
+            0,
+          );
 
           const totalRow = {
             OpportunityName: "",
@@ -100,19 +124,20 @@ const LeadsAnalysis = () => {
             MediumName: "",
             SourceName: "",
             Stage: "Total Revenue",
-            ExpectedRevenue: totalAmount
+            ExpectedRevenue: totalAmount,
           };
 
+          setOriginalData([...newRows, totalRow]);
           setSearchResults([...newRows, totalRow]);
         } else if (response.status === 404) {
           console.log("Data Not found");
           toast.warning("Data Not found");
-          setSearchResults([])
+          setSearchResults([]);
         } else {
           const errorResponse = await response.json();
           toast.warning(errorResponse.message || "Failed to insert sales data");
           console.error(errorResponse.details || errorResponse.message);
-          setSearchResults([])
+          setSearchResults([]);
         }
       } catch (error) {
         console.error("❌ Error fetching SalesTeamDetailChart:", error);
@@ -138,38 +163,87 @@ const LeadsAnalysis = () => {
 
   // --- Handle Group Selection
   const handleSelect = (item) => {
-    setSelectedTags([item]);
-    setGroupByField(item);
-    setShowPopup(false);
+    let tagToSet = item;
 
-    const fieldMap = {
-      "Sales Team": "Sales_Team",
-      "Salesperson": "SalesPersonName",
-      "City": "Followup_City",
-      "Country": "Followup_Country",
-      "Stage": "Stage",
-      "Source": "SourceName",
-      "Campaign": "CampaignName",
-      "Medium": "MediumName",
-    };
-
-    const groupField = fieldMap[item];
-
-    // Apply grouping dynamically
-    if (gridRef.current?.api) {
-      gridRef.current.columnApi.setRowGroupColumns([groupField]);
-      gridRef.current.api.expandAll();
+    if (item.startsWith("Search ")) {
+      const parts = item.split(" for: ");
+      const field = parts[0].replace("Search ", "");
+      const query = parts[1];
+      tagToSet = `Search ${field} for: ${query}`;
     }
+
+    if (!selectedTags.includes(tagToSet)) {
+      setSelectedTags([...selectedTags, tagToSet]);
+    }
+
+    setSearchQuery("");
+    setShowPopup(false);
   };
 
   // --- Remove Group
-  const handleRemove = (item) => {
-    setSelectedTags([]);
-    setGroupByField(null);
-    if (gridRef.current?.api) {
-      gridRef.current.columnApi.setRowGroupColumns([]);
-    }
-  };
+  const handleRemove = (tag) => {
+  const updatedTags = selectedTags.filter(t => t !== tag);
+  setSelectedTags(updatedTags);
+
+  // If no filters left → show original full data
+  if (updatedTags.length === 0) {
+    setSearchResults(originalData);
+    return;
+  }
+
+  // Re-apply filtering with remaining tags
+  const filteredData = originalData.filter(row => {
+    if (row.Stage === "Total Revenue") return false;
+
+    return updatedTags.every(tag => {
+      if (tag.startsWith("Search ")) {
+        const match = tag.match(/Search (.+) for: (.+)/);
+        if (!match) return false;
+
+        const [, label, value] = match;
+        const field = tagFieldMap[label];
+        if (!field) return false;
+
+        return String(row[field] || "")
+          .toLowerCase()
+          .includes(value.toLowerCase());
+      }
+
+      const field = tagFieldMap[tag];
+      if (!field) return false;
+
+      return String(row[field] || "").trim() !== "";
+    });
+  });
+
+  if (filteredData.length === 0) {
+    setSearchResults([]);
+    return;
+  }
+
+  const totalAmount = filteredData.reduce(
+    (sum, r) => sum + (Number(r.ExpectedRevenue) || 0),
+    0
+  );
+
+  setSearchResults([
+    ...filteredData,
+    {
+      OpportunityName: "",
+      Email_ID: "",
+      ContactPhone: "",
+      Followup_City: "",
+      Followup_Country: "",
+      SalesPersonName: "",
+      Sales_Team: "",
+      CampaignName: "",
+      MediumName: "",
+      SourceName: "",
+      Stage: "Total Revenue",
+      ExpectedRevenue: totalAmount,
+    },
+  ]);
+};
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -184,7 +258,7 @@ const LeadsAnalysis = () => {
     {
       headerName: "Opportunity Id",
       field: "Opportunity_ID",
-      hide: true
+      hide: true,
     },
     {
       headerName: "Opportunity Name",
@@ -255,6 +329,66 @@ const LeadsAnalysis = () => {
       field: "ExpectedRevenue",
     },
   ];
+
+  const handleSearch = () => {
+    if (selectedTags.length === 0) {
+      toast.warning("Please add at least one filter");
+      return;
+    }
+
+    const filteredData = originalData.filter((row) => {
+      if (row.Stage === "Total Revenue") return false;
+
+      return selectedTags.every((tag) => {
+        if (tag.startsWith("Search ")) {
+          const match = tag.match(/Search (.+) for: (.+)/);
+          if (!match) return false;
+
+          const [, label, value] = match;
+          const field = tagFieldMap[label];
+          if (!field) return false;
+
+          return String(row[field] || "")
+            .toLowerCase()
+            .includes(value.toLowerCase());
+        }
+
+        const field = tagFieldMap[tag];
+        if (!field) return false;
+
+        return String(row[field] || "").trim() !== "";
+      });
+    });
+
+    if (filteredData.length === 0) {
+      setSearchResults([]);
+      toast.warning("Data not found");
+      return;
+    }
+
+    const totalAmount = filteredData.reduce(
+      (sum, r) => sum + (Number(r.ExpectedRevenue) || 0),
+      0,
+    );
+
+    setSearchResults([
+      ...filteredData,
+      {
+        OpportunityName: "",
+        Email_ID: "",
+        ContactPhone: "",
+        Followup_City: "",
+        Followup_Country: "",
+        SalesPersonName: "",
+        Sales_Team: "",
+        CampaignName: "",
+        MediumName: "",
+        SourceName: "",
+        Stage: "Total Revenue",
+        ExpectedRevenue: totalAmount,
+      },
+    ]);
+  };
 
   // const handleSearch = async () => {
   //   try {
@@ -334,14 +468,17 @@ const LeadsAnalysis = () => {
 
   const handleClick = async (Opportunity_ID) => {
     try {
-      const response = await fetch(`${config.apiBaseUrl}/getOpportunityDetails`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          Opportunity_ID,
-          company_code: sessionStorage.getItem("selectedCompanyCode"),
-        }),
-      });
+      const response = await fetch(
+        `${config.apiBaseUrl}/getOpportunityDetails`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            Opportunity_ID,
+            company_code: sessionStorage.getItem("selectedCompanyCode"),
+          }),
+        },
+      );
 
       const data = await response.json();
 
@@ -364,50 +501,56 @@ const LeadsAnalysis = () => {
     }
   };
 
-    const handleExcelExport = () => {
-      if (!gridRef.current) return;
-  
-      const headers = columnDefs
-        .filter((col) => !col.hide)
-        .map((col) => col.headerName);
-  
-      const rows = searchResults.map((row) => {
-        const newRow = {};
-        columnDefs.forEach((col) => {
-          if (!col.hide) {
-            newRow[col.headerName] = row[col.field] ?? "";
-          }
-        });
-        return newRow;
+  const handleExcelExport = () => {
+    if (!gridRef.current) return;
+
+    const headers = columnDefs
+      .filter((col) => !col.hide)
+      .map((col) => col.headerName);
+
+    const rows = searchResults.map((row) => {
+      const newRow = {};
+      columnDefs.forEach((col) => {
+        if (!col.hide) {
+          newRow[col.headerName] = row[col.field] ?? "";
+        }
       });
-  
-      const headerData = [
-        ["Sales Team Analysis"], 
-        [`Company Name: ${companyName || "N/A"}`], 
-        [], 
-      ];
-  
-      const worksheet = XLSX.utils.aoa_to_sheet(headerData);
-  
-      XLSX.utils.sheet_add_json(worksheet, rows, {
-        origin: "A5",
-        skipHeader: false, 
-        header: headers,  
-      });
-  
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Sales Team");
-  
-      XLSX.writeFile(workbook, "Sales_Team_Analysis.xlsx");
-    };
+      return newRow;
+    });
+
+    const headerData = [
+      ["Sales Team Analysis"],
+      [`Company Name: ${companyName || "N/A"}`],
+      [],
+    ];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(headerData);
+
+    XLSX.utils.sheet_add_json(worksheet, rows, {
+      origin: "A5",
+      skipHeader: false,
+      header: headers,
+    });
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sales Team");
+
+    XLSX.writeFile(workbook, "Sales_Team_Analysis.xlsx");
+  };
 
   return (
     <div className="container-fluid Topnav-screen">
-      <ToastContainer position="top-right" className="toast-design" theme="colored" />
+      <ToastContainer
+        position="top-right"
+        className="toast-design"
+        theme="colored"
+      />
       <div className="shadow-lg p-0 mb-2 bg-white rounded">
         <div className="row align-items-center py-2">
           <div className="col-md-4">
-            <h1 className="d-flex justify-content-start">Sales Team Analysis</h1>
+            <h1 className="d-flex justify-content-start">
+              Sales Team Analysis
+            </h1>
           </div>
 
           {/* Group Search */}
@@ -433,11 +576,14 @@ const LeadsAnalysis = () => {
                   value={searchQuery}
                 />
               </div>
-              <span className="input-group-text bg-white border-end-1" style={{ cursor: "pointer" }}>
+              <span
+                className="input-group-text bg-white border-end-1"
+                onClick={handleSearch}
+                style={{ cursor: "pointer" }}
+              >
                 <i className="bi bi-search"></i>
               </span>
             </div>
-
             {/* Popup for Group Options */}
             {showPopup && (
               <div
@@ -447,33 +593,54 @@ const LeadsAnalysis = () => {
                   position: "absolute",
                   top: "100%",
                   left: 0,
-                  width: "400px",
+                  width: "600px",
                   zIndex: 1000,
                   padding: "15px",
                 }}
               >
-                <h6 className="fw-bold mb-3">Group By</h6>
-                <ul className="list-unstyled">
-                  {groupByOptions.map((item) => (
-                    <li
-                      key={item}
-                      className={`p-1 ${selectedTags.includes(item) ? "bg-light fw-bold" : ""
-                        }`}
-                      style={{ cursor: "pointer" }}
-                      onClick={() => handleSelect(item)}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                {searchQuery.length > 0 ? (
+                  <div>
+                    <h6 className="fw-bold mb-3">Search for: {searchQuery}</h6>
+                    <ul className="list-unstyled">
+                      {Object.keys(tagFieldMap).map((option, index) => (
+                        <li
+                          key={index}
+                          className="p-1"
+                          style={{ cursor: "pointer" }}
+                          onClick={() =>
+                            handleSelect(`Search ${option} for: ${searchQuery}`)
+                          }
+                        >
+                          Search {option} for: <strong>{searchQuery}</strong>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <div>
+                    <h6 className="fw-bold mb-3">Group By</h6>
+                    <ul className="list-unstyled">
+                      {groupByOptions.map((item) => (
+                        <li
+                          key={item}
+                          className="p-1"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => handleSelect(item)}
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
-            )}
+            )}{" "}
           </div>
 
           <div className="col-md-2 d-flex justify-content-end">
             <savebutton
               className="btn d-flex align-items-center"
-              title = "Export Excel"
+              title="Export Excel"
               onClick={handleExcelExport}
             >
               <i class="fa-solid fa-file-excel"></i>

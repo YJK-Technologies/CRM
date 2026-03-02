@@ -370,7 +370,7 @@ export default function ActivityScheduler({ opportunityId, opportunityName, acti
               />
             </div>
 
-            <button className="btn btn-primary" onClick={handleSave}>
+            <button className="btn btn-primary" title='Save' onClick={handleSave}>
               Save {selectedTab}
             </button>
           </div>
