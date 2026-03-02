@@ -425,7 +425,6 @@ function Grid() {
       filter: "agDateColumnFilter",
       editable: true,
       cellStyle: { textAlign: "center" },
-      valueFormatter: (params) => formatDate(params.value),
     },
     {
       headerName: "Website URL",
