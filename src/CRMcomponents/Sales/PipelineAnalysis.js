@@ -10,9 +10,10 @@ const config = require("../../Apiconfig");
 const PipelineAnalysis = () => {
   const gridRef = useRef();
   const [showPopup, setShowPopup] = useState(false);
-  const [selectedTags, setSelectedTags] = useState([]);
   const [openDropdown, setOpenDropdown] = useState(null);
   const popupRef = useRef(null);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const company_code = sessionStorage.getItem("selectedCompanyCode");
@@ -32,7 +33,16 @@ const PipelineAnalysis = () => {
     // "Lost"
   ];
 
-  const groupByOptions = ["CompanyName", "Person_name", "Email", "Phone", "ContactName"];
+  const tagFieldMap = {
+    "Opportunity Name": "OpportunityName",
+    "Contact Name": "Contact",
+    "Email": "Email_ID",
+    "Sales Person": "SalesPerson",
+    "Stage": "Stage",
+    "Expected Revenue": "ExpectedRevenue",
+  };
+
+  const groupByOptions = ["Opportunity Name", "Contact Name", "Email", "Sales Person", "Stage", "Expected Revenue"];
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -105,6 +115,7 @@ const PipelineAnalysis = () => {
             ExpectedRevenue: totalAmount
           };
 
+          setOriginalData([...newRows, totalRow]);
           setSearchResults([...newRows, totalRow]);
         } else if (response.status === 404) {
           console.log("Data Not found");
@@ -128,28 +139,35 @@ const PipelineAnalysis = () => {
 
   const handleSelect = (item) => {
     let tagToSet = item;
+
+    // Convert typing → tag
     if (item.startsWith("Search ")) {
       const parts = item.split(" for: ");
       const field = parts[0].replace("Search ", "");
       const query = parts[1];
-      tagToSet = `${field}: ${query}`;
+      tagToSet = `Search ${field} for: ${query}`;
     }
 
     if (!selectedTags.includes(tagToSet)) {
       setSelectedTags([...selectedTags, tagToSet]);
     }
-    setOpenDropdown(null);
-    setShowPopup(false);
+
     setSearchQuery("");
+    setShowPopup(false);
   };
 
-  const handleRemove = (item) => {
-    setSelectedTags(selectedTags.filter((tag) => tag !== item));
+  const handleRemove = (tag) => {
+    const updatedTags = selectedTags.filter(t => t !== tag);
+    setSelectedTags(updatedTags);
+
+    // Re-apply filter
+    if (updatedTags.length === 0) {
+      setSearchResults(originalData);
+    }
   };
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-    setShowPopup(true);
   };
 
   const columnDefs = [
@@ -193,77 +211,59 @@ const PipelineAnalysis = () => {
     },
   ];
 
-  const handleSearch = async () => {
-    try {
-      const payload = {};
-      const companyCode = sessionStorage.getItem("selectedCompanyCode");
-
-      if (companyCode) {
-        payload.company_code = companyCode;
-      }
-
-      const fieldMapping = {
-        Name: "FirstColumn",
-        Email: "Email",
-        Phone: "Phone",
-        Country: "Country",
-        Activities: "Activities",
-        CompanyName: "CompanyName",
-        Person_name: "Person_name",
-        ContactName: "Contact",
-      };
-
-      let groupByField = null;
-
-      const tagsToProcess = [...selectedTags];
-
-      if (searchQuery && tagsToProcess.length > 0) {
-        const lastTag = tagsToProcess[tagsToProcess.length - 1];
-        if (fieldMapping[lastTag]) {
-          tagsToProcess.pop();
-          tagsToProcess.push(`${lastTag}: ${searchQuery}`);
-        }
-      }
-
-      tagsToProcess.forEach(tag => {
-        const trimmedTag = tag.trim();
-
-        if (trimmedTag.includes(":")) {
-          const [label, value] = trimmedTag.split(":").map(x => x.trim());
-          const field = fieldMapping[label];
-          if (field && value) {
-            payload[field] = value;
-          }
-        } else {
-          const field = fieldMapping[trimmedTag];
-          if (field) {
-            groupByField = field;
-          }
-        }
-      });
-
-      if (groupByField) {
-        payload.group_by = groupByField;
-      }
-
-      const response = await fetch(`${config.apiBaseUrl}/GetContactClient`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setSearchResults(data);
-    } catch (error) {
-      console.error("Error fetching company data:", error);
+  const handleSearch = () => {
+    if (selectedTags.length === 0) {
       setSearchResults([]);
+      toast.warning("Please add at least one filter");
+      return;
     }
+
+    const filteredData = originalData.filter(row => {
+      if (row.Stage === "Total Revenue") return false;
+
+      return selectedTags.every(tag => {
+        if (tag.startsWith("Search ")) {
+          const match = tag.match(/Search (.+) for: (.+)/);
+          if (!match) return false;
+
+          const [, label, value] = match;
+          const field = tagFieldMap[label];
+          if (!field) return false;
+
+          return String(row[field] || "")
+            .toLowerCase()
+            .includes(value.toLowerCase());
+        }
+
+        const field = tagFieldMap[tag];
+        if (!field) return false;
+
+        return String(row[field] || "").trim() !== "";
+      });
+    });
+
+    if (filteredData.length === 0) {
+      setSearchResults([]);
+      toast.warning("Data not found");
+      return;
+    }
+
+    const totalAmount = filteredData.reduce(
+      (sum, r) => sum + (Number(r.ExpectedRevenue) || 0),
+      0
+    );
+
+    setSearchResults([
+      ...filteredData,
+      {
+        OpportunityName: "",
+        Contact: "",
+        Email_ID: "",
+        SalesPerson: "",
+        Stage: "Total Revenue",
+        ExpectedRevenue: totalAmount,
+      },
+    ]);
   };
 
   const handleClick = async (Opportunity_ID) => {
@@ -409,7 +409,7 @@ const PipelineAnalysis = () => {
                 ) : (
                   <div className="d-flex">
                     {/* Filters */}
-                    <div className="flex-fill border-end pe-3">
+                    {/* <div className="flex-fill border-end pe-3">
                       <h6 className="fw-bold mb-3">Filters</h6>
                       <ul className="list-unstyled">
                         {filterOptions.map((item) => (
@@ -426,7 +426,7 @@ const PipelineAnalysis = () => {
                           </li>
                         ))}
                       </ul>
-                      {/* <ul className="list-unstyled mt-3">
+                       <ul className="list-unstyled mt-3">
                             {[
                               "Created On",
                               "Expected Closing",
@@ -473,15 +473,15 @@ const PipelineAnalysis = () => {
                                 )}
                               </li>
                             ))}
-                          </ul> */}
+                          </ul>
                       <ul className="list-unstyled mt-3">
                         <li>Archived</li>
                         <li className="text-primary">+ Add Custom Filter</li>
                       </ul>
-                    </div>
+                    </div> */}
 
                     {/* Group By */}
-                    <div className="flex-fill border-end px-3">
+                    <div className="flex-fill text-center px-3">
                       <h6 className="fw-bold mb-3">Group By</h6>
                       <ul className="list-unstyled">
                         {groupByOptions.map((item) => (
@@ -501,7 +501,7 @@ const PipelineAnalysis = () => {
                     </div>
 
                     {/* Favorites */}
-                    <div className="flex-fill ps-3">
+                    {/* <div className="flex-fill ps-3">
                       <h6 className="fw-bold mb-3">Favorites</h6>
                       <ul className="list-unstyled">
                         {["Save current search"].map((item) => (
@@ -518,7 +518,7 @@ const PipelineAnalysis = () => {
                           </li>
                         ))}
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
                 )}
               </div>
