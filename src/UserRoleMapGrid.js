@@ -4,7 +4,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import "ag-grid-enterprise";
 import "./apps.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ToastContainer, toast } from 'react-toastify';
@@ -35,11 +35,26 @@ function UserRoleGrid() {
   const [createdDate, setCreatedDate] = useState("");
   const [modifiedDate, setModifiedDate] = useState("");
 
+  const location = useLocation();
+  
   //code added by Harish purpose of set user permisssion
   const permissions = JSON.parse(sessionStorage.getItem('permissions')) || {};
   const userRoleMapPermission = permissions
     .filter(permission => permission.screen_type === 'UserRoleMapping')
     .map(permission => permission.permission_type.toLowerCase());
+
+  useEffect(() => {
+    if (location.state?.preservedRowData) {
+      setRowData(location.state.preservedRowData);
+    }
+
+    if (location.state?.preservedInputs) {
+      setuser_code(location.state.preservedInputs.user_code || "");
+      setuser_name(location.state.preservedInputs.user_name || "");
+      setrole_id(location.state.preservedInputs.role_id || "");
+      setrole_name(location.state.preservedInputs.role_name || "");
+    }
+  }, [location.state]);
 
   useEffect(() => {
     fetch(`${config.apiBaseUrl}/usercode`)
@@ -73,6 +88,14 @@ function UserRoleGrid() {
   const reloadGridData = () => {
     window.location.reload();
   };
+
+  const clearInputFields = () => {
+    setuser_code("");
+    setuser_name("");
+    setrole_id("");
+    setrole_name("");
+    setRowData([]);
+  };
 
   const handleSearch = async () => {
     setLoading(true);
@@ -113,6 +136,7 @@ function UserRoleGrid() {
       headerName: "User Code",
       field: "user_code",
       editable: true,
+      cellClass: "ag-link-cell",
       cellStyle: { textAlign: "center" },
       cellEditor: "agSelectCellEditor",
       cellEditorParams: {
@@ -298,28 +322,16 @@ function UserRoleGrid() {
   };
 
   const handleNavigateWithRowData = (selectedRow) => {
-    navigate("/AddUserRoleMapping", { state: { mode: "update", selectedRow } });
-  };
+    navigate("/AddUserRoleMapping", { 
+      state: { mode: "update", selectedRow, preservedRowData: rowData, 
+      preservedInputs: { user_code, user_name, role_id, role_name, },
+      }, }); };
 
   const onSelectionChanged = () => {
     const selectedNodes = gridApi.getSelectedNodes();
     const selectedData = selectedNodes.map((node) => node.data);
     setSelectedRows(selectedData);
   };
-
-  // const onCellValueChanged = (params) => {
-  //   const updatedRowData = [...rowData];
-  //   const rowIndex = updatedRowData.findIndex(
-  //     (row) => row.keyfield === params.data.keyfield // Use the unique identifier 
-  //   );
-  //   if (rowIndex !== -1) {
-  //     updatedRowData[rowIndex][params.colDef.field] = params.newValue;
-  //     setRowData(updatedRowData);
-
-  //     // Add the edited row data to the state
-  //     setEditedData((prevData) => [...prevData, updatedRowData[rowIndex]]);
-  //   }
-  // };
 
   const onCellValueChanged = (params) => {
     const updatedRowData = [...rowData];
@@ -650,7 +662,7 @@ function UserRoleGrid() {
                     </icon>
                   </div>
                   <div>
-                    <icon className="popups-btn fs-6 p-3" onClick={reloadGridData} required title="Refresh">
+                    <icon className="popups-btn fs-6 p-3" onClick={clearInputFields} required title="Refresh">
                       <FontAwesomeIcon icon="fa-solid fa-arrow-rotate-right" />
                     </icon>
                   </div>
