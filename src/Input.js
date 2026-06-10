@@ -452,8 +452,13 @@ function Input({ }) {
   }
 
   const handleNavigate = () => {
-    navigate("/Company");
-  };
+  navigate("/Company", {
+    state: {
+      preservedRowData: location.state?.preservedRowData,
+      preservedInputs: location.state?.preservedInputs
+    }
+  });
+};
 
   const handleKeyDown = async (e, nextFieldRef, value, hasValueChanged, setHasValueChanged) => {
     if (e.key === 'Enter') {
@@ -482,15 +487,15 @@ function Input({ }) {
       !company_name ||
       !address1 ||
       !address2 ||
-      !selectedCity ||
-      !selectedState ||
+      !city ||
+      !state ||
       !pincode ||
-      !selectedCountry ||
+      !country ||
       !email_id ||
-      !selectedStatus ||
+      !status ||
       !contact_no ||
-      !location_no ||
-      !companyImage
+      !location_no
+      //  || !companyImage
     ) {
       setError(" ");
       toast.warning("Error: Missing required fields");
@@ -540,8 +545,8 @@ function Input({ }) {
 
       if (response.status === 200) {
         console.log("Data Updated successfully");
-        setIsUpdated(true);
-        clearInputFields();
+        // setIsUpdated(true);
+        // clearInputFields();
         toast.success("Data Updated successfully!")
       } else {
         const errorResponse = await response.json();

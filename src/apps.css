@@ -1080,3 +1080,10 @@ body{
   height: 100px !important;
 }
 
+/* GLOBAL AG GRID NAVIGATE CELL COLOR CHANGE 09-06-2026 */
+.ag-link-cell {
+  color: #1976d2;
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 500;
+}
