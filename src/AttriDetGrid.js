@@ -4,7 +4,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import "ag-grid-enterprise";
 import "./apps.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import labels from "./Labels";
@@ -35,16 +35,28 @@ function AttriDetGrid() {
   const [createdDate, setCreatedDate] = useState("");
   const [modifiedDate, setModifiedDate] = useState("");
 
+  const location = useLocation();
+
   //code added by Harish purpose of set user permisssion
   const permissions = JSON.parse(sessionStorage.getItem('permissions')) || {};
   const attributePermission = permissions
     .filter(permission => permission.screen_type === 'Attribute')
     .map(permission => permission.permission_type.toLowerCase());
 
-
-
   useEffect(() => {
-  }, []);
+    if (location.state?.preservedRowData) {
+      setRowData(location.state.preservedRowData);
+    }
+  
+    if (location.state?.preservedInputs) {
+      setattributeheader_code(location.state.preservedInputs.attributeheader_code || "");
+      setattributedetails_code(location.state.preservedInputs.attributedetails_code || "");
+      setattributedetails_name(location.state.preservedInputs.attributedetails_name || "");
+      setdescriptions(location.state.preservedInputs.descriptions || "");
+
+    }
+  }, [location.state]);
+
 
   // const fetchData = async () => {
   //   try {
@@ -60,6 +72,13 @@ function AttriDetGrid() {
     window.location.reload();
   };
 
+const clearInputFields = () => {
+    setattributeheader_code("");
+    setattributedetails_code("");
+    setattributedetails_name("");
+    setdescriptions("");
+    setRowData([]);
+  };
 
   const handleSearch = async () => {
     setLoading(true);
@@ -101,6 +120,7 @@ function AttriDetGrid() {
       checkboxSelection: true,
       headerName: "Code",
       field: "attributeheader_code",
+      cellClass: "ag-link-cell",
       //editable: true,
       cellStyle: { textAlign: "center" },
       // minWidth: 250,
@@ -308,8 +328,12 @@ function AttriDetGrid() {
     navigate("/AddAttributeDetail", { state: { mode: "create" } }); // Pass selectedRows as props to the Input component
   };
   const handleNavigateWithRowData = (selectedRow) => {
-    navigate("/AddAttributeDetail", { state: { mode: "update", selectedRow } });
-  };
+  navigate("/AddAttributeDetail", { 
+    state: { mode: "update", selectedRow, preservedRowData: rowData, 
+      preservedInputs: { attributeheader_code, attributedetails_code, attributedetails_name, descriptions, }, }, 
+  }); 
+}; 
+
   const onSelectionChanged = () => {
     const selectedNodes = gridApi.getSelectedNodes();
     const selectedData = selectedNodes.map((node) => node.data);
@@ -712,7 +736,7 @@ function AttriDetGrid() {
                   <div>
                     <icon
                       className="popups-btn fs-6 p-3"
-                      onClick={reloadGridData}
+                      onClick={clearInputFields}
                       required
                       title="Refresh"
                     >

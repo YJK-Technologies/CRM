@@ -4,7 +4,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import "ag-grid-enterprise";
 import "./apps.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dropdown, DropdownButton } from "react-bootstrap";
@@ -54,11 +54,46 @@ function UserGrid() {
   const [createdDate, setCreatedDate] = useState("");
   const [modifiedDate, setModifiedDate] = useState("");
 
+  const location = useLocation();
+  
   //code added by Harish purpose of set user permisssion
   const permissions = JSON.parse(sessionStorage.getItem("permissions")) || {};
   const userPermission = permissions
     .filter((permission) => permission.screen_type === "User")
     .map((permission) => permission.permission_type.toLowerCase());
+
+  useEffect(() => {
+    if (location.state?.preservedRowData) {
+      setRowData(location.state.preservedRowData);
+    }
+    if (location.state?.preservedInputs) {
+      const inputs = location.state.preservedInputs;
+      setuser_code(inputs.user_code || "");
+      setuser_name(inputs.user_name || "");
+      setfirst_name(inputs.first_name || "");
+      setlast_name(inputs.last_name || "");
+      setuser_status(inputs.user_status || "");
+      if (inputs.user_status) {
+        setSelectedStatus({
+          label: inputs.user_status,
+          value: inputs.user_status,
+        });
+      } else {
+        setSelectedStatus(null);
+      }
+      setuser_type(inputs.user_type || "");
+      setdob(inputs.dob || "");
+      setgender(inputs.gender || "");
+      if (inputs.gender) {
+        setSelectedGender({
+          label: inputs.gender,
+          value: inputs.gender,
+        });
+      } else {
+        setSelectedGender(null);
+      }
+    }
+  }, [location.state]);
 
   useEffect(() => {
     const company_code = sessionStorage.getItem('selectedCompanyCode');
@@ -219,7 +254,10 @@ function UserGrid() {
   };
 
   const handleNavigateWithRowData = (selectedRow) => {
-    navigate("/AddUser", { state: { mode: "update", selectedRow } });
+    navigate("/AddUser", {
+      state: { mode: "update", selectedRow, preservedRowData: rowData, 
+        preservedInputs: { user_code, user_name, first_name, last_name, user_status, user_type, dob, gender, },},
+    });
   };
 
   const reloadGridData = () => {
@@ -229,6 +267,19 @@ function UserGrid() {
       console.error("Error reloading grid data:", error);
     }
   };
+
+  const clearInputFields = () => {
+    setuser_code("");
+    setuser_name("");
+    setfirst_name("");
+    setlast_name("");
+    setSelectedStatus("");
+    setuser_status("");
+    setdob("");
+    setSelectedGender("");
+    setgender("");
+    setRowData([]);
+  };
 
   const handleSearch = async () => {
     setLoading(true);
@@ -291,6 +342,7 @@ function UserGrid() {
       checkboxSelection: true,
       headerName: "User Code",
       field: "user_code",
+      cellClass: "ag-link-cell",
       cellStyle: { textAlign: "left" },
       cellEditorParams: {
         maxLength: 18,
@@ -991,7 +1043,7 @@ function UserGrid() {
                     </icon>
                   </div>
                   <div>
-                    <icon className="popups-btn fs-6 p-3" onClick={reloadGridData} required title="Reload">
+                    <icon className="popups-btn fs-6 p-3" onClick={clearInputFields} required title="Reload">
                       <FontAwesomeIcon icon="fa-solid fa-arrow-rotate-right" />
                     </icon>
                   </div>

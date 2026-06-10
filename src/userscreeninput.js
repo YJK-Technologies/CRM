@@ -230,7 +230,7 @@ function UserScreenInput({ }) {
         console.log("Data updated successfully");
         setTimeout(() => {
           toast.success("Data updated successfully!", {
-            onClose: () => clearInputFields(),
+            // onClose: () => clearInputFields(),
           });
         }, 1000);
       } else {
@@ -247,7 +247,12 @@ function UserScreenInput({ }) {
   };
 
   const handleNavigate = () => {
-    navigate("/UserRights"); 
+    navigate("/UserRights", {
+      state: {
+        preservedRowData: location.state?.preservedRowData,
+        preservedInputs: location.state?.preservedInputs,
+      },
+    });
   };
 
   const handleKeyDown = async (e, nextFieldRef, value, hasValueChanged, setHasValueChanged) => {

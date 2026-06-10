@@ -4,7 +4,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import "ag-grid-enterprise";
 import "./apps.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ToastContainer, toast } from 'react-toastify';
@@ -31,12 +31,25 @@ function RoleInfoGrid() {
   const [createdDate, setCreatedDate] = useState("");
   const [modifiedDate, setModifiedDate] = useState("");
 
+  const location = useLocation();
+
   //code added by Pavun purpose of set user permisssion
   const permissions = JSON.parse(sessionStorage.getItem('permissions')) || {};
   const roleInfoPermission = permissions
     .filter(permission => permission.screen_type === 'Role')
     .map(permission => permission.permission_type.toLowerCase());
 
+  useEffect(() => {
+    if (location.state?.preservedRowData) {
+      setRowData(location.state.preservedRowData);
+    }
+    if (location.state?.preservedInputs) {
+      const inputs = location.state.preservedInputs;
+      setrole_id(inputs.role_id || "");
+      setrole_name(inputs.role_name || "");
+
+    }
+  }, [location.state]);
 
   const handleSearch = async () => {
     setLoading(true);
@@ -75,12 +88,19 @@ function RoleInfoGrid() {
     window.location.reload();
   };
 
+  const clearInputFields = () => {
+    setrole_id("");
+    setrole_name("");
+    setRowData([]);
+  };
+
   const columnDefs = [
     {
       headerCheckboxSelection: true,
       checkboxSelection: true,
       headerName: "Role ID",
       field: "role_id",
+      cellClass: "ag-link-cell",
       cellStyle: { textAlign: "left" },
       cellEditorParams: {
         maxLength: 18,
@@ -250,8 +270,11 @@ function RoleInfoGrid() {
   };
 
   const handleNavigateWithRowData = (selectedRow) => {
-    navigate("/AddRole", { state: { mode: "update", selectedRow } })
-  }
+    navigate("/AddRole", {
+      state: { mode: "update", selectedRow, preservedRowData: rowData, 
+        preservedInputs: { role_id, role_name, }, }, 
+    }); 
+  }; 
 
   const onSelectionChanged = () => {
     const selectedNodes = gridApi.getSelectedNodes();
@@ -560,7 +583,7 @@ function RoleInfoGrid() {
                     </icon>
                   </div>
                   <div>
-                    <icon className="popups-btn fs-6 p-3" onClick={reloadGridData} required title="Reload">
+                    <icon className="popups-btn fs-6 p-3" onClick={clearInputFields} required title="Reload">
                       <FontAwesomeIcon icon="fa-solid fa-arrow-rotate-right" />
                     </icon>
                   </div>
