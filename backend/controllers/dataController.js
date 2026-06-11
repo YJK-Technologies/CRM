@@ -81,7 +81,7 @@ const forgetPassword = async (req, res) => {
       .input("mode", sql.NVarChar, "VE")
       .input("user_code", sql.NVarChar, user_code)
       .input("email_id", sql.NVarChar, email_id)
-      .query(`EXEC SP_user_info_hdr @mode,'',@user_code,'','','','','','','',@email_id,'','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
+      .query(`EXEC sp_user_info_hdr_Pavun @mode,'',@user_code,'','','','','','','',@email_id,'','','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
     if (result.recordset.length > 0) {
       const otp = generateOTP();
       await sendOTP(email_id, otp);
@@ -135,121 +135,13 @@ const Passwords = async (req, res) => {
       .input("user_code", sql.NVarChar, user_code)
       .input("email_id", sql.NVarChar, email_id)
       .input("user_password", sql.NVarChar, user_password)
-      .query("EXEC SP_user_info_hdr @mode,'',@user_code,'','','',@user_password,'','','',@email_id,'','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL");
+      .query("EXEC sp_user_info_hdr_Pavun @mode,'',@user_code,'','','',@user_password,'','','',@email_id,'','','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL");
     res.status(200).json({ message: "Password updated successfully" });
   } catch (err) {
     console.error("Error", err);
     res.status(500).json({ message: err.message || 'Internal Server Error' });
   }
 };
-
-/*const loginn = async (req, res) => {
-  const { user_code, user_password } = req.body;
-
-  try {
-    const pool = await connection.connectToDatabase();
-    const result = await pool
-      .request()
-      .input("user_code", sql.NVarChar, user_code)
-      .input("user_password", sql.NVarChar, user_password)
-      .query(
-        `EXEC [SP_user_info_hdr] 'LUC','@user_code','','','','','','','','','','','','','','','NULL','NULL','NULL','NULL','','','',''`
-      );
-
-    if (!result.recordset[0]) {
-      return res.status(401).json({ nmessage: " usercode not found" });
-    } 
-    else {
-      
-      const user = result.recordset[0]; // Assuming the first record is the user data
-      if (!user.user_password){
-        return res.status(401).json({ message: "Invalid password" });
-      } else {
-        return res.status(200).json({ message: "Login successful" });
-      }
-    }
-  } catch (error) {
-    console.error("Error:", error.message);
-    return res.status(500).json({ message: "Internal Server Error" });
-  } finally {
-    await sql.close();
-  }
-};
-
-const loginn = async (req, res) => {
-  const { user_code, user_password } = req.body;
-
-  try {
-    const pool = await connection.connectToDatabase();
-    const result = await pool
-      .request()
-      .input("user_code", sql.NVarChar, user_code)
-      .input("user_password", sql.NVarChar, user_password)
-      .query(
-      "select  user_password from tbl_user_info_hdr where user_code = @user_code and user_password = @user_password "
-      );
-
-    if (result.recordset.length === 0) {
-      return res.status(200).json({ imessage:result.recordset.length });
-     const user = result.recordset.user_password; 
-      if (user !== user_password) {
-        return res.status(403).json({ message: "Invalid password" });
-      } else {
-        return res.status(200).json({ message: "Login successful" });
-      }
-      
-    } else {
-      return res.status(200).json({ emessage:result.recordset });
-    }
-  } catch (error) {
-    console.error("Error:", error.message);
-    return res.status(500).json({ message: "Internal Server Error" });
-  } finally {
-    await sql.close();
-  }
-};*/
-
-// const login = async (req, res) => {
-//   const { user_code, user_password } = req.body;
-//   const secretKey = 'yjk26012024'; 
-
-//   try {
-//     // Decrypt user_code and user_password
-//     const decryptedUserCode = CryptoJS.AES.decrypt(user_code, secretKey).toString(CryptoJS.enc.Utf8);
-//     const decryptedPassword = CryptoJS.AES.decrypt(user_password, secretKey).toString(CryptoJS.enc.Utf8);
-
-//     // Check if the user exists in the database based on decryptedUserCode
-//     const pool = await connection.connectToDatabase();
-//     const result = await pool
-//       .request()
-//       .input("mode", sql.NVarChar, "LUC")
-//       .input("user_code", sql.NVarChar, decryptedUserCode)
-//       .input("user_password", sql.NVarChar, decryptedPassword)
-//       .query(`EXEC SP_user_info_hdr 'LUC','',@user_code,'','','',@user_password,'','','','','','','','','','','','','','','','','',''`);
-
-//     if (!result.recordset[0]) {
-//       // User not found
-//       return res.status(401).json({ message: "Invalid usercode" });
-//     } else {
-//       const user = result.recordset[0]; // Assuming the first record is the user data
-//       // Check if the provided user_password matches the one in the database
-//       if (user.user_password !== decryptedPassword) {
-//         // Passwords don't match
-//         return res.status(401).json({ message: "Invalid password" });
-//       } else {
-//         // Both username and password are validated successfully
-//         if (result.recordset.length > 0) {
-//           res.status(200).json(result.recordset); // 200 OK if data is found
-//         } else {
-//           res.status(404).json("Data not found"); // 404 Not Found if no data is found
-//         }
-//       }
-//     }
-//   } catch (err) {
-//     console.error("Error", err.message);
-//     res.status(500).json({ message: err.message||'Internal Server Error'});
-//   }       
-// };
 
 const login = async (req, res) => {
   const { user_code, user_password } = req.body;
@@ -265,7 +157,7 @@ const login = async (req, res) => {
       .input("mode", sql.NVarChar, "LUC")
       .input("user_code", sql.NVarChar, decryptedUserCode)
       .input("user_password", sql.NVarChar, decryptedPassword)
-      .query(`EXEC SP_user_info_hdr 'LUC','',@user_code,'','','',@user_password,'','','','','','','','','','','','','','','','','',''`);
+      .query(`EXEC sp_user_info_hdr_Pavun 'LUC','',@user_code,'','','',@user_password,'','','','','','','','','','','','','','','','','','',''`);
     if (result.recordset.length > 0) {
       res.status(200).json(result.recordset);
     } else {
@@ -694,9 +586,8 @@ const gettaxtype = async (req, res) => {
 const getUsercode = async (req, res) => {
   try {
     await connection.connectToDatabase();
-    const result = await sql.query(
-      "EXEC SP_user_info_hdr 'F','','user_code','','', '' ,'','','','','','','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL"
-    );
+    const result = await sql
+    .query(`EXEC sp_user_info_hdr_Pavun 'F','','user_code','','','','','','','','','','','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
     res.json(result.recordset);
   } catch (err) {
     console.error("Error", err);
@@ -1173,7 +1064,8 @@ const deleteData = async (req, res) => {
 const getAlluserData = async (req, res) => {
   try {
     await connection.connectToDatabase();
-    const result = await sql.query(`EXEC SP_user_info_hdr 'A','','','','',' ','','','','','','','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
+    const result = await sql
+    .query(`EXEC sp_user_info_hdr_Pavun 'A','','','','','','','','','','','','','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
 
     res.json(result.recordset);
   } catch (err) {
@@ -1183,36 +1075,13 @@ const getAlluserData = async (req, res) => {
 };
 
 const userAddData = async (req, res) => {
-  const {
-    company_code,
-    user_code,
-    user_name,
-    first_name,
-    last_name,
-    user_password,
-    user_status,
-    log_in_out,
-    user_type,
-    email_id,
-    dob,
-    gender,
-    role_id,
-    created_by,
-    modified_by,
-    tempstr1,
-    tempstr2,
-    tempstr3,
-    tempstr4,
-    datetime1,
-    datetime2,
-    datetime3,
-    datetime4,
-  } = req.body;
+  const { company_code,user_code,user_name,first_name,last_name,user_password,user_status,log_in_out,user_type,email_id,dob,
+    gender,role_id,created_by,modified_by,tempstr1,tempstr2,tempstr3,tempstr4,datetime1,datetime2,datetime3,datetime4,super_admin } = req.body;
 
   let user_img = null;
 
   if (req.file) {
-    user_img = req.file.buffer; // Buffer containing the uploaded image
+    user_img = req.file.buffer; 
   }
 
   try {
@@ -1234,6 +1103,7 @@ const userAddData = async (req, res) => {
       .input("gender", sql.NVarChar, gender)
       .input("role_id", sql.NVarChar, role_id)
       .input("user_img", sql.VarBinary, user_img)
+      .input("super_admin", sql.NVarChar, super_admin)
       .input("created_by", sql.NVarChar, created_by)
       .input("modified_by", sql.NVarChar, modified_by)
       .input("tempstr1", sql.NVarChar, tempstr1)
@@ -1244,24 +1114,15 @@ const userAddData = async (req, res) => {
       .input("datetime2", sql.NVarChar, datetime2)
       .input("datetime3", sql.NVarChar, datetime3)
       .input("datetime4", sql.NVarChar, datetime4)
-      .query(
-        `EXEC SP_user_info_hdr @mode,@company_code,@user_code,@user_name,
-        @first_name,@last_name,@user_password,
-        @user_status,@log_in_out,@user_type,
-        @email_id,@dob,@gender,@role_id,@user_img,@created_by,@modified_by,
-        @tempstr1, @tempstr2, @tempstr3, @tempstr4,    
-        @datetime1, @datetime2, @datetime3, @datetime4`
-      );
-    // Return success response
+      .query(`EXEC sp_user_info_hdr_Pavun @mode,@company_code,@user_code,@user_name,@first_name,@last_name,@user_password,@user_status,@log_in_out,@user_type,
+        @email_id,@dob,@gender,@role_id,@user_img,@super_admin,@created_by,@modified_by,@tempstr1, @tempstr2, @tempstr3,@tempstr4,@datetime1, @datetime2, @datetime3, @datetime4`);
     if (result.rowsAffected && result.rowsAffected[0] > 0) {
       return res.status(200).json({ success: true, message: 'Data inserted successfully' });
     }
   } catch (err) {
     if (err.class === 16 && err.number === 50000) {
-      // Custom error from the stored procedure
       res.status(400).json({ message: 'User already exists', err: err.message });
     } else {
-      // Handle unexpected errors
       res.status(500).json({ message: err.message || 'Internal Server Error' });
     }
   }
@@ -1297,6 +1158,7 @@ const UsersaveEditedData = async (req, res) => {
         .input("dob", sql.NVarChar, updatedRow.dob)
         .input("gender", sql.NVarChar, updatedRow.gender)
         .input("role_id", sql.NVarChar, updatedRow.role_id)
+        .input("super_admin", sql.NVarChar, updatedRow.super_admin)
         .input("created_by", sql.NVarChar, updatedRow.created_by)
         .input("modified_by", sql.NVarChar, req.headers['modified-by'])
         .input("tempstr1", sql.NVarChar, updatedRow.tempstr1)
@@ -1307,14 +1169,8 @@ const UsersaveEditedData = async (req, res) => {
         .input("datetime2", sql.NVarChar, updatedRow.datetime2)
         .input("datetime3", sql.NVarChar, updatedRow.datetime3)
         .input("datetime4", sql.NVarChar, updatedRow.datetime4)
-        .query(
-          `EXEC SP_user_info_hdr 
-            'U',@company_code, @user_code, @user_name, @first_name, @last_name, 
-            @user_password, @user_status, @log_in_out, @user_type, 
-            @email_id, @dob, @gender,@role_id,'', @created_by,  
-            @modified_by, @tempstr1, @tempstr2, @tempstr3, 
-            @tempstr4, @datetime1, @datetime2, @datetime3, @datetime4`
-        );
+        .query(`EXEC sp_user_info_hdr_Pavun @mode,@company_code, @user_code, @user_name, @first_name, @last_name, @user_password, @user_status, @log_in_out, @user_type, 
+            @email_id, @dob, @gender,@role_id,'',@super_admin, @created_by, @modified_by, @tempstr1, @tempstr2, @tempstr3, @tempstr4, @datetime1, @datetime2, @datetime3, @datetime4`);
     }
 
     res.status(200).json("Edited data saved successfully");
@@ -1343,10 +1199,7 @@ const UserdeleteData = async (req, res) => {
           .input("user_code", user_code)
           .input("company_code", sql.NVarChar, req.headers['company_code'])
           .input("modified_by", sql.NVarChar, req.headers['modified-by'])
-          .query(`
-      EXEC SP_user_info_hdr 'D',@company_code,@user_code,'','','', 
-            '', '', '', '','','', '','','','', 
-            @modified_by,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
+          .query(`EXEC sp_user_info_hdr_Pavun 'D',@company_code,@user_code,'','','', '', '', '', '','','', '','','','','', @modified_by,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
       } catch (err) {
         if (err.number === 50000) {
           // Foreign key constraint violation
@@ -4025,7 +3878,7 @@ const getUserrolesearchdata = async (req, res) => {
 };
 
 const getUsersearchdata = async (req, res) => {
-  const { company_code, user_code, user_name, first_name, last_name, user_status, email_id, dob, gender, role_id, user_img } = req.body;
+  const { company_code, user_code, user_name, first_name, last_name, user_status, email_id, dob, gender, role_id, created_by } = req.body;
 
   try {
     // Connect to the database
@@ -4045,8 +3898,8 @@ const getUsersearchdata = async (req, res) => {
       .input("dob", sql.NVarChar, dob)
       .input("gender", sql.NVarChar, gender)
       .input("role_id", sql.NVarChar, role_id)
-      .input("user_img", sql.NVarChar, user_img)
-      .query(` EXEC SP_user_info_hdr @mode,@company_code,@user_code,@user_name,@first_name,@last_name,'',@user_status,'','',@email_id,@dob,@gender,@role_id,@user_img,'','','','','','','','','',''`);
+      .input("created_by", sql.NVarChar, created_by)
+      .query(`EXEC sp_user_info_hdr_Pavun @mode,@company_code,@user_code,@user_name,@first_name,@last_name,'',@user_status,'','',@email_id,@dob,@gender,@role_id,'','',@created_by,'','','','','','','','',''`);
 
     // Send response
     if (result.recordset.length > 0) {
@@ -13438,8 +13291,7 @@ const UpdateUserImage = async (req, res) => {
       .request()
       .input("user_code", sql.NVarChar, user_code)
       .input("user_img", sql.VarBinary, user_img)
-      .query(`EXEC SP_user_info_hdr 'UI','',@user_code,'','','','','','','','','','','',@user_img,'','',
-                    NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
+      .query(`EXEC sp_user_info_hdr_Pavun 'UI','',@user_code,'','','','','','','','','','','',@user_img,'','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
 
     // Return success response
     if (result.rowsAffected && result.rowsAffected[0] > 0) {
@@ -15747,8 +15599,7 @@ const RoleUpdate = async (req, res) => {
 
 const UserUpdate = async (req, res) => {
   const { company_code, user_code, user_name, first_name, last_name, user_password, user_status,
-    log_in_out, user_type, email_id, dob, gender, role_id, created_by, modified_by
-  } = req.body;
+    log_in_out, user_type, email_id, dob, gender, role_id, created_by, modified_by, super_admin } = req.body;
 
   let user_images = null;
 
@@ -15775,11 +15626,11 @@ const UserUpdate = async (req, res) => {
       .input("gender", sql.NVarChar, gender)
       .input("role_id", sql.NVarChar, role_id)
       .input("user_images", sql.VarBinary, user_images)
+      .input("super_admin", sql.NVarChar, super_admin)
       .input("created_by", sql.NVarChar, created_by)
       .input("modified_by", sql.NVarChar, modified_by)
-      .query(
-        `EXEC SP_user_info_hdr @mode,@company_code, @user_code, @user_name, @first_name, @last_name, @user_password, @user_status, @log_in_out, @user_type, 
-            @email_id, @dob, @gender,@role_id,@user_images, @created_by, @modified_by, '', '', '', '', '', '', '', ''`);
+      .query(`EXEC sp_user_info_hdr_Pavun @mode,@company_code, @user_code, @user_name, @first_name, @last_name, @user_password, @user_status, @log_in_out, @user_type, 
+      @email_id, @dob, @gender,@role_id,@user_images, @super_admin, @created_by, @modified_by, '', '', '', '', '', '', '', ''`);
     res.status(200).json("Edited data saved successfully");
   } catch (err) {
     console.error("Error", err);
@@ -26587,8 +26438,7 @@ const Userdropdown = async (req, res) => {
       .request()
       .input("mode", sql.NVarChar, "MG")
       .input("user_code", sql.NVarChar, user_code)
-      .query(`EXEC [SP_user_info_hdr] @mode,'',@user_code,'','','','','','','','','','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL
-`);
+      .query(`EXEC [sp_user_info_hdr_Pavun] @mode,'',@user_code,'','','','','','','','','','','','','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
     res.json(result.recordset);
   } catch (err) {
     console.error("Error during update:", err);

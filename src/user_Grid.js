@@ -292,6 +292,7 @@ function UserGrid() {
           company_code: company_code,
         },
         body: JSON.stringify({
+          created_by: sessionStorage.getItem("selectedUserCode"),
           company_code: company_code,
           user_code,
           user_name,
