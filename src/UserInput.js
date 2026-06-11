@@ -58,7 +58,7 @@ function UserInput({ }) {
   const location = useLocation();
   const { mode, selectedRow } = location.state || {};
 
-  console.log(selectedRow);
+  const [superAdmin, setSuperAdmin] = useState(false);
 
   const clearInputFields = () => {
     setUser_code("");
@@ -93,10 +93,13 @@ function UserInput({ }) {
       setFirst_name(selectedRow.first_name || "");
       setLast_name(selectedRow.last_name || "");
       setUser_password(selectedRow.user_password || "");
-       setRole(selectedRow.role_id || "");
-        setLog_in_out(selectedRow.log_in_out || "");
-        setUser_status(selectedRow.user_status || "");
-        setGender(selectedRow.gender || "");
+      setRole(selectedRow.role_id || "");
+      setLog_in_out(selectedRow.log_in_out || "");
+      setUser_status(selectedRow.user_status || "");
+      setGender(selectedRow.gender || "");
+      setSuperAdmin(
+        selectedRow.super_admin?.toLowerCase() === "yes"
+      );
       setSelectedStatus({
         label: selectedRow.user_status,
         value: selectedRow.user_status,
@@ -272,9 +275,20 @@ function UserInput({ }) {
     setUser_status(selectedStatus ? selectedStatus.value : '');
   };
 
+  // const handleChangeRole = (selectedRole) => {
+  //   setSelectedRole(selectedRole);
+  //   setRole(selectedRole ? selectedRole.value : '');
+  // };
+
   const handleChangeRole = (selectedRole) => {
     setSelectedRole(selectedRole);
-    setRole(selectedRole ? selectedRole.value : '');
+
+    const roleValue = selectedRole?.value || '';
+    setRole(roleValue);
+
+    if (['user', 'us'].includes(roleValue.toLowerCase())) {
+      setSuperAdmin(false);
+    }
   };
 
   const handleChangeLog = (selectedLog) => {
@@ -324,6 +338,7 @@ function UserInput({ }) {
       formData.append("dob", dob);
       formData.append("role_id", role_id);
       formData.append("gender", gender);
+      formData.append("super_admin", superAdmin ? "Yes" : "No");
       formData.append("created_by", sessionStorage.getItem("selectedUserCode"));
 
       if (user_images) {
@@ -336,9 +351,9 @@ function UserInput({ }) {
       });
 
       if (response.ok) {
-      toast.success("Data inserted Successfully", {
-       onClose: () => clearInputFields()
-       });
+        toast.success("Data inserted Successfully", {
+          onClose: () => clearInputFields()
+        });
       } else if (response.status === 400) {
         const errorResponse = await response.json();
         console.error(errorResponse.message);
@@ -387,7 +402,7 @@ function UserInput({ }) {
   //   }
   // };
 
-    const handleKeyDown = (e, nextRef, currentRef) => {
+  const handleKeyDown = (e, nextRef, currentRef) => {
     if (e.key === 'Enter') {
       e.preventDefault();
 
@@ -447,7 +462,7 @@ function UserInput({ }) {
       formData.append("gender", selectedGender.value);
       formData.append("role_id", selectedRole.value);
       formData.append("modified_by", modified_by);
-
+      formData.append("super_admin", superAdmin ? "Yes" : "No");
       if (user_images) {
         formData.append("user_images", user_images);
       }
@@ -456,10 +471,10 @@ function UserInput({ }) {
         body: formData,
       });
 
-       if (response.ok) {
-                    toast.success("Data updated successfully", {
-                      // onClose: () => clearInputFields()
-                    });
+      if (response.ok) {
+        toast.success("Data updated successfully", {
+          // onClose: () => clearInputFields()
+        });
       } else if (response.status === 400) {
         const errorResponse = await response.json();
         console.error(errorResponse.message);
@@ -582,7 +597,7 @@ function UserInput({ }) {
                         <div>
                           <label for="state" class="exp-form-labels" className={`${error && !last_name ? 'text-danger' : ''}`}>
                             Last Name<span className="text-danger">*</span>
-                            </label>
+                          </label>
                         </div>
                       </div>
                       <input
@@ -634,65 +649,65 @@ function UserInput({ }) {
                         </div>
                       </div>
                       <div title="Select the Status">
-                      <Select
-                        id="status"
-                        value={selectedStatus}
-                        onChange={handleChangeStatus}
-                        options={filteredOptionStatus}
-                        className="exp-input-field"
-                        placeholder=""
-                        maxLength={50}
-                        ref={Status}
-                        onKeyDown={(e) => handleKeyDown(e, loginlogout, Status)}
-                      />
-                      {/* {error && !user_status && <div className="text-danger">Status should not be blank</div>} */}
-                    </div>
+                        <Select
+                          id="status"
+                          value={selectedStatus}
+                          onChange={handleChangeStatus}
+                          options={filteredOptionStatus}
+                          className="exp-input-field"
+                          placeholder=""
+                          maxLength={50}
+                          ref={Status}
+                          onKeyDown={(e) => handleKeyDown(e, loginlogout, Status)}
+                        />
+                        {/* {error && !user_status && <div className="text-danger">Status should not be blank</div>} */}
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-3 form-group  mb-2">
                     <div class="exp-form-floating">
                       <label for="loginout" class="exp-form-labels">Log In/Out</label>
                       <div title="Select the Log In/Out">
-                      <Select
-                        id="loginout"
-                        value={selectedLog}
-                        onChange={handleChangeLog}
-                        options={filteredOptionLog}
-                        className="exp-input-field"
-                        placeholder=""
-                        maxLength={3}
-                        ref={loginlogout}
-                        onKeyDown={(e) => handleKeyDown(e, usertype, loginlogout)}
-                      />
-                    </div>
+                        <Select
+                          id="loginout"
+                          value={selectedLog}
+                          onChange={handleChangeLog}
+                          options={filteredOptionLog}
+                          className="exp-input-field"
+                          placeholder=""
+                          maxLength={3}
+                          ref={loginlogout}
+                          onKeyDown={(e) => handleKeyDown(e, usertype, loginlogout)}
+                        />
+                      </div>
                     </div>
                   </div>
                   {mode !== 'update' && (
-                  <div className="col-md-3 form-group  mb-2 ">
-                    <div class="exp-form-floating">
-                      <div class="d-flex justify-content-start">
-                        <div>
-                          <label for="state" class="exp-form-labels" className={`${error && !user_status ? 'text-danger' : ''}`}>
-                            Role ID<span className="text-danger">*</span>
-                          </label>
+                    <div className="col-md-3 form-group  mb-2 ">
+                      <div class="exp-form-floating">
+                        <div class="d-flex justify-content-start">
+                          <div>
+                            <label for="state" class="exp-form-labels" className={`${error && !user_status ? 'text-danger' : ''}`}>
+                              Role ID<span className="text-danger">*</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div title="Select the Role ID ">
+                          <Select
+                            id="usertype"
+                            value={selectedRole}
+                            onChange={handleChangeRole}
+                            options={filteredOptionRole}
+                            className="exp-input-field"
+                            placeholder=""
+                            maxLength={50}
+                            ref={usertype}
+                            onKeyDown={(e) => handleKeyDown(e, email, usertype)}
+                          />
+                          {/* {error && !user_status && <div className="text-danger">User Type should not be blank</div>} */}
                         </div>
                       </div>
-                      <div title="Select the Role ID ">
-                      <Select
-                        id="usertype"
-                        value={selectedRole}
-                        onChange={handleChangeRole}
-                        options={filteredOptionRole}
-                        className="exp-input-field"
-                        placeholder=""
-                        maxLength={50}
-                        ref={usertype}
-                        onKeyDown={(e) => handleKeyDown(e, email, usertype)}
-                      />
-                      {/* {error && !user_status && <div className="text-danger">User Type should not be blank</div>} */}
                     </div>
-                    </div>
-                  </div>
                   )}
                   <div className="col-md-3 form-group  mb-2">
                     <div class="exp-form-floating">
@@ -747,18 +762,18 @@ function UserInput({ }) {
                         Gender
                       </label>
                       <div title="Select the Gender">
-                      <Select
-                        id="gender"
-                        value={selectedGender}
-                        onChange={handleChangeGender}
-                        options={filteredOptionGender}
-                        className="exp-input-field"
-                        placeholder=""
-                        maxLength={50}
-                        ref={Gender}
-                        onKeyDown={(e) => handleKeyDown(e, ImagE, Gender)}
-                      />
-                    </div>
+                        <Select
+                          id="gender"
+                          value={selectedGender}
+                          onChange={handleChangeGender}
+                          options={filteredOptionGender}
+                          className="exp-input-field"
+                          placeholder=""
+                          maxLength={50}
+                          ref={Gender}
+                          onKeyDown={(e) => handleKeyDown(e, ImagE, Gender)}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-3 form-group mb-2 ">
@@ -798,6 +813,22 @@ function UserInput({ }) {
                           style={{ height: '200px', width: '200px' }}
                         /></div></div>
                   )}
+                  <div className="col-md-3 form-group mb-2 mt-3">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="superAdmin"
+                        disabled={['user', 'us'].includes(role_id?.toLowerCase())}
+                        checked={superAdmin}
+                        onChange={(e) => setSuperAdmin(e.target.checked)}
+                      />
+
+                      <label className="form-check-label" htmlFor="superAdmin">
+                        Super Admin
+                      </label>
+                    </div>
+                  </div>
                   {/* <div className="col-md-3 form-group  mb-2">
                     {mode === "create" ? (
                       <div class="exp-form-floating">
