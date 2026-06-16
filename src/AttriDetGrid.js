@@ -43,19 +43,56 @@ function AttriDetGrid() {
     .filter(permission => permission.screen_type === 'Attribute')
     .map(permission => permission.permission_type.toLowerCase());
 
-  useEffect(() => {
-    if (location.state?.preservedRowData) {
-      setRowData(location.state.preservedRowData);
-    }
-  
-    if (location.state?.preservedInputs) {
-      setattributeheader_code(location.state.preservedInputs.attributeheader_code || "");
-      setattributedetails_code(location.state.preservedInputs.attributedetails_code || "");
-      setattributedetails_name(location.state.preservedInputs.attributedetails_name || "");
-      setdescriptions(location.state.preservedInputs.descriptions || "");
+    useEffect(() => {
+    const handleKeyDown = (event) => {
+      const isReloadShortcut =
+        (event.ctrlKey && event.key.toLowerCase() === "r") ||
+        (event.altKey && event.key.toLowerCase() === "r") ||
+        event.key === "F5";
 
+      if (isReloadShortcut) {
+        event.preventDefault();
+        clearInputFields();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    // if (location.state?.preservedRowData) {
+    //   setRowData(location.state.preservedRowData);
+    // }
+
+    if (location.state?.preservedInputs) {
+      const inputs = location.state.preservedInputs;
+
+      setattributeheader_code(inputs.attributeheader_code || "");
+      setattributedetails_code(inputs.attributedetails_code || "");
+      setattributedetails_name(inputs.attributedetails_name || "");
+      setdescriptions(inputs.descriptions || "");
+
+      if (location.state?.refreshGrid) {
+        handleSearch(inputs);
+      }
     }
   }, [location.state]);
+
+  // useEffect(() => {
+  //   if (location.state?.preservedRowData) {
+  //     setRowData(location.state.preservedRowData);
+  //   }
+  
+  //   if (location.state?.preservedInputs) {
+  //     setattributeheader_code(location.state.preservedInputs.attributeheader_code || "");
+  //     setattributedetails_code(location.state.preservedInputs.attributedetails_code || "");
+  //     setattributedetails_name(location.state.preservedInputs.attributedetails_name || "");
+  //     setdescriptions(location.state.preservedInputs.descriptions || "");
+
+  //   }
+  // }, [location.state]);
 
 
   // const fetchData = async () => {
@@ -73,14 +110,46 @@ function AttriDetGrid() {
   };
 
 const clearInputFields = () => {
-    setattributeheader_code("");
-    setattributedetails_code("");
-    setattributedetails_name("");
-    setdescriptions("");
-    setRowData([]);
-  };
+    setattributeheader_code("");
+    setattributedetails_code("");
+    setattributedetails_name("");
+    setdescriptions("");
+    setRowData([]);
+  };
 
-  const handleSearch = async () => {
+  // const handleSearch = async () => {
+  //   setLoading(true);
+
+  //   try {
+  //     const response = await fetch(`${config.apiBaseUrl}/attributeSearchdata`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ company_code: sessionStorage.getItem("selectedCompanyCode"),attributeheader_code, attributedetails_code, attributedetails_name, descriptions }), // Send as search criteria
+  //     });
+
+  //     if (response.ok) {
+  //       const searchData = await response.json();
+  //       setRowData(searchData);
+  //     } else if (response.status === 404) {
+  //       console.log("Data not found");
+  //       setRowData([]);
+  //       toast.info("Data not found");
+  //     } else {
+  //       const errorResponse = await response.json();
+  //       toast.warning(errorResponse.message || "Failed to fetch data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching search data:", error);
+  //     toast.error("Error fetching search data:", error);
+  //   }
+  //   finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSearch = async (searchParams = null) => {
     setLoading(true);
 
     try {
@@ -89,7 +158,13 @@ const clearInputFields = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ company_code: sessionStorage.getItem("selectedCompanyCode"),attributeheader_code, attributedetails_code, attributedetails_name, descriptions }), // Send as search criteria
+        body: JSON.stringify({
+          company_code: sessionStorage.getItem("selectedCompanyCode"),
+          attributeheader_code: searchParams?.attributeheader_code ?? attributeheader_code,
+          attributedetails_code: searchParams?.attributedetails_code ?? attributedetails_code,
+          attributedetails_name: searchParams?.attributedetails_name ?? attributedetails_name,
+          descriptions: searchParams?.descriptions ?? descriptions,
+        }),
       });
 
       if (response.ok) {
@@ -111,7 +186,6 @@ const clearInputFields = () => {
       setLoading(false);
     }
   };
-
 
   const columnDefs = [
 
@@ -327,12 +401,29 @@ const clearInputFields = () => {
   const handleNavigatesToForm = () => {
     navigate("/AddAttributeDetail", { state: { mode: "create" } }); // Pass selectedRows as props to the Input component
   };
-  const handleNavigateWithRowData = (selectedRow) => {
-  navigate("/AddAttributeDetail", { 
-    state: { mode: "update", selectedRow, preservedRowData: rowData, 
-      preservedInputs: { attributeheader_code, attributedetails_code, attributedetails_name, descriptions, }, }, 
-  }); 
-}; 
+//   const handleNavigateWithRowData = (selectedRow) => {
+//   navigate("/AddAttributeDetail", { 
+//     state: { mode: "update", selectedRow, preservedRowData: rowData, 
+//       preservedInputs: { attributeheader_code, attributedetails_code, attributedetails_name, descriptions, }, }, 
+//   }); 
+// }; 
+
+const handleNavigateWithRowData = (selectedRow) => {
+    navigate("/AddAttributeDetail", {
+      state: {
+        mode: "update",
+        attributeheader_code: selectedRow.attributeheader_code,
+        attributedetails_code: selectedRow.attributedetails_code,
+
+        preservedInputs: {
+          attributeheader_code,
+          attributedetails_code,
+          attributedetails_name,
+          descriptions,
+        },
+      },
+    });
+  };
 
   const onSelectionChanged = () => {
     const selectedNodes = gridApi.getSelectedNodes();

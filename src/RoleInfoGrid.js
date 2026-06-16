@@ -40,18 +40,85 @@ function RoleInfoGrid() {
     .map(permission => permission.permission_type.toLowerCase());
 
   useEffect(() => {
-    if (location.state?.preservedRowData) {
-      setRowData(location.state.preservedRowData);
-    }
+    const handleKeyDown = (event) => {
+      const isReloadShortcut =
+        (event.ctrlKey && event.key.toLowerCase() === "r") ||
+        (event.altKey && event.key.toLowerCase() === "r") ||
+        event.key === "F5";
+
+      if (isReloadShortcut) {
+        event.preventDefault();
+        clearInputFields();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    // if (location.state?.preservedRowData) {
+    //   setRowData(location.state.preservedRowData);
+    // }
+
     if (location.state?.preservedInputs) {
       const inputs = location.state.preservedInputs;
       setrole_id(inputs.role_id || "");
       setrole_name(inputs.role_name || "");
 
+      if (location.state?.refreshGrid) {
+        handleSearch(inputs);
+      }
     }
   }, [location.state]);
 
-  const handleSearch = async () => {
+  // useEffect(() => {
+  //   if (location.state?.preservedRowData) {
+  //     setRowData(location.state.preservedRowData);
+  //   }
+  //   if (location.state?.preservedInputs) {
+  //     const inputs = location.state.preservedInputs;
+  //     setrole_id(inputs.role_id || "");
+  //     setrole_name(inputs.role_name || "");
+
+  //   }
+  // }, [location.state]);
+
+  // const handleSearch = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const company_code = sessionStorage.getItem('selectedCompanyCode');
+  //     const response = await fetch(`${config.apiBaseUrl}/Rolesearchdata`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "company_code": company_code
+  //       },
+  //       body: JSON.stringify({ company_code: company_code, role_id, role_name }) // Send company_no and company_name as search criteria
+  //     });
+  //     if (response.ok) {
+  //       const searchData = await response.json();
+  //       setRowData(searchData);
+  //       console.log("data fetched successfully")
+
+  //     } else if (response.status === 404) {
+  //       console.log("Data not found");
+  //       toast.warning("Data not found")
+  //       setRowData([]);
+  //     } else {
+  //       const errorResponse = await response.json();
+  //       toast.warning(errorResponse.message || "Failed to insert sales data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving data:", error);
+  //     toast.error("Error updating data: " + error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSearch = async (searchParams = null) => {
     setLoading(true);
     try {
       const company_code = sessionStorage.getItem('selectedCompanyCode');
@@ -61,7 +128,11 @@ function RoleInfoGrid() {
           "Content-Type": "application/json",
           "company_code": company_code
         },
-        body: JSON.stringify({ company_code: company_code, role_id, role_name }) // Send company_no and company_name as search criteria
+        body: JSON.stringify({ 
+          company_code: company_code, 
+          role_id: searchParams?.role_id ?? role_id, 
+          role_name: searchParams?.role_name ?? role_name
+        }) 
       });
       if (response.ok) {
         const searchData = await response.json();
@@ -89,10 +160,10 @@ function RoleInfoGrid() {
   };
 
   const clearInputFields = () => {
-    setrole_id("");
-    setrole_name("");
-    setRowData([]);
-  };
+    setrole_id("");
+    setrole_name("");
+    setRowData([]);
+  };
 
   const columnDefs = [
     {
@@ -269,12 +340,25 @@ function RoleInfoGrid() {
     navigate("/AddRole", { state: { mode: "create" } }); // Pass selectedRows as props to the Input component
   };
 
+  // const handleNavigateWithRowData = (selectedRow) => {
+  //   navigate("/AddRole", {
+  //     state: { mode: "update", selectedRow, preservedRowData: rowData, 
+  //       preservedInputs: { role_id, role_name, }, }, 
+  //   }); 
+  // }; 
+
   const handleNavigateWithRowData = (selectedRow) => {
     navigate("/AddRole", {
-      state: { mode: "update", selectedRow, preservedRowData: rowData, 
-        preservedInputs: { role_id, role_name, }, }, 
-    }); 
-  }; 
+      state: {
+        mode: "update",
+        role_id: selectedRow.role_id,
+        preservedInputs: {
+          role_id,
+          role_name,
+        },
+      },
+    });
+  };
 
   const onSelectionChanged = () => {
     const selectedNodes = gridApi.getSelectedNodes();

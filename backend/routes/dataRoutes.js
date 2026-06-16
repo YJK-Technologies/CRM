@@ -1137,6 +1137,14 @@ router.get("/CRM_PV",dataController.CRM_PV)
 router.post("/GetCalendarEvent",dataController.GetCalendarEvent)
 router.post("/CRM_Lose_Delete",dataController.CRM_Lose_Delete)
 router.post("/CRM_SalesTeam_HDRUpdate",dataController.CRM_SalesTeam_HDRUpdate)
+router.post("/getCompanyData",dataController.getCompanyData)
+router.post("/getCompanyMappingData",dataController.getCompanyMappingData)
+router.post("/getLocationData",dataController.getLocationData)
+router.post("/getRoleData",dataController.getRoleData)
+router.post("/getRoleMappingData",dataController.getRoleMappingData)
+router.post("/getRoleRightsData",dataController.getRoleRightsData)
+router.post("/getUserData",dataController.getUserData)
+router.post("/getAttributeData",dataController.getAttributeData)
 
 module.exports = router;
      
