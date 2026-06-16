@@ -49,6 +49,8 @@ function UserGrid() {
   const [hasValueChanged, setHasValueChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [roleDropGrid, setRoleDropGrid] = useState([]);
+
   const [createdBy, setCreatedBy] = useState("");
   const [modifiedBy, setModifiedBy] = useState("");
   const [createdDate, setCreatedDate] = useState("");
@@ -148,6 +150,26 @@ function UserGrid() {
   //     }
   //   }
   // }, [location.state]);
+
+  useEffect(() => {
+    const company_code = sessionStorage.getItem('selectedCompanyCode');
+    fetch(`${config.apiBaseUrl}/roleid`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ company_code })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const RoleOptions = data.map((option) => ({
+          value: option.role_id,
+          label: `${option.role_id} - ${option.role_name}`,
+        }));
+        setRoleDropGrid(RoleOptions);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
   useEffect(() => {
     const company_code = sessionStorage.getItem('selectedCompanyCode');
@@ -551,17 +573,17 @@ function UserGrid() {
         maxLength: 150,
       },
     },
-    {
-      headerName: "User Type",
-      field: "user_type",
-      editable: true,
-      cellStyle: { textAlign: "left" },
-      cellEditor: "agSelectCellEditor",
-      cellEditorParams: {
-        maxLength: 50,
-        values: usergriddrop,
-      },
-    },
+    // {
+    //   headerName: "User Type",
+    //   field: "user_type",
+    //   editable: true,
+    //   cellStyle: { textAlign: "left" },
+    //   cellEditor: "agSelectCellEditor",
+    //   cellEditorParams: {
+    //     maxLength: 50,
+    //     values: usergriddrop,
+    //   },
+    // },
     {
       headerName: "Email",
       field: "email_id",
@@ -586,6 +608,20 @@ function UserGrid() {
         const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Get month (+1 because months are zero-indexed)
         const year = date.getFullYear();
         return `${day}/${month}/${year}`; // Return formatted date string with day, month, and year
+      },
+    },
+    {
+      headerName: "Role ID-Name",
+      field: "role_id",
+      editable: true,
+      cellStyle: { textAlign: "left" },
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: {
+        values: roleDropGrid.map((d) => d.value),
+      },
+      valueFormatter: (params) => {
+        const role = roleDropGrid.find((d) => d.value === params.value);
+        return role ? role.label : params.value;
       },
     },
     {
@@ -629,6 +665,7 @@ function UserGrid() {
         "Log In/Out": safeValue(row.log_in_out),
         "Email Id": safeValue(row.email_id),
         "DOB": safeValue(formatDate(row.dob)),
+        "Role ID-Name": safeValue(row.role_id),
         "Gender": safeValue(row.gender),
       };
     });
@@ -1098,7 +1135,7 @@ function UserGrid() {
               </div>
               </div>
             </div>
-            <div className="col-md-3 form-group">
+            {/* <div className="col-md-3 form-group">
               <div class="exp-form-floating">
                 <label for="utype" class="exp-form-labels">
                   User Type
@@ -1115,7 +1152,7 @@ function UserGrid() {
                 />
               </div>
               </div>
-            </div>
+            </div> */}
             <div className="col-md-3 form-group">
               <div class="exp-form-floating">
                 <label for="dob" class="exp-form-labels">

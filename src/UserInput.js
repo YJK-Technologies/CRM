@@ -786,7 +786,7 @@ function UserInput({ }) {
                       </div>
                     </div>
                   </div>
-                  {mode !== 'update' && (
+                  {/* {mode !== 'update' && ( */}
                     <div className="col-md-3 form-group  mb-2 ">
                       <div class="exp-form-floating">
                         <div class="d-flex justify-content-start">
@@ -812,7 +812,7 @@ function UserInput({ }) {
                         </div>
                       </div>
                     </div>
-                  )}
+                  {/* )} */}
                   <div className="col-md-3 form-group  mb-2">
                     <div class="exp-form-floating">
                       <div class="d-flex justify-content-start">
@@ -925,6 +925,7 @@ function UserInput({ }) {
                         id="superAdmin"
                         disabled={['user', 'us'].includes(role_id?.toLowerCase())}
                         checked={superAdmin}
+                        disabled={!["sa", "super admin"].includes(role_id?.toLowerCase())}
                         onChange={(e) => setSuperAdmin(e.target.checked)}
                       />
 
