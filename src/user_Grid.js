@@ -49,6 +49,8 @@ function UserGrid() {
   const [hasValueChanged, setHasValueChanged] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [roleDropGrid, setRoleDropGrid] = useState([]);
+
   const [createdBy, setCreatedBy] = useState("");
   const [modifiedBy, setModifiedBy] = useState("");
   const [createdDate, setCreatedDate] = useState("");
@@ -62,10 +64,29 @@ function UserGrid() {
     .filter((permission) => permission.screen_type === "User")
     .map((permission) => permission.permission_type.toLowerCase());
 
+    useEffect(() => {
+    const handleKeyDown = (event) => {
+      const isReloadShortcut =
+        (event.ctrlKey && event.key.toLowerCase() === "r") ||
+        (event.altKey && event.key.toLowerCase() === "r") ||
+        event.key === "F5";
+
+      if (isReloadShortcut) {
+        event.preventDefault();
+        clearInputFields();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   useEffect(() => {
-    if (location.state?.preservedRowData) {
-      setRowData(location.state.preservedRowData);
-    }
+    // if (location.state?.preservedRowData) {
+    //   setRowData(location.state.preservedRowData);
+    // }
+
     if (location.state?.preservedInputs) {
       const inputs = location.state.preservedInputs;
       setuser_code(inputs.user_code || "");
@@ -73,27 +94,82 @@ function UserGrid() {
       setfirst_name(inputs.first_name || "");
       setlast_name(inputs.last_name || "");
       setuser_status(inputs.user_status || "");
+
       if (inputs.user_status) {
         setSelectedStatus({
           label: inputs.user_status,
           value: inputs.user_status,
         });
-      } else {
-        setSelectedStatus(null);
       }
       setuser_type(inputs.user_type || "");
       setdob(inputs.dob || "");
       setgender(inputs.gender || "");
+
       if (inputs.gender) {
         setSelectedGender({
           label: inputs.gender,
           value: inputs.gender,
         });
-      } else {
-        setSelectedGender(null);
+      }
+
+      if (location.state?.refreshGrid) {
+        handleSearch(inputs); 
       }
     }
   }, [location.state]);
+
+  // useEffect(() => {
+  //   if (location.state?.preservedRowData) {
+  //     setRowData(location.state.preservedRowData);
+  //   }
+  //   if (location.state?.preservedInputs) {
+  //     const inputs = location.state.preservedInputs;
+  //     setuser_code(inputs.user_code || "");
+  //     setuser_name(inputs.user_name || "");
+  //     setfirst_name(inputs.first_name || "");
+  //     setlast_name(inputs.last_name || "");
+  //     setuser_status(inputs.user_status || "");
+  //     if (inputs.user_status) {
+  //       setSelectedStatus({
+  //         label: inputs.user_status,
+  //         value: inputs.user_status,
+  //       });
+  //     } else {
+  //       setSelectedStatus(null);
+  //     }
+  //     setuser_type(inputs.user_type || "");
+  //     setdob(inputs.dob || "");
+  //     setgender(inputs.gender || "");
+  //     if (inputs.gender) {
+  //       setSelectedGender({
+  //         label: inputs.gender,
+  //         value: inputs.gender,
+  //       });
+  //     } else {
+  //       setSelectedGender(null);
+  //     }
+  //   }
+  // }, [location.state]);
+
+  useEffect(() => {
+    const company_code = sessionStorage.getItem('selectedCompanyCode');
+    fetch(`${config.apiBaseUrl}/roleid`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ company_code })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const RoleOptions = data.map((option) => ({
+          value: option.role_id,
+          label: `${option.role_id} - ${option.role_name}`,
+        }));
+        setRoleDropGrid(RoleOptions);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
   useEffect(() => {
     const company_code = sessionStorage.getItem('selectedCompanyCode');
@@ -253,10 +329,29 @@ function UserGrid() {
     navigate("/AddUser", { state: { mode: "create" } }); // Pass selectedRows as props to the Input component
   };
 
+  // const handleNavigateWithRowData = (selectedRow) => {
+  //   navigate("/AddUser", {
+  //     state: { mode: "update", selectedRow, preservedRowData: rowData, 
+  //       preservedInputs: { user_code, user_name, first_name, last_name, user_status, user_type, dob, gender, },},
+  //   });
+  // };
+
   const handleNavigateWithRowData = (selectedRow) => {
     navigate("/AddUser", {
-      state: { mode: "update", selectedRow, preservedRowData: rowData, 
-        preservedInputs: { user_code, user_name, first_name, last_name, user_status, user_type, dob, gender, },},
+      state: {
+        mode: "update",
+        user_code: selectedRow.user_code,
+        preservedInputs: {
+          user_code,
+          user_name,
+          first_name,
+          last_name,
+          user_status,
+          user_type,
+          dob,
+          gender,
+        },
+      },
     });
   };
 
@@ -269,19 +364,64 @@ function UserGrid() {
   };
 
   const clearInputFields = () => {
-    setuser_code("");
-    setuser_name("");
-    setfirst_name("");
-    setlast_name("");
-    setSelectedStatus("");
-    setuser_status("");
-    setdob("");
-    setSelectedGender("");
-    setgender("");
-    setRowData([]);
-  };
+    setuser_code("");
+    setuser_name("");
+    setfirst_name("");
+    setlast_name("");
+    setSelectedStatus("");
+    setuser_status("");
+    setdob("");
+    setSelectedGender("");
+    setgender("");
+    setRowData([]);
+  };
 
-  const handleSearch = async () => {
+  // const handleSearch = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const company_code = sessionStorage.getItem("selectedCompanyCode");
+  //     const response = await fetch(`${config.apiBaseUrl}/usersearchcriteria`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         company_code: company_code,
+  //       },
+  //       body: JSON.stringify({
+  //         created_by: sessionStorage.getItem("selectedUserCode"),
+  //         company_code: company_code,
+  //         user_code,
+  //         user_name,
+  //         first_name,
+  //         last_name,
+  //         user_status,
+  //         user_type,
+  //         dob,
+  //         gender,
+  //       }), // Send company_no and company_name as search criteria
+  //     });
+
+  //     if (response.ok) {
+  //       const searchData = await response.json();
+  //       setRowData(searchData);
+
+  //       console.log("Data fetched successfully");
+  //     } else if (response.status === 404) {
+  //       console.log("Data not found");
+  //       toast.warning("Data not found")
+  //       setRowData([]);
+  //     } else {
+  //       const errorResponse = await response.json();
+  //       toast.warning(errorResponse.message || "Failed to insert sales data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving data:", error);
+  //     toast.error("Error updating data: " + error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSearch = async (searchParams = null) => {
     setLoading(true);
     try {
       const company_code = sessionStorage.getItem("selectedCompanyCode");
@@ -292,17 +432,17 @@ function UserGrid() {
           company_code: company_code,
         },
         body: JSON.stringify({
-          created_by: sessionStorage.getItem("selectedUserCode"),
           company_code: company_code,
-          user_code,
-          user_name,
-          first_name,
-          last_name,
-          user_status,
-          user_type,
-          dob,
-          gender,
-        }), // Send company_no and company_name as search criteria
+          user_code: searchParams?.user_code ?? user_code,
+          user_name: searchParams?.user_name ?? user_name,
+          first_name: searchParams?.first_name ?? first_name,
+          last_name: searchParams?.last_name ?? last_name,
+          user_status: searchParams?.user_status ?? user_status,
+          user_type: searchParams?.user_type ?? user_type,
+          dob: searchParams?.dob ?? dob,
+          gender: searchParams?.gender ?? gender,
+          created_by: sessionStorage.getItem("selectedUserCode")
+        }), 
       });
 
       if (response.ok) {
@@ -325,7 +465,6 @@ function UserGrid() {
       setLoading(false);
     }
   };
-
 
   const arrayBufferToBase64 = (buffer) => {
     let binary = '';
@@ -434,17 +573,17 @@ function UserGrid() {
         maxLength: 150,
       },
     },
-    {
-      headerName: "User Type",
-      field: "user_type",
-      editable: true,
-      cellStyle: { textAlign: "left" },
-      cellEditor: "agSelectCellEditor",
-      cellEditorParams: {
-        maxLength: 50,
-        values: usergriddrop,
-      },
-    },
+    // {
+    //   headerName: "User Type",
+    //   field: "user_type",
+    //   editable: true,
+    //   cellStyle: { textAlign: "left" },
+    //   cellEditor: "agSelectCellEditor",
+    //   cellEditorParams: {
+    //     maxLength: 50,
+    //     values: usergriddrop,
+    //   },
+    // },
     {
       headerName: "Email",
       field: "email_id",
@@ -469,6 +608,20 @@ function UserGrid() {
         const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Get month (+1 because months are zero-indexed)
         const year = date.getFullYear();
         return `${day}/${month}/${year}`; // Return formatted date string with day, month, and year
+      },
+    },
+    {
+      headerName: "Role ID-Name",
+      field: "role_id",
+      editable: true,
+      cellStyle: { textAlign: "left" },
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: {
+        values: roleDropGrid.map((d) => d.value),
+      },
+      valueFormatter: (params) => {
+        const role = roleDropGrid.find((d) => d.value === params.value);
+        return role ? role.label : params.value;
       },
     },
     {
@@ -512,6 +665,7 @@ function UserGrid() {
         "Log In/Out": safeValue(row.log_in_out),
         "Email Id": safeValue(row.email_id),
         "DOB": safeValue(formatDate(row.dob)),
+        "Role ID-Name": safeValue(row.role_id),
         "Gender": safeValue(row.gender),
       };
     });
@@ -981,7 +1135,7 @@ function UserGrid() {
               </div>
               </div>
             </div>
-            <div className="col-md-3 form-group">
+            {/* <div className="col-md-3 form-group">
               <div class="exp-form-floating">
                 <label for="utype" class="exp-form-labels">
                   User Type
@@ -998,7 +1152,7 @@ function UserGrid() {
                 />
               </div>
               </div>
-            </div>
+            </div> */}
             <div className="col-md-3 form-group">
               <div class="exp-form-floating">
                 <label for="dob" class="exp-form-labels">

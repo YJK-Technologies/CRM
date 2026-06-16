@@ -44,15 +44,50 @@ function UserScreenMapGrid() {
     .filter(permission => permission.screen_type === 'UserRights')
     .map(permission => permission.permission_type.toLowerCase());
 
+  // useEffect(() => {
+  //   if (location.state?.preservedRowData) {
+  //     setRowData(location.state.preservedRowData);
+  //   }
+  //   if (location.state?.preservedInputs) {
+  //     const inputs = location.state.preservedInputs;
+  //     setrole_id(inputs.role_id || "");
+  //     setscreen_type(inputs.screen_type || "");
+  //     setpermission_type(inputs.permission_type || "");
+  //   }
+  // }, [location.state]);
+
   useEffect(() => {
-    if (location.state?.preservedRowData) {
-      setRowData(location.state.preservedRowData);
-    }
+    const handleKeyDown = (event) => {
+      const isReloadShortcut =
+        (event.ctrlKey && event.key.toLowerCase() === "r") ||
+        (event.altKey && event.key.toLowerCase() === "r") ||
+        event.key === "F5";
+
+      if (isReloadShortcut) {
+        event.preventDefault();
+        clearInputFields();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    // if (location.state?.preservedRowData) {
+    //   setRowData(location.state.preservedRowData);
+    // }
+
     if (location.state?.preservedInputs) {
       const inputs = location.state.preservedInputs;
       setrole_id(inputs.role_id || "");
       setscreen_type(inputs.screen_type || "");
       setpermission_type(inputs.permission_type || "");
+
+      if (location.state?.refreshGrid) {
+        handleSearch(inputs); 
+      }
     }
   }, [location.state]);
     
@@ -61,11 +96,11 @@ function UserScreenMapGrid() {
   };
 
   const clearInputFields = () => {
-    setrole_id("");
-    setscreen_type("");
-    setpermission_type("");
-    setRowData([]);
-  };
+    setrole_id("");
+    setscreen_type("");
+    setpermission_type("");
+    setRowData([]);
+  };
 
   useEffect(() => {
     const company_code = sessionStorage.getItem('selectedCompanyCode');
@@ -132,7 +167,40 @@ function UserScreenMapGrid() {
   }, []);
 
 
-  const handleSearch = async () => {
+  // const handleSearch = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const company_code = sessionStorage.getItem('selectedCompanyCode');
+  //     const response = await fetch(`${config.apiBaseUrl}/userscreensearchdata`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "company_code": company_code
+  //       },
+  //       body: JSON.stringify({ company_code: company_code, role_id, screen_type, permission_type }) // Send company_no and company_name as search criteria
+  //     });
+  //     if (response.ok) {
+  //       const searchData = await response.json();
+  //       setRowData(searchData);
+  //       console.log("data fetched successfully")
+
+  //     } else if (response.status === 404) {
+  //       console.log("Data not found");
+  //       toast.warning("Data not found")
+  //       setRowData([]);
+  //     } else {
+  //       const errorResponse = await response.json();
+  //       toast.warning(errorResponse.message || "Failed to insert sales data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting rows:", error);
+  //     toast.error('Error while Deleting data: ' + error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSearch = async (searchParams = null) => {
     setLoading(true);
     try {
       const company_code = sessionStorage.getItem('selectedCompanyCode');
@@ -142,7 +210,12 @@ function UserScreenMapGrid() {
           "Content-Type": "application/json",
           "company_code": company_code
         },
-        body: JSON.stringify({ company_code: company_code, role_id, screen_type, permission_type }) // Send company_no and company_name as search criteria
+        body: JSON.stringify({ 
+          company_code: company_code, 
+          role_id: searchParams?.role_id ?? role_id, 
+          screen_type: searchParams?.screen_type ?? screen_type, 
+          permission_type: searchParams?.permission_type ?? permission_type, 
+        }) 
       });
       if (response.ok) {
         const searchData = await response.json();
@@ -343,12 +416,26 @@ function UserScreenMapGrid() {
     navigate("/AddUserRights", { state: { mode: "create" } }); // Pass selectedRows as props to the Input component
   };
 
+  // const handleNavigateWithRowData = (selectedRow) => {
+  //   navigate("/AddUserRights", { 
+  //     state: { mode: "update", selectedRow, preservedRowData: rowData, 
+  //       preservedInputs: { role_id, screen_type, permission_type, }, }, 
+  //   }); 
+  // }; 
+
   const handleNavigateWithRowData = (selectedRow) => {
-    navigate("/AddUserRights", { 
-      state: { mode: "update", selectedRow, preservedRowData: rowData, 
-        preservedInputs: { role_id, screen_type, permission_type, }, }, 
-    }); 
-  }; 
+    navigate("/AddUserRights", {
+      state: {
+        mode: "update",
+        keyfield: selectedRow.keyfield,
+        preservedInputs: {
+          role_id,
+          screen_type,
+          permission_type,
+        },
+      },
+    });
+  };
 
   const onSelectionChanged = () => {
     const selectedNodes = gridApi.getSelectedNodes();

@@ -51,26 +51,77 @@ function CompanyMappingGrid() {
     .map((permission) => permission.permission_type.toLowerCase());
 
     useEffect(() => {
-      if (location.state?.preservedRowData) {
-        setRowData(location.state.preservedRowData);
-      }
-    
-      if (location.state?.preservedInputs) {
-        setuser_code(location.state.preservedInputs.user_code || "");
-        setcompany_no(location.state.preservedInputs.company_no || "");
-        setlocation_no(location.state.preservedInputs.location_no || "");
-        setstatus(location.state.preservedInputs.status || "");
-    
-        if (location.state.preservedInputs.status) {
-          setSelectedStatus({
-            label: location.state.preservedInputs.status,
-            value: location.state.preservedInputs.status,
-          });
-        }
-      }
-    }, [location.state]);
-    
+    const handleKeyDown = (event) => {
+      const isReloadShortcut =
+        (event.ctrlKey && event.key.toLowerCase() === "r") ||
+        (event.altKey && event.key.toLowerCase() === "r") ||
+        event.key === "F5";
 
+      if (isReloadShortcut) {
+        event.preventDefault();
+        clearInputFields();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+    // useEffect(() => {
+    //   if (location.state?.preservedRowData) {
+    //     setRowData(location.state.preservedRowData);
+    //   }
+    
+    //   if (location.state?.preservedInputs) {
+    //     setuser_code(location.state.preservedInputs.user_code || "");
+    //     setcompany_no(location.state.preservedInputs.company_no || "");
+    //     setlocation_no(location.state.preservedInputs.location_no || "");
+    //     setstatus(location.state.preservedInputs.status || "");
+    
+    //     if (location.state.preservedInputs.status) {
+    //       setSelectedStatus({
+    //         label: location.state.preservedInputs.status,
+    //         value: location.state.preservedInputs.status,
+    //       });
+    //     }
+    //   }
+    // }, [location.state]);
+
+    useEffect(() => {
+    // if (location.state?.preservedRowData) {
+    //   setRowData(location.state.preservedRowData);
+    // }
+
+    if (location.state?.preservedInputs) {
+      const inputs = location.state.preservedInputs;
+
+      setuser_code(inputs.user_code || "");
+      setcompany_no(inputs.company_no || "");
+      setlocation_no(inputs.location_no || "");
+      setstatus(inputs.status || "");
+
+      if (inputs.status) {
+        setSelectedStatus({
+          label: inputs.status,
+          value: inputs.status,
+        });
+      }
+
+      if (location.state?.refreshGrid) {
+        handleSearch(inputs);
+      }
+    }
+  }, [location.state]);
+    
+  const clearInputFields = () => {
+    setuser_code("");
+    setcompany_no("");
+    setlocation_no("");
+    setSelectedStatus("");
+    setstatus("");
+    setRowData([]);
+  };
 
   useEffect(() => {
     fetch(`${config.apiBaseUrl}/usercode`)
@@ -145,23 +196,62 @@ function CompanyMappingGrid() {
     setHasValueChanged(true);
   };
 
-  const handleSearch = async () => {
+  // const handleSearch = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const company_code = sessionStorage.getItem("selectedCompanyCode");
+  //     const response = await fetch(
+  //       `${config.apiBaseUrl}/companymappingsearchdata`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           company_no,
+  //           user_code,
+  //           company_code,
+  //           location_no,
+  //           status,
+  //         }),
+  //       }
+  //     );
+  //     if (response.ok) {
+  //       const searchData = await response.json();
+  //       setRowData(searchData);
+  //       console.log("data fetched successfully");
+  //     } else if (response.status === 404) {
+  //       console.log("Data not found");
+  //       toast.warning("Data not found")
+  //       setRowData([]);
+  //     } else {
+  //       const errorResponse = await response.json();
+  //       toast.warning(errorResponse.message || "Failed to insert sales data");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving data:", error);
+  //     toast.error("Error updating data: " + error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleSearch = async (searchParams = null) => {
     setLoading(true);
     try {
       const company_code = sessionStorage.getItem("selectedCompanyCode");
-      const response = await fetch(
-        `${config.apiBaseUrl}/companymappingsearchdata`,
+      const response = await fetch(`${config.apiBaseUrl}/companymappingsearchdata`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            company_no,
-            user_code,
+            company_no: searchParams?.company_no ?? company_no,
+            user_code: searchParams?.user_code ?? user_code,
             company_code,
-            location_no,
-            status,
+            location_no: searchParams?.location_no ?? location_no,
+            status: searchParams?.status ?? status,
           }),
         }
       );
@@ -184,19 +274,10 @@ function CompanyMappingGrid() {
       setLoading(false);
     }
   };
-
+  
   const reloadGridData = () => {
     window.location.reload();
   };
-
-  const clearInputFields = () => {
-    setuser_code("");
-    setcompany_no("");
-    setlocation_no("");
-    setSelectedStatus("");
-    setstatus("");
-    setRowData([]);
-  };
 
   const columnDefs = [
     {
@@ -409,9 +490,23 @@ function CompanyMappingGrid() {
     navigate("/AddCompanyMapping", { state: { mode: "create" } }); // Pass selectedRows as props to the Input component
   };
 
+  // const handleNavigateWithRowData = (selectedRow) => {
+  //   navigate("/AddCompanyMapping", { state: { mode: "update", selectedRow, preservedRowData: rowData, 
+  //       preservedInputs: { user_code, company_no, location_no, status } } });
+  // };
+
   const handleNavigateWithRowData = (selectedRow) => {
-    navigate("/AddCompanyMapping", { state: { mode: "update", selectedRow, preservedRowData: rowData, 
-        preservedInputs: { user_code, company_no, location_no, status } } });
+    navigate("/AddCompanyMapping", {
+      state: {
+        mode: "update", keyfiels: selectedRow.keyfiels,
+        preservedInputs: {
+          user_code,
+          company_no,
+          location_no,
+          status
+        }
+      }
+    });
   };
 
   const onCellValueChanged = (params) => {
