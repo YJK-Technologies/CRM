@@ -338,15 +338,8 @@ function Main() {
     { path: "/TagsHelp", component: <TagsHelp /> },
     { path: "/ActivityAnalysis", component: <ActivityAnalysis /> },
     { path: "/PipelineAnalysis", component: <PipelineAnalysis /> },
-    { path: "/LeadsAnalysis", component: <LeadsAnalysis /> },
-
-
-
-
-     
-
+    { path: "/LeadsAnalysis", component: <LeadsAnalysis /> },  
     
-
   ];
  
   return (
