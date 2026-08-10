@@ -10539,6 +10539,118 @@ const getAttributeData = async (req, res) => {
   }
 };
 //Code Added By Dinesh Gokul On 16-06-2026
+//code added by sakthi on 08-10-26
+const getDefaultScreens = async (req, res) => {
+  const { role_id, company_code, Location_Code } = req.body;
+
+  try {
+    const pool = await connection.connectToDatabase();
+
+    const result = await pool.request()
+      .input("mode", sql.VarChar, "GDS")
+      .input("role_id", sql.VarChar, role_id)
+      .input("company_code", sql.VarChar, company_code)
+      .input("Location_Code", sql.VarChar, Location_Code)
+      .query(`EXEC sp_UserSettings @mode, '', '', @company_code, @Location_Code, '', '', '', @role_id, '', '', '', '' `);
+
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    console.error("Error fetching default screens:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const userSettingsInsert = async (req, res) => {
+  const { User_Code, Status, company_code, Location_Code, DefaultCompanyId, DefaultScreenId, role_id, created_by, } = req.body;
+
+  try {
+    const pool = await sql.connect(dbConfig);
+
+    await pool
+      .request()
+      .input("mode", sql.NVarChar, "I")
+      .input("User_Code", sql.NVarChar, User_Code)
+      .input("Status", sql.NVarChar, Status)
+      .input("company_code", sql.NVarChar, company_code)
+      .input("Location_Code", sql.NVarChar, Location_Code)
+      .input("keyfield", sql.NVarChar, company_code)
+      .input("DefaultCompanyId", sql.NVarChar, DefaultCompanyId)
+      .input("DefaultScreenId", sql.NVarChar, DefaultScreenId)
+      .input("role_id", sql.NVarChar, role_id)
+      .input("created_by", sql.NVarChar, created_by)
+      .query(` EXEC sp_UserSettings @mode, @User_Code, @Status, @company_code, @Location_Code, @keyfield, 
+        @DefaultCompanyId, @DefaultScreenId, @role_id, @created_by, '', '', '' `);
+
+    res.status(200).json({
+      success: true,
+      message: "User Settings saved successfully",
+    });
+  } catch (err) {
+    console.error("Error during User Settings insert:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message || "Internal Server Error",
+    });
+  }
+};
+
+const getUserSettings = async (req, res) => {
+  const { User_Code, company_code } = req.body;
+
+  try {
+    const pool = await sql.connect(dbConfig);
+
+    const result = await pool
+      .request()
+      .input("mode", sql.NVarChar, "S")
+      .input("company_code", sql.NVarChar, company_code)
+      .input("User_Code", sql.NVarChar, User_Code)
+      .query(` EXEC sp_UserSettings @mode, @User_Code, '', @company_code, '', '', '', '', '', '', '', '', '' `);
+
+    if (result.recordset.length > 0) {
+      res.status(200).json(result.recordset);
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Data not found",
+      });
+    }
+  } catch (err) {
+    console.error("Error getting User Settings:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message || "Internal Server Error",
+    });
+  }
+};
+
+const getDefaultUserCompany = async (req, res) => {
+  const { user_code } = req.body;
+
+  try {
+    const pool = await connection.connectToDatabase();
+
+    const result = await pool
+      .request()
+      .input("mode", sql.NVarChar, "UCLD")
+      .input("user_code", sql.NVarChar, user_code)
+      .query(` EXEC sp_user_company_mapping @mode, '', @user_code, '', '', '', 0, '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL `);
+
+    if (result.recordset.length > 0) {
+      res.status(200).json(result.recordset);
+    } else {
+      res.status(404).json({ message: "Default company not found" });
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ message: err.message || "Internal Server Error" });
+  }
+};
+//code ended by sakthi on 08-10-26
+
 
 module.exports = {
   login,
@@ -10917,4 +11029,8 @@ module.exports = {
   getRoleRightsData,
   getUserData,
   getAttributeData,
+  getDefaultScreens,
+  userSettingsInsert,
+  getUserSettings,
+  getDefaultUserCompany
 };

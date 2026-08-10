@@ -387,6 +387,10 @@ router.post("/getRoleMappingData",dataController.getRoleMappingData)
 router.post("/getRoleRightsData",dataController.getRoleRightsData)
 router.post("/getUserData",dataController.getUserData)
 router.post("/getAttributeData",dataController.getAttributeData)
+router.post("/getDefaultScreens",dataController.getDefaultScreens)
+router.post("/userSettingsInsert",dataController.userSettingsInsert)
+router.post("/getUserSettings",dataController.getUserSettings)
+router.post("/getDefaultUserCompany",dataController.getDefaultUserCompany)
 
 module.exports = router;
      
