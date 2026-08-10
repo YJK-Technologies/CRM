@@ -1,0 +1,201 @@
+/* Main Page Wrapper */
+.usrset-page-wrapper {
+  background-color: #e8f4f8;
+  min-height: 100vh;
+  padding: 20px 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Enterprise Header Card Layout */
+.usrset-page-wrapper .usrset-header {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px 24px;
+  margin-bottom: 20px;
+  border: 1px solid #d0e4ee;
+  box-shadow: 0 2px 8px rgba(27, 61, 84, 0.06);
+  display: flex;
+  flex-direction: row; /* Aligns left side and buttons horizontally */
+  align-items: center;
+  justify-content: space-between; /* Pushes buttons to far right */
+  gap: 20px;
+}
+
+.usrset-page-wrapper .usrset-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Icon Badge */
+.usrset-page-wrapper .usrset-header-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #eef6fc;
+  border: 1px solid #cce3f0;
+  color: #1a3c54;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Header Text */
+.usrset-page-wrapper .usrset-header-text h1 {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #132d3f;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.usrset-page-wrapper .usrset-header-text p {
+  font-size: 0.85rem;
+  color: #5b798c;
+  margin: 3px 0 0 0;
+  font-weight: 400;
+}
+
+/* Enterprise Action Buttons Container */
+.usrset-page-wrapper .usrset-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Reset Password - Secondary Outline Button */
+.usrset-page-wrapper .usrset-btn-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2b5570;
+  background-color: #ffffff;
+  border: 1px solid #b2d4e3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.usrset-page-wrapper .usrset-btn-reset:hover {
+  background-color: #f0f7fb;
+  border-color: #2b5570;
+  color: #1a3c54;
+}
+
+/* Save Changes - Primary Solid Enterprise Button */
+.usrset-page-wrapper .usrset-btn-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: #1e455e;
+  border: 1px solid #163548;
+  box-shadow: 0 2px 4px rgba(22, 53, 72, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.usrset-page-wrapper .usrset-btn-save:hover:not(:disabled) {
+  background: #275777;
+  border-color: #1e455e;
+  box-shadow: 0 4px 8px rgba(22, 53, 72, 0.28);
+  transform: translateY(-1px);
+}
+
+.usrset-page-wrapper .usrset-btn-save:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.usrset-page-wrapper .usrset-btn-save:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Settings Content & Cards */
+.usrset-page-wrapper .usrset-content {
+  margin-top: 4px;
+}
+
+.usrset-page-wrapper .usrset-card {
+  background: #ffffff;
+  border: 1px solid #cde2ed;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.2s ease;
+}
+
+.usrset-page-wrapper .usrset-card:hover {
+  border-color: #a3cce0;
+}
+
+.usrset-page-wrapper .usrset-select-container label {
+  color: #18374c;
+  font-size: 0.9rem;
+  display: block;
+}
+
+/* React Select Scoped Styling */
+.usrset-select__control {
+  background-color: #ffffff !important;
+  border: 1px solid #bde1ee !important;
+  border-radius: 8px !important;
+  min-height: 42px !important;
+  box-shadow: none !important;
+}
+
+.usrset-select__control--is-focused {
+  border-color: #2b5570 !important;
+  box-shadow: 0 0 0 3px rgba(43, 85, 112, 0.12) !important;
+}
+
+.usrset-select__single-value {
+  color: #1a3c54 !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.usrset-select__placeholder {
+  color: #8a3f54 !important;
+  font-size: 0.9rem;
+}
+
+.usrset-select__menu {
+  border-radius: 8px !important;
+  border: 1px solid #bde1ee !important;
+  box-shadow: 0 8px 20px rgba(25, 56, 77, 0.12) !important;
+  z-index: 9999 !important;
+}
+
+.usrset-select__option--is-selected {
+  background-color: #1e455e !important;
+  color: #ffffff !important;
+}
+
+/* Toastify Container Fix */
+.usrset-page-wrapper .Toastify__toast-container--top-right {
+  z-index: 99999 !important;
+  top: 70px !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .usrset-page-wrapper .usrset-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .usrset-page-wrapper .usrset-header-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
