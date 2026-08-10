@@ -63,6 +63,10 @@ const TopBar = () => {
     navigate("/Settings")
   }
 
+  const handleUserSettings = () => {
+    navigate("/UserSettings")
+  }
+
   const handleAccount = () => {
     navigate("/AccountInformation")
   }
@@ -356,6 +360,9 @@ const TopBar = () => {
               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li style={{ cursor: "pointer" }}>
                   <a className="dropdown-item" onClick={handleAccount}>List of Companies</a>
+                </li>
+                <li style={{ cursor: "pointer" }}>
+                  <a className="dropdown-item" onClick={handleUserSettings}>User Settings</a>
                 </li>
                 <li style={{ cursor: "pointer" }}>
                   <a className="dropdown-item" onClick={handlesetting}>Settings</a>
