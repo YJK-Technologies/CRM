@@ -41,10 +41,80 @@ function UserComMap_input({ }) {
   const [isUpdated, setIsUpdated] = useState(false);
   const [keyfiels, setKeyfiels] = useState('');
 
+  // const location = useLocation();
+  // const { mode, selectedRow } = location.state || {};
+
   const location = useLocation();
-  const { mode, selectedRow } = location.state || {};
+  const locationState = location.state || {};
+  const mode = locationState.mode || "create"; // ✅ default fallback
+  const selectedRow = locationState.selectedRow || null;
+  const keyfields = location.state?.keyfiels;
+  const company_code = sessionStorage.getItem('selectedCompanyCode');
 
   console.log(selectedRow);
+
+  useEffect(() => {
+    if (!location.state) {
+      clearInputFields(); // ensure fresh create mode
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mode === "update" && keyfields) {
+      fetchCompanyMappingData();
+    }
+  }, [mode, keyfields]);
+
+  const fetchCompanyMappingData = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(`${config.apiBaseUrl}/getCompanyMappingData`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          keyfiels: keyfields,
+          company_code
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.length > 0) {
+        const companyMapping = data[0];
+
+        setorder_no(companyMapping.order_no || "");
+        setKeyfiels(companyMapping.keyfiels || "");
+        setuser_code(companyMapping.user_code || "");
+        setcompany_no(companyMapping.company_no || "");
+        setlocation_no(companyMapping.location_no || "");
+        setstatus(companyMapping.status || "");
+        setSelectedUser({
+          label: companyMapping.user_code,
+          value: companyMapping.user_code,
+        });
+        setSelectedCompany({
+          label: companyMapping.company_no,
+          value: companyMapping.company_no,
+        });
+        setSelectedLocation({
+          label: companyMapping.location_no,
+          value: companyMapping.location_no,
+        });
+        setSelectedStatus({
+          label: companyMapping.status,
+          value: companyMapping.status,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to fetch company mapping details");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const clearInputFields = () => {
     setSelectedUser("");
@@ -56,35 +126,35 @@ function UserComMap_input({ }) {
   };
 
 
-  useEffect(() => {
-    if (mode === "update" && selectedRow && !isUpdated) {
-      setorder_no(selectedRow.order_no || "");
-      setKeyfiels(selectedRow.keyfiels || "");
-      setuser_code(selectedRow.user_code || "");
-      setcompany_no(selectedRow.company_no || "");
-      setlocation_no(selectedRow.location_no || "");
-      setstatus(selectedRow.status || "");
-      setSelectedUser({
-        label: selectedRow.user_code,
-        value: selectedRow.user_code,
-      });
-      setSelectedCompany({
-        label: selectedRow.company_no,
-        value: selectedRow.company_no,
-      });
-      setSelectedLocation({
-        label: selectedRow.location_no,
-        value: selectedRow.location_no,
-      });
-      setSelectedStatus({
-        label: selectedRow.status,
-        value: selectedRow.status,
-      });
+  // useEffect(() => {
+  //   if (mode === "update" && selectedRow && !isUpdated) {
+  //     setorder_no(selectedRow.order_no || "");
+  //     setKeyfiels(selectedRow.keyfiels || "");
+  //     setuser_code(selectedRow.user_code || "");
+  //     setcompany_no(selectedRow.company_no || "");
+  //     setlocation_no(selectedRow.location_no || "");
+  //     setstatus(selectedRow.status || "");
+  //     setSelectedUser({
+  //       label: selectedRow.user_code,
+  //       value: selectedRow.user_code,
+  //     });
+  //     setSelectedCompany({
+  //       label: selectedRow.company_no,
+  //       value: selectedRow.company_no,
+  //     });
+  //     setSelectedLocation({
+  //       label: selectedRow.location_no,
+  //       value: selectedRow.location_no,
+  //     });
+  //     setSelectedStatus({
+  //       label: selectedRow.status,
+  //       value: selectedRow.status,
+  //     });
 
-    } else if (mode === "create") {
-      clearInputFields();
-    }
-  }, [mode, selectedRow, isUpdated]);
+  //   } else if (mode === "create") {
+  //     clearInputFields();
+  //   }
+  // }, [mode, selectedRow, isUpdated]);
 
 
   useEffect(() => {
@@ -205,14 +275,24 @@ function UserComMap_input({ }) {
     }
   };
 
-const handleNavigate = () => {
-  navigate("/CompanyMapping", {
-    state: {
-      preservedRowData: location.state?.preservedRowData,
-      preservedInputs: location.state?.preservedInputs
-    }
-  });
-};
+// const handleNavigate = () => {
+//   navigate("/CompanyMapping", {
+//     state: {
+//       preservedRowData: location.state?.preservedRowData,
+//       preservedInputs: location.state?.preservedInputs
+//     }
+//   });
+// };
+
+  const handleNavigate = () => {
+    navigate("/CompanyMapping", {
+      state: {
+        refreshGrid: true,
+        // preservedRowData: location.state?.preservedRowData,
+        preservedInputs: location.state?.preservedInputs
+      }
+    });
+  };
 
   const handleKeyDown = async (
     e,

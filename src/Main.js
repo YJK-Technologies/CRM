@@ -39,6 +39,7 @@ import ProductTab from './ItemDashboard/Products.js';
 import UnitTab from './ItemDashboard/Unit.js';
 import Chart from './ItemDashboard/Charts/Charts.js';
 import Settings from './Settings.js';
+import UserSettings from './UserSettings.js';
 import UnitChart from './ItemDashboard/Charts/UnitChart.js';
 import ProChart from './ItemDashboard/Charts/ProChart.js';
 import VarChart from './ItemDashboard/Charts/VarChart.js';
@@ -215,6 +216,7 @@ function Main() {
     { path: "/ItemDataChart", component: <ProChart /> },
     { path: "/SalesChart", component: <Chart /> },
     { path: "/Settings", component: <Settings /> },
+    { path: "/UserSettings", component: <UserSettings /> },
     { path: "/UnitData", component: <UnitTab /> },
     { path: "/VarientData", component: <VariantTab /> },
     { path: "/ItemData", component: <ProductTab /> },
@@ -338,15 +340,8 @@ function Main() {
     { path: "/TagsHelp", component: <TagsHelp /> },
     { path: "/ActivityAnalysis", component: <ActivityAnalysis /> },
     { path: "/PipelineAnalysis", component: <PipelineAnalysis /> },
-    { path: "/LeadsAnalysis", component: <LeadsAnalysis /> },
-
-
-
-
-     
-
+    { path: "/LeadsAnalysis", component: <LeadsAnalysis /> },  
     
-
   ];
  
   return (
