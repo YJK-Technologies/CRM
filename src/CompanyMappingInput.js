@@ -347,8 +347,9 @@ function UserComMap_input({ }) {
             location_no,
             status,
             order_no,
-          modified_by,
-          keyfiels
+            modified_by,
+            created_by: sessionStorage.getItem("selectedUserCode"),
+            keyfiels
         }),
       });
       // if (response.status === 200) {
