@@ -716,7 +716,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="text"
                       placeholder=""
-                      required title="Please enter the company code"
+                      required title="Enter the Company Code"
                       value={company_no}
                       onChange={(e) => setCompany_no(e.target.value)}
                       maxLength={18}
@@ -742,7 +742,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="text"
                       placeholder=""
-                      required title="Please enter the company name"
+                      required title="Enter the Company Name"
                       value={company_name}
                       onChange={(e) => setCompany_name(e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, shortname, companyname)}
@@ -766,7 +766,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="text"
                       placeholder=""
-                      required title="Please enter the short name"
+                      required title="Enter the Short Name"
                       value={short_name}
                       onChange={(e) => setShort_name(e.target.value)}
                       maxLength={250}
@@ -789,7 +789,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="text"
                       placeholder=""
-                      required title="Please enter the address"
+                      required title="Enter the Address 1"
                       value={address1}
                       onChange={(e) => setAddress1(e.target.value)}
                       maxLength={250}
@@ -813,7 +813,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="text"
                       placeholder=""
-                      required title="Please enter the address"
+                      required title="Enter the Address 2"
                       value={address2}
                       onChange={(e) => setAddress2(e.target.value)}
                       maxLength={250}
@@ -826,14 +826,14 @@ const handleNavigate = () => {
                 <div className="col-md-3 form-group mb-2">
                   <div class="exp-form-floating">
                     <label for="add3" class="exp-form-labels">
-                      Address3
+                      Address 3
                     </label>
                     <input
                       id="add3"
                       class="exp-input-field form-control"
                       type="text"
                       placeholder=""
-                      required title="Please enter the address"
+                      required title="Enter the Address 3"
                       value={address3}
                       onChange={(e) => setAddress3(e.target.value)}
                       maxLength={250}
@@ -896,7 +896,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="number"
                       placeholder=""
-                      required title="Please enter the pin code"
+                      required title="Enter the Pin Code"
                       value={pincode}
                       onChange={(e) => setPincode(e.target.value.replace(/\D/g, '').slice(0, 100))}
                       maxLength={100}
@@ -939,7 +939,7 @@ const handleNavigate = () => {
                       className="exp-input-field form-control"
                       type="email"
                       placeholder=""
-                      required title="Please enter the email ID"
+                      required title="Enter the Email ID"
                       value={email_id}
                       onChange={(e) => setEmail_id(e.target.value)}
                       maxLength={150}
@@ -983,7 +983,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="date"
                       placeholder=""
-                      required title="Please enter the founded date"
+                      required title="Enter the Founded Date"
                       value={foundedDate}
                       ref={found}
                       onChange={(e) => setFoundedDate(e.target.value)}
@@ -999,7 +999,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="url"
                       placeholder=""
-                      required title="Please enter the website URL"
+                      required title="Enter the Website URL"
                       value={websiteURL}
                       onChange={(e) => setWebsiteURL(e.target.value)}
                       maxLength={150}
@@ -1020,7 +1020,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="number"
                       placeholder=""
-                      required title="Please enter the contact number"
+                      required title="Enter the Contact Number"
                       value={contact_no}
                       onChange={(e) => setContact_no(e.target.value.replace(/\D/g, '').slice(0, 50))}
                       ref={ContactNo}
@@ -1037,7 +1037,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="textarea"
                       placeholder=""
-                      required title="Please enter the annual report URL"
+                      required title="Enter the Annual Report URL"
                       value={annualreportURL}
                       onChange={(e) => setAnnualReportURL(e.target.value)}
                       maxLength={150}
@@ -1056,7 +1056,7 @@ const handleNavigate = () => {
                       class="exp-input-field form-control"
                       type="text"
                       placeholder=""
-                      required title="Please enter the GST number"
+                      required title="Enter the GST Number"
                       value={company_gst_no}
                       onChange={(e) => setcompany_gst_no(e.target.value)}
                       maxLength={15}

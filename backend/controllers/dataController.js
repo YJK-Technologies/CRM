@@ -865,7 +865,7 @@ const deleteData = async (req, res) => {
         .input("company_no", company_no)
         .input("modified_by", sql.NVarChar, req.headers["modified-by"])
         .query(`EXEC sp_company_info 'D', @company_no,'','','','','','','','','','','','','','','','',
-          '','','','',@modified_by,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL
+          '','','','',@modified_by,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL
         `);
     }
 
@@ -4491,7 +4491,7 @@ const UserUpdate = async (req, res) => {
 };
 
 const CompanyMappingUpdate = async (req, res) => {
-  const { company_code, user_code, company_no, location_no, status, order_no, keyfiels, modified_by, } = req.body;
+  const { company_code, user_code, company_no, location_no, status, order_no, keyfiels, created_by, modified_by, } = req.body;
   let pool;
   try {
     pool = await connection.connectToDatabase();
@@ -4505,9 +4505,10 @@ const CompanyMappingUpdate = async (req, res) => {
       .input("status", sql.VarChar, status)
       .input("order_no", sql.Int, order_no)
       .input("keyfiels", sql.NVarChar, keyfiels)
+      .input("created_by", sql.NVarChar, created_by)
       .input("modified_by", sql.NVarChar, modified_by)
       .query(`EXEC sp_user_company_mapping @mode, @company_code, @user_code, @company_no, @location_no, 
-          @status, @order_no,@keyfiels,'',@modified_by,'', '', '', '', '', '', '', ''`);
+          @status, @order_no,@keyfiels,@created_by,@modified_by,'', '', '', '', '', '', '', ''`);
     res.status(200).json("Edited data saved successfully");
   } catch (err) {
     console.error("Error", err);
