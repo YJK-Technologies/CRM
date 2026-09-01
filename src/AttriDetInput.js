@@ -351,6 +351,7 @@ function AttriDetInput({ }) {
                           readOnly={mode === "update"}
                           isDisabled={mode === "update"}
                           onKeyDown={(e) => handleKeyDown(e, subcode, code)}
+                          styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
                         />
                         {mode !== "update" && (<button onClick={handleClickOpen} class="atthdrcode position-absolute me-5 pb-2 " required title="Add Header"><i class="fa-solid fa-plus"></i></button>)}
 

@@ -845,6 +845,7 @@ function CompanyMappingGrid() {
                   className="exp-input-field"
                   placeholder=""
                   onKeyDown={handleKeyDownStatus}
+                  styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
                 />
               </div>
               </div>
