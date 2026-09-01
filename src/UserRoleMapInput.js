@@ -360,6 +360,7 @@ function UserRoleInput({ }) {
                               mode === "create" ? handleInsert() : handleUpdate();
                             }
                           }}
+                          styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
                         />
 
                         {/* {error && !user_code && <div className="text-danger">User Code should not be blank</div>} */}
@@ -393,6 +394,7 @@ function UserRoleInput({ }) {
                               mode === "create" ? handleInsert() : handleUpdate();
                             }
                           }}
+                          styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
                         />
 
                         {/* {error && !role_id && <div className="text-danger">Role Id should not be blank</div>} */}

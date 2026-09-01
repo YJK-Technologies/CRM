@@ -859,6 +859,7 @@ const handleNavigate = () => {
                       placeholder=""
                       ref={City}
                       onKeyDown={(e) => handleKeyDown(e, State, City)}
+                      styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
                     />
                     {/* {error && !city && <div className="text-danger">City should not be blank</div>} */}
                   </div></div>
@@ -880,6 +881,7 @@ const handleNavigate = () => {
                       placeholder=""
                       ref={State}
                       onKeyDown={(e) => handleKeyDown(e, Pincode, State)}
+                      styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
                     />
                     {/* {error && !state && <div className="text-danger">State should not be blank</div>} */}
                   </div></div>
@@ -923,6 +925,7 @@ const handleNavigate = () => {
                       placeholder=""
                       ref={Country}
                       onKeyDown={(e) => handleKeyDown(e, Email, Country)}
+                      styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
                     />
                     {/* {error && !country && <div className="text-danger">Country should not be blank</div>} */}
                   </div></div>
@@ -966,6 +969,7 @@ const handleNavigate = () => {
                       placeholder=""
                       ref={Status}
                       onKeyDown={(e) => handleKeyDown(e, found, Status)}
+                      styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
                     />
                     {/* {error && !status && <div className="text-danger">Status should not be blank</div>} */}
                   </div>
@@ -1078,6 +1082,7 @@ const handleNavigate = () => {
                       placeholder=""
                       ref={locatioN}
                       onKeyDown={(e) => handleKeyDown(e, logo, locatioN)}
+                      styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
                     />
                     {/* {error && !location_no && <div className="text-danger">Location No should not be blank</div>} */}
                   </div>
