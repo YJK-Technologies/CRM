@@ -14,6 +14,7 @@ const config = require('./Apiconfig');
 function AttriDetInput({ }) {
   const [open2, setOpen2] = React.useState(false);
   const [attributeheader_code, setAttributeheader_Code] = useState("");
+  const [attributeheader_name, setattributeheader_name] = useState("");
   const [attributedetails_code, setAttributedetails_code] = useState("");
   const [attributedetails_name, setAttributedetails_name] = useState("");
   const [descriptions, setDescriptions] = useState("");
@@ -89,6 +90,7 @@ function AttriDetInput({ }) {
           value: attribute.attributeheader_code,
         });
         setAttributeheader_Code(attribute.attributeheader_code || "");
+        setattributeheader_name(attribute.attributeheader_name || "");
         setAttributedetails_code(attribute.attributedetails_code || "");
         setAttributedetails_name(attribute.attributedetails_name || "");
         setDescriptions(attribute.descriptions || "");
@@ -106,6 +108,7 @@ function AttriDetInput({ }) {
     setAttributedetails_code("");
     setAttributedetails_name("");
     setDescriptions("");
+    setattributeheader_name("");
   };
 
   // useEffect(() => {
@@ -270,6 +273,7 @@ function AttriDetInput({ }) {
           attributeheader_code,
           attributedetails_code,
           attributedetails_name,
+          attributeheader_name,
           descriptions,
           created_by,
           modified_by,

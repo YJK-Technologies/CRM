@@ -218,6 +218,15 @@ const clearInputFields = () => {
       }
     },
     {
+      headerName: "Name",
+      field: "attributeheader_name",
+      editable: true,
+      cellStyle: { textAlign: "center" },
+      cellEditorParams: {
+        maxLength: 250,
+      },
+    },
+    {
       headerName: "Sub Code",
       field: "attributedetails_code",
       //editable: true,
