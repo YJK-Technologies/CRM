@@ -1043,7 +1043,7 @@ function Grid() {
                 className="exp-input-field form-control"
                 type="text"
                 placeholder=""
-                required title="Please fill the company number here"
+                required title="Enter the Company No"
                 value={company_no}
                 onChange={handleCompanyNoChange}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -1061,7 +1061,7 @@ function Grid() {
                 className="exp-input-field form-control"
                 type="text"
                 placeholder=""
-                required title="Please fill the company name here"
+                required title="Enter the Company Name"
                 value={company_name}
                 onChange={handleCompanyNameChange}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -1079,7 +1079,7 @@ function Grid() {
                 className="exp-input-field form-control"
                 type="text"
                 placeholder=""
-                required title="Please fill the city here"
+                required title="Enter the City"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -1097,7 +1097,7 @@ function Grid() {
                 className="exp-input-field form-control"
                 type="text"
                 placeholder=""
-                required title="Please fill the state here"
+                required title="Enter the State"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -1116,7 +1116,7 @@ function Grid() {
                 type="text"  // Changed to text to enforce maxLength
                 placeholder=""
                 required
-                title="Please fill the Pin Code here"
+                title="Enter the Pin Code"
                 value={pincode}
                 maxLength={10} // Set the max length to 10
                 onChange={handlesetPincode}
@@ -1134,7 +1134,7 @@ function Grid() {
                 className="exp-input-field form-control"
                 type="text"
                 placeholder=""
-                required title="Please fill the country here"
+                required title="Enter the Country"
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -1151,7 +1151,7 @@ function Grid() {
                 className="exp-input-field form-control"
                 type="text"
                 placeholder=""
-                required title="Please fill the city here"
+                required title="Enter the City"
                 value={company_gst_no}
                 onChange={(e) => setcompany_gst_no(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -1173,6 +1173,7 @@ function Grid() {
                 options={filteredOptionStatus}
                 className="exp-input-field"
                 placeholder=""
+                styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
               />
               </div>
             </div>
