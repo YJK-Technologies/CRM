@@ -380,7 +380,7 @@ function UserInput({ }) {
     const roleValue = selectedRole?.value || '';
     setRole(roleValue);
 
-    if (['user', 'us'].includes(roleValue.toLowerCase())) {
+    if (['user', 'us', 'admin', 'ad'].includes(roleValue.toLowerCase())) {
       setSuperAdmin(false);
     }
   };
@@ -915,7 +915,9 @@ function UserInput({ }) {
                           alt="Selected Preview"
                           className="avatar rounded sm mt-4"
                           style={{ height: '200px', width: '200px' }}
-                        /></div></div>
+                        />
+                      </div>
+                    </div>
                   )}
                   <div className="col-md-3 form-group mb-2 mt-3">
                     <div className="form-check">
@@ -923,7 +925,7 @@ function UserInput({ }) {
                         className="form-check-input"
                         type="checkbox"
                         id="superAdmin"
-                        disabled={['user', 'us'].includes(role_id?.toLowerCase())}
+                        disabled={['user', 'us', 'admin', 'ad'].includes(role_id?.toLowerCase())}
                         checked={superAdmin}
                         disabled={!["sa", "super admin"].includes(role_id?.toLowerCase())}
                         onChange={(e) => setSuperAdmin(e.target.checked)}
