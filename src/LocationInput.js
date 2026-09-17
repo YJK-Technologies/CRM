@@ -314,6 +314,12 @@ function LocInfoInput({ }) {
       toast.warning("Please enter a valid email address");
       return;
     }
+
+    // Contact number must contain exactly 10 digits
+    if (!/^\d{10}$/.test(contact_no)) {
+      toast.warning("Contact No must contain exactly 10 digits");
+      return;
+    }
     setLoading(true);
 
     try {
@@ -880,12 +886,7 @@ function LocInfoInput({ }) {
                         title="Please enter the contact number"
                         value={contact_no}
                         ref={Contactno}
-                        onChange={(e) =>
-                          setcontact_no(
-                            e.target.value.replace(/\D/g, "").slice(0, 50)
-                          )
-                        }
-                        maxLength={50}
+                        onChange={(e) => setcontact_no( e.target.value.replace(/\D/g, "").slice(0, 10) ) }
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             if (mode === "create") {
