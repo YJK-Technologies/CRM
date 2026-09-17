@@ -501,6 +501,12 @@ function Input({ }) {
       toast.warning("Please enter a valid email address");
       return;
     }
+
+    // Contact number must contain exactly 10 digits
+    if (!/^\d{10}$/.test(contact_no)) {
+      toast.warning("Contact No must contain exactly 10 digits");
+      return;
+    }
     setLoading(true);
 
     try {
@@ -1026,7 +1032,7 @@ const handleNavigate = () => {
                       placeholder=""
                       required title="Enter the Contact Number"
                       value={contact_no}
-                      onChange={(e) => setContact_no(e.target.value.replace(/\D/g, '').slice(0, 50))}
+                      onChange={(e) => setContact_no(e.target.value.replace(/\D/g, '').slice(0, 10))}
                       ref={ContactNo}
                       onKeyDown={(e) => handleKeyDown(e, annaual, ContactNo)}
                     />
