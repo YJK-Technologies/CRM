@@ -751,7 +751,16 @@ function Grid() {
       };
     });
 
+    const logoUrl = window.location.origin + "/favicon.ico";
     const reportWindow = window.open("", "_blank");
+
+    const link = reportWindow.document.createElement("link");
+    link.rel = "icon";
+    link.type = "image/x-icon";
+    link.href = logoUrl;
+
+    // append to HEAD
+    reportWindow.document.head.appendChild(link);
     reportWindow.document.write("<html><head><title>Company Report</title>");
     reportWindow.document.write("<style>");
     reportWindow.document.write(`
