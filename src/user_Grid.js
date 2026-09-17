@@ -601,13 +601,77 @@ function UserGrid() {
       field: "dob",
       editable: true,
       cellStyle: { textAlign: "left" },
-      valueFormatter: (params) => {
-        if (!params.value) return ""; // Return an empty string if the value is null or undefined
-        const date = new Date(params.value);
-        const day = date.getDate().toString().padStart(2, "0"); // Get day (padStart ensures double-digit format)
-        const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Get month (+1 because months are zero-indexed)
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`; // Return formatted date string with day, month, and year
+      filter: "agDateCellEditor",
+    
+      cellEditorParams: () => {
+        const today = new Date();
+    
+        const maxDob = new Date(
+          today.getFullYear() - 18,
+          today.getMonth(),
+          today.getDate()
+        );
+    
+        return {
+          max: maxDob,
+        };
+      },
+    
+      valueSetter: (params) => {
+        if (!params.newValue) {
+          return false;
+        }
+    
+        // Convert selected value to Date
+        const selectedDate = new Date(params.newValue);
+    
+        if (isNaN(selectedDate.getTime())) {
+          return false;
+        }
+    
+        selectedDate.setHours(0, 0, 0, 0);
+    
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+    
+        // Maximum DOB = Today - 18 years
+        const maxDob = new Date(
+          today.getFullYear() - 18,
+          today.getMonth(),
+          today.getDate()
+        );
+    
+        maxDob.setHours(0, 0, 0, 0);
+    
+        // Future date validation
+        if (selectedDate > today) {
+          toast.warning("Future dates are not allowed for DOB");
+          return false;
+        }
+    
+        // Age validation
+        if (selectedDate > maxDob) {
+          toast.warning("Age must be 18 years or above");
+          return false;
+        }
+    
+        // Format date as YYYY-MM-DD
+        const year = selectedDate.getFullYear();
+    
+        const month = String(
+          selectedDate.getMonth() + 1
+        ).padStart(2, "0");
+    
+        const day = String(
+          selectedDate.getDate()
+        ).padStart(2, "0");
+    
+        const formattedDate = `${year}-${month}-${day}`;
+    
+        // Update AG Grid data
+        params.data.dob = formattedDate;
+    
+        return true;
       },
     },
     {
@@ -670,7 +734,16 @@ function UserGrid() {
       };
     });
 
+    const logoUrl = window.location.origin + "/favicon.ico";
     const reportWindow = window.open("", "_blank");
+
+    const link = reportWindow.document.createElement("link");
+    link.rel = "icon";
+    link.type = "image/x-icon";
+    link.href = logoUrl;
+
+    // append to HEAD
+    reportWindow.document.head.appendChild(link);
     reportWindow.document.write("<html><head><title>User</title>");
     reportWindow.document.write("<style>");
     reportWindow.document.write(`

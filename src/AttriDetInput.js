@@ -372,7 +372,7 @@ function AttriDetInput({ }) {
 
                       <div class="d-flex justify-content-start">
                         <div><label for="rid" class="exp-form-labels">
-                          subcode
+                          Sub Code
                         </label></div>
                         <div> <span className="text-danger">*</span></div>
                       </div><input

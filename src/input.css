@@ -358,3 +358,29 @@ input[type="date"]{
   }
 
  }
+
+ /* preview section for item 09-06-2026 */
+.image-preview-frame {
+  width: 150px;
+  height: 150px;
+  border: 2px solid #D9D9D9;
+  border-radius: 8px;
+  background-color: #FAFAFA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.preview-placeholder {
+  color: #999;
+  font-size: 14px;
+  text-align: center;
+}

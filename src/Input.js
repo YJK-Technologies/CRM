@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import './apps.css'
 import Select from 'react-select'
 import LoadingScreen from './Loading';
+import DefaultProductImage from "./DefaultIMG/Product.png";
 
 const config = require('./Apiconfig');
 
@@ -499,6 +500,12 @@ function Input({ }) {
 
     if (!validateEmail(email_id)) {
       toast.warning("Please enter a valid email address");
+      return;
+    }
+
+    // Contact number must contain exactly 10 digits
+    if (!/^\d{10}$/.test(contact_no)) {
+      toast.warning("Contact No must contain exactly 10 digits");
       return;
     }
     setLoading(true);
@@ -1026,7 +1033,7 @@ const handleNavigate = () => {
                       placeholder=""
                       required title="Enter the Contact Number"
                       value={contact_no}
-                      onChange={(e) => setContact_no(e.target.value.replace(/\D/g, '').slice(0, 50))}
+                      onChange={(e) => setContact_no(e.target.value.replace(/\D/g, '').slice(0, 10))}
                       ref={ContactNo}
                       onKeyDown={(e) => handleKeyDown(e, annaual, ContactNo)}
                     />
@@ -1088,6 +1095,7 @@ const handleNavigate = () => {
                   </div>
                   </div>
                 </div>
+                <div class="row">
                 <div className="col-md-3 form-group mb-2">
                   <div class="exp-form-floating">
                     <label for="locno" class="exp-form-labels">
@@ -1102,7 +1110,7 @@ const handleNavigate = () => {
                     />
                   </div>
                 </div>
-                {selectedImage && (
+                {/* {selectedImage && (
                   <div className="col-md-3 form-group mb-2">
                     <div class="exp-form-floating">
                       <img
@@ -1113,7 +1121,17 @@ const handleNavigate = () => {
                       />
                     </div>
                   </div>
-                )}
+                )} */}
+                <div className="col-md-3 form-group mb-2">
+
+                  <div className="image-preview-frame">
+                    <img
+                      src={selectedImage || DefaultProductImage}
+                      alt="Selected Preview"
+                      className="preview-image"
+                    />
+                  </div>
+                </div>
                 <div className="col-md-3 form-group mb-2">
                   <div class="exp-form-floating">
                     <label for="locno" class="exp-form-labels">
@@ -1137,7 +1155,7 @@ const handleNavigate = () => {
                     />
                   </div>
                 </div>
-                {selectedSignatureImage && (
+                {/* {selectedSignatureImage && (
                   <div className="col-md-3 form-group mb-2">
                     <div class="exp-form-floating">
                       <img
@@ -1148,48 +1166,19 @@ const handleNavigate = () => {
                       />
                     </div>
                   </div>
-                )}
-                {/* <div className="col-md-3 form-group  mb-2">
-                  {mode === "create" ? (
-                    <div class="exp-form-floating">
-                      <div class="d-flex justify-content-start">
-                        <div>
-                          <label for="state" class="exp-form-labels">
-                            Created By
-                          </label>
-                        </div>
-                      </div>
-                      <input
-                        id="emailid"
-                        class="exp-input-field form-control"
-                        type="text"
-                        placeholder=""
-                        required
-                        title="Please enter the email ID"
-                        value={created_by}
-                      />
-                    </div>
-                  ) : (
-                    <div class="exp-form-floating">
-                      <div class="d-flex justify-content-start">
-                        <div>
-                          <label for="state" class="exp-form-labels">
-                            Modified By
-                          </label>
-                        </div>
-                      </div>
-                      <input
-                        id="emailid"
-                        class="exp-input-field form-control"
-                        type="text"
-                        placeholder=""
-                        required
-                        title="Please enter the email ID"
-                        value={modified_by}
-                      />
-                    </div>
-                  )}
-                </div> */}
+                )} */}
+                <div className="col-md-3 form-group mb-2">
+
+                  <div className="image-preview-frame">
+                    <img
+                      src={selectedSignatureImage || DefaultProductImage}
+                      alt="Selected Preview"
+                      className="preview-image"
+                    />
+                  </div>
+                </div>
+                </div>
+                
                 <div class="col-md-3 form-group d-flex justify-content-start mb-4">
                   {mode === "create" ? (
                     <button onClick={handleInsert} className="mt-4" title="Save">
