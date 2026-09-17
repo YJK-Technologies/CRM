@@ -215,8 +215,8 @@ function UserScreenInput({ }) {
 
   const handleInsert = async () => {
     if (
-      !role_id,
-      !screen_type,
+      !role_id ||
+      !screen_type ||
       !permission_type
     ) {
       setError(" ");

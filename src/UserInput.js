@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingScreen from './Loading';
 import { ToastContainer, toast } from 'react-toastify';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const config = require('./Apiconfig');
 
@@ -66,6 +68,8 @@ function UserInput({ }) {
   const selectedRow = locationState.selectedRow || null;
   const userCode = location.state?.user_code;
   const company_code = sessionStorage.getItem('selectedCompanyCode');
+
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (!location.state) {
@@ -719,7 +723,7 @@ function UserInput({ }) {
                       {/* {error && !last_name && <div className="text-danger">Last Name should not be blank</div>} */}
                     </div>
                   </div>
-                  <div className="col-md-3 form-group  mb-2">
+                  {/* <div className="col-md-3 form-group  mb-2">
                     <div class="exp-form-floating">
                       <div class="d-flex justify-content-start">
                         <div>
@@ -730,7 +734,7 @@ function UserInput({ }) {
                       </div>
                       <input
                         id="upass"
-                        class="exp-input-field form-control"
+                        class="exp-input-field form-control"  
                         type="text"
                         placeholder=""
                         required title="Please enter the password"
@@ -740,7 +744,44 @@ function UserInput({ }) {
                         ref={password}
                         onKeyDown={(e) => handleKeyDown(e, Status, password)}
                       />
-                      {/* {error && !last_name && <div className="text-danger">Password should not be blank</div>} */}
+                    </div>
+                  </div> */}
+                  <div className="col-md-3 form-group  mb-2">
+                    <div class="exp-form-floating">
+                      <label
+                        for="state"
+                        className={`exp-form-labels ${error && !user_password ? "text-danger" : ""
+                          }`}
+                      >
+                        Password<span className="text-danger">*</span>
+                      </label>
+                      <div className="position-relative">
+                        <input
+                          id="upass"
+                          className="exp-input-field form-control"
+                          title="Please enter the password"
+                          type={showPassword ? "text" : "password"}
+                          value={user_password}
+                          onChange={(e) => setUser_password(e.target.value)}
+                          style={{ paddingRight: "40px" }}
+                        />
+                        <span
+                          className="eye"
+                          onClick={() => setShowPassword(!showPassword)}
+                          style={{
+                            position: "absolute",
+                            right: "12px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            cursor: "pointer",
+                            zIndex: 999,
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={showPassword ? faEye : faEyeSlash}
+                          />
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-3 form-group  mb-2">
@@ -787,31 +828,31 @@ function UserInput({ }) {
                     </div>
                   </div>
                   {/* {mode !== 'update' && ( */}
-                    <div className="col-md-3 form-group  mb-2 ">
-                      <div class="exp-form-floating">
-                        <div class="d-flex justify-content-start">
-                          <div>
-                            <label for="state" class="exp-form-labels" className={`${error && !user_status ? 'text-danger' : ''}`}>
-                              Role ID<span className="text-danger">*</span>
-                            </label>
-                          </div>
-                        </div>
-                        <div title="Select the Role ID ">
-                          <Select
-                            id="usertype"
-                            value={selectedRole}
-                            onChange={handleChangeRole}
-                            options={filteredOptionRole}
-                            className="exp-input-field"
-                            placeholder=""
-                            maxLength={50}
-                            ref={usertype}
-                            onKeyDown={(e) => handleKeyDown(e, email, usertype)}
-                          />
-                          {/* {error && !user_status && <div className="text-danger">User Type should not be blank</div>} */}
+                  <div className="col-md-3 form-group  mb-2 ">
+                    <div class="exp-form-floating">
+                      <div class="d-flex justify-content-start">
+                        <div>
+                          <label for="state" class="exp-form-labels" className={`${error && !role_id ? 'text-danger' : ''}`}>
+                            Role ID<span className="text-danger">*</span>
+                          </label>
                         </div>
                       </div>
+                      <div title="Select the Role ID ">
+                        <Select
+                          id="usertype"
+                          value={selectedRole}
+                          onChange={handleChangeRole}
+                          options={filteredOptionRole}
+                          className="exp-input-field"
+                          placeholder=""
+                          maxLength={50}
+                          ref={usertype}
+                          onKeyDown={(e) => handleKeyDown(e, email, usertype)}
+                        />
+                        {/* {error && !user_status && <div className="text-danger">User Type should not be blank</div>} */}
+                      </div>
                     </div>
+                  </div>
                   {/* )} */}
                   <div className="col-md-3 form-group  mb-2">
                     <div class="exp-form-floating">

@@ -2455,28 +2455,14 @@ const commappingdeleteData = async (req, res) => {
     const pool = await connection.connectToDatabase();
 
     for (const keyfiels of keyfielsToDelete) {
-      try {
         await pool
           .request()
           .input("keyfiels", keyfiels)
           .input("modified_by", sql.NVarChar, req.headers["modified-by"])
           .query(`EXEC sp_user_company_mapping 'D','','','','001','',0,@keyfiels,'','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL`);
-      } catch (err) {
-        if (err.number === 50000) {
-          // Foreign key constraint violation
-          res
-            .status(400)
-            .json(
-              "The user rights cannot be deleted due to a link with another record",
-            );
-          return;
-        } else {
-          throw err; // Rethrow other SQL errors
-        }
-      }
-    }
+      } 
 
-    res.status(200).json("User and company mapping data deleted successfully");
+    res.status(200).json("Company Mapping data deleted successfully");
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: err.message || "Internal Server Error" });

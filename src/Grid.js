@@ -61,11 +61,96 @@ function Grid() {
   const [selectedCompanyLogo, setSelectedCompanyLogo] = useState(null);
   const [open, setOpen] = React.useState(false);
 
+  // For Dropdown
+  const [selectedCity, setSelectedCity] = useState('');
+  const [dropCity, setDropCity] = useState([]);
+
+  const [selectedState, setselectedState] = useState('');
+  const [dropState, setDropState] = useState([]);
+
+  const [selectedCountry, setselectedCountry] = useState('');
+  const [dropCountry, setDropCountry] = useState([]);
+
+  const handleChangeCity = (selectedCity) => {
+    setSelectedCity(selectedCity);
+    setCity(selectedCity ? selectedCity.value : '');
+  };
+
+  const handleChangeState = (selectedState) => {
+    setselectedState(selectedState);
+    setState(selectedState ? selectedState.value : '');
+  };
+
+  const handleChangeCountry = (selectedCountry) => {
+    setselectedCountry(selectedCountry);
+    setCountry(selectedCountry ? selectedCountry.value : '');
+  };
+
+  const filteredOptionCity = dropCity.map((option) => ({
+    value: option.attributedetails_name,
+    label: option.attributedetails_name,
+  }));
+
+  const filteredOptionState = dropState.map((option) => ({
+    value: option.attributedetails_name,
+    label: option.attributedetails_name,
+  }));
+
+  const filteredOptionCountry = dropCountry.map((option) => ({
+    value: option.attributedetails_name,
+    label: option.attributedetails_name,
+  }));
+
+  useEffect(() => {
+    const company_code = sessionStorage.getItem('selectedCompanyCode');
+
+    fetch(`${config.apiBaseUrl}/city`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ company_code })
+    })
+      .then((data) => data.json())
+      .then((val) => setDropCity(val))
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
+
+  useEffect(() => {
+    const company_code = sessionStorage.getItem('selectedCompanyCode');
+
+    fetch(`${config.apiBaseUrl}/state`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ company_code })
+    })
+      .then((data) => data.json())
+      .then((val) => setDropState(val))
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
+
+  useEffect(() => {
+    const company_code = sessionStorage.getItem('selectedCompanyCode');
+
+    fetch(`${config.apiBaseUrl}/country`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ company_code })
+    })
+      .then((data) => data.json())
+      .then((val) => setDropCountry(val))
+      .catch((error) => console.error('Error fetching data:', error));
+  }, []);
+
   //   useEffect(() => {
   //   if (location.state?.preservedRowData) {
   //     setRowData(location.state.preservedRowData);
   //   }
-  
+
   //   if (location.state?.preservedInputs) {
   //     setCompany_no(location.state.preservedInputs.company_no || "");
   //     setCompany_name(location.state.preservedInputs.company_name || "");
@@ -75,7 +160,7 @@ function Grid() {
   //     setcompany_gst_no(location.state.preservedInputs.company_gst_no || "");
   //     setState(location.state.preservedInputs.state || "");
   //     setStatus(location.state.preservedInputs.status || "");
-  
+
   //     if (location.state.preservedInputs.status) {
   //       setSelectedStatus({
   //         label: location.state.preservedInputs.status,
@@ -129,7 +214,7 @@ function Grid() {
       }
 
       if (location.state?.refreshGrid) {
-        handleSearch(inputs); 
+        handleSearch(inputs);
       }
     }
   }, [location.state]);
@@ -295,16 +380,16 @@ function Grid() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ 
-          company_no: searchParams?.company_no ?? company_no, 
-          company_name: searchParams?.company_name ?? company_name, 
-          city: searchParams?.city ?? city, 
-          state: searchParams?.state ?? state, 
-          pincode: searchParams?.pincode ?? pincode, 
-          country: searchParams?.country ?? country, 
-          status: searchParams?.status ?? status, 
-          company_gst_no: searchParams?.company_gst_no ?? company_gst_no 
-        }) 
+        body: JSON.stringify({
+          company_no: searchParams?.company_no ?? company_no,
+          company_name: searchParams?.company_name ?? company_name,
+          city: searchParams?.city ?? city,
+          state: searchParams?.state ?? state,
+          pincode: searchParams?.pincode ?? pincode,
+          country: searchParams?.country ?? country,
+          status: searchParams?.status ?? status,
+          company_gst_no: searchParams?.company_gst_no ?? company_gst_no
+        })
       });
       if (response.ok) {
         const searchData = await response.json();
@@ -586,7 +671,7 @@ function Grid() {
 
     {
       headerName: "Annual Report URL",
-      field: "AnnualReportURL",
+      field: "annualReportURL",
       editable: true,
       cellStyle: { textAlign: "left" },
       cellEditorParams: {
@@ -666,7 +751,16 @@ function Grid() {
       };
     });
 
+    const logoUrl = window.location.origin + "/favicon.ico";
     const reportWindow = window.open("", "_blank");
+
+    const link = reportWindow.document.createElement("link");
+    link.rel = "icon";
+    link.type = "image/x-icon";
+    link.href = logoUrl;
+
+    // append to HEAD
+    reportWindow.document.head.appendChild(link);
     reportWindow.document.write("<html><head><title>Company Report</title>");
     reportWindow.document.write("<style>");
     reportWindow.document.write(`
@@ -762,27 +856,27 @@ function Grid() {
     navigate("/AddCompany", { state: { mode: "create" } }); // Pass selectedRows as props to the Input component
   };
 
-// const handleNavigateWithRowData = (selectedRow) => {
-//   navigate("/AddCompany", {
-//     state: {
-//       mode: "update",
-//       selectedRow,
+  // const handleNavigateWithRowData = (selectedRow) => {
+  //   navigate("/AddCompany", {
+  //     state: {
+  //       mode: "update",
+  //       selectedRow,
 
-//       preservedRowData: rowData,
+  //       preservedRowData: rowData,
 
-//       preservedInputs: {
-//         company_no,
-//         company_name,
-//         city,
-//         state,
-//         pincode,
-//         country,
-//         company_gst_no,
-//         status,
-//       },
-//     },
-//   });
-// };
+  //       preservedInputs: {
+  //         company_no,
+  //         company_name,
+  //         city,
+  //         state,
+  //         pincode,
+  //         country,
+  //         company_gst_no,
+  //         status,
+  //       },
+  //     },
+  //   });
+  // };
 
   const handleNavigateWithRowData = (selectedRow) => {
     navigate("/AddCompany", {
@@ -1069,42 +1163,49 @@ function Grid() {
               />
             </div>
           </div>
-          <div className="col-md-3 form-group">
+
+          <div className="col-md-3 form-group mb-2">
             <div class="exp-form-floating">
-              <label for="city" class="exp-form-labels">
-                City
-              </label>
-              <input
-                id="city"
-                className="exp-input-field form-control"
-                type="text"
-                placeholder=""
-                required title="Enter the City"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                maxLength={100}
-              />
-            </div>
+              <div class="d-flex justify-content-start">
+                <div>
+                  <label For="city" >City</label>
+                </div>
+              </div>
+              <div title="Select the City ">
+                <Select
+                  id="city"
+                  value={selectedCity}
+                  onChange={handleChangeCity}
+                  options={filteredOptionCity}
+                  className="exp-input-field"
+                  isClearable
+                  placeholder=""
+                  styles={{ menu: (provided) => ({ ...provided, zIndex: 9999 }) }}
+                />
+              </div></div>
           </div>
-          <div className="col-md-3 form-group">
+
+          <div className="col-md-3 form-group mb-2">
             <div class="exp-form-floating">
-              <label for="state" class="exp-form-labels">
-                State
-              </label>
-              <input
-                id="state"
-                className="exp-input-field form-control"
-                type="text"
-                placeholder=""
-                required title="Enter the State"
-                value={state}
-                onChange={(e) => setState(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                maxLength={100}
-              />
-            </div>
+              <div class="d-flex justify-content-start">
+                <div>
+                  <label for="state" class="exp-form-labels">State</label>
+                </div>
+              </div>
+              <div title="Select the State">
+                <Select
+                  id="state"
+                  value={selectedState}
+                  onChange={handleChangeState}
+                  options={filteredOptionState}
+                  className="exp-input-field"
+                  isClearable
+                  placeholder=""
+                  styles={{ menu: (provided) => ({ ...provided, zIndex: 9999 }) }}
+                />
+              </div></div>
           </div>
+
           <div className="col-md-3 form-group">
             <div className="exp-form-floating">
               <label htmlFor="pin" className="exp-form-labels">
@@ -1124,23 +1225,28 @@ function Grid() {
               />
             </div>
           </div>
-          <div className="col-md-3 form-group">
+
+          <div className="col-md-3 form-group mb-2">
             <div class="exp-form-floating">
-              <label for="country" class="exp-form-labels">
-                Country
-              </label>
-              <input
-                id="country"
-                className="exp-input-field form-control"
-                type="text"
-                placeholder=""
-                required title="Enter the Country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              />
-            </div>
+              <div class="d-flex justify-content-start">
+                <div>
+                  <label for="state" class="exp-form-labels">Country</label>
+                </div>
+              </div>
+              <div title="Select the Country">
+                <Select
+                  id="country"
+                  value={selectedCountry}
+                  onChange={handleChangeCountry}
+                  options={filteredOptionCountry}
+                  className="exp-input-field"
+                  isClearable
+                  placeholder=""
+                  styles={{ menu: (provided) => ({ ...provided, zIndex: 9999 }) }}
+                />
+              </div></div>
           </div>
+
           <div className="col-md-3 form-group">
             <div class="exp-form-floating">
               <label class="exp-form-labels">
@@ -1164,17 +1270,18 @@ function Grid() {
               <label class="exp-form-labels">
                 Status
               </label>
-               <div title="Select the Status">
-              <Select
-                id="status"
-                value={selectedStatus}
-                onChange={handleChangeStatus}
-                onKeyDown={handleKeyDownStatus}
-                options={filteredOptionStatus}
-                className="exp-input-field"
-                placeholder=""
-                styles={{menu: (provided) => ({ ...provided, zIndex: 9999 })}}
-              />
+              <div title="Select the Status">
+                <Select
+                  id="status"
+                  value={selectedStatus}
+                  onChange={handleChangeStatus}
+                  onKeyDown={handleKeyDownStatus}
+                  options={filteredOptionStatus}
+                  className="exp-input-field"
+                  isClearable
+                  placeholder=""
+                  styles={{ menu: (provided) => ({ ...provided, zIndex: 9999 }) }}
+                />
               </div>
             </div>
           </div>
