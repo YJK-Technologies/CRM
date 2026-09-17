@@ -791,7 +791,7 @@ function UserInput({ }) {
                       <div class="exp-form-floating">
                         <div class="d-flex justify-content-start">
                           <div>
-                            <label for="state" class="exp-form-labels" className={`${error && !user_status ? 'text-danger' : ''}`}>
+                            <label for="state" class="exp-form-labels" className={`${error && !role_id ? 'text-danger' : ''}`}>
                               Role ID<span className="text-danger">*</span>
                             </label>
                           </div>

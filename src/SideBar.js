@@ -657,10 +657,20 @@ setCRMCollapsed(false);  };
         </div>
 
         <div className="menu-item" onClick={toggleCRM} title="CRM">
-         <UserCog size={20} className="me-2 CRMFont" />
-
-          <span className={collapsed ? "hidden" : ""}>CRM </span>
-          <div className="CRM-arrow ">
+          <UserCog
+            size={20}
+            className="CRMFont me-2"
+            style={{
+              minWidth: "20px",
+              width: "20px",
+              height: "20px",
+              flexShrink: 0,
+              display: "block",
+              visibility: "visible",
+            }}
+          />
+          <span className={collapsed ? "hidden" : ""}>CRM</span>
+          <div className="CRM-arrow">
             {CRMCollapsed ? <BsChevronDown /> : <BsChevronRight />}
           </div>
         </div>
