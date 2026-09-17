@@ -94,35 +94,35 @@ function LocInfoInput({ }) {
       if (response.ok && data.length > 0) {
         const location = data[0];
 
-      setlocation_no(location.location_no || "");
-      setlocation_name(location.location_name || "");
-      setshort_name(location.short_name || "");
-      setaddress1(location.address1 || "");
-      setaddress2(location.address2 || "");
-      setaddress3(location.address3 || "");
-      setcity(location.city || "");
-      setstate(location.state || "");
-      setcountry(location.country || "");
-      setstatus(location.status || "");;
-      setSelectedCity({
-        label: location.city,
-        value: location.city,
-      });
-      setselectedState({
-        label: location.state,
-        value: location.state,
-      });
-      setselectedCountry({
-        label: location.country,
-        value: location.country,
-      });
-      setselectedStatus({
-        label: location.status,
-        value: location.status,
-      });
-      setpincode(location.pincode || "");
-      setemail_id(location.email_id || "");
-      setcontact_no(location.contact_no || "");
+        setlocation_no(location.location_no || "");
+        setlocation_name(location.location_name || "");
+        setshort_name(location.short_name || "");
+        setaddress1(location.address1 || "");
+        setaddress2(location.address2 || "");
+        setaddress3(location.address3 || "");
+        setcity(location.city || "");
+        setstate(location.state || "");
+        setcountry(location.country || "");
+        setstatus(location.status || "");;
+        setSelectedCity({
+          label: location.city,
+          value: location.city,
+        });
+        setselectedState({
+          label: location.state,
+          value: location.state,
+        });
+        setselectedCountry({
+          label: location.country,
+          value: location.country,
+        });
+        setselectedStatus({
+          label: location.status,
+          value: location.status,
+        });
+        setpincode(location.pincode || "");
+        setemail_id(location.email_id || "");
+        setcontact_no(location.contact_no || "");
       }
     } catch (err) {
       console.error(err);
@@ -161,7 +161,7 @@ function LocInfoInput({ }) {
   //     setcountry(selectedRow.country || "");
   //     setstatus(selectedRow.status || "");;
 
- 
+
   //     setSelectedCity({
   //       label: selectedRow.city,
   //       value: selectedRow.city,
@@ -314,6 +314,13 @@ function LocInfoInput({ }) {
       toast.warning("Please enter a valid email address");
       return;
     }
+
+    // Contact number validation
+    if (contact_no.length < 8 || contact_no.length > 15) {
+      toast.warning("Contact number must be between 8 and 15 digits");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -339,10 +346,10 @@ function LocInfoInput({ }) {
           created_by: sessionStorage.getItem("selectedUserCode"),
         }),
       });
-           if (response.ok) {
-                   toast.success("Data inserted Successfully", {
-                     onClose: () => clearInputFields()
-                   });
+      if (response.ok) {
+        toast.success("Data inserted Successfully", {
+          onClose: () => clearInputFields()
+        });
       } else if (response.status === 400) {
         const errorResponse = await response.json();
         console.error(errorResponse.message);
@@ -409,9 +416,9 @@ function LocInfoInput({ }) {
         }),
       });
       if (response.ok) {
-                   toast.success("Data updated successfully", {
-                    //  onClose: () => clearInputFields()
-                   });
+        toast.success("Data updated successfully", {
+          //  onClose: () => clearInputFields()
+        });
       } else if (response.status === 400) {
         const errorResponse = await response.json();
         console.error(errorResponse.message);
@@ -433,14 +440,14 @@ function LocInfoInput({ }) {
     return emailRegex.test(email);
   }
 
-//   const handleNavigate = () => {
-//   navigate("/Location", {
-//     state: {
-//       preservedRowData: location.state?.preservedRowData,
-//       preservedInputs: location.state?.preservedInputs,
-//     },
-//   });
-// };
+  //   const handleNavigate = () => {
+  //   navigate("/Location", {
+  //     state: {
+  //       preservedRowData: location.state?.preservedRowData,
+  //       preservedInputs: location.state?.preservedInputs,
+  //     },
+  //   });
+  // };
 
   const handleNavigate = () => {
     navigate("/Location", {
@@ -574,9 +581,9 @@ function LocInfoInput({ }) {
                       {/* <label for="srtname" class="exp-form-labels">
                         Short Name
                       </label> */}
-                       <label for="state" class="exp-form-labels" className={`${error && !short_name ? 'text-danger' : ''}`}>
-                           Short Name<span className="text-danger">*</span>
-                          </label>
+                      <label for="state" class="exp-form-labels" className={`${error && !short_name ? 'text-danger' : ''}`}>
+                        Short Name<span className="text-danger">*</span>
+                      </label>
                       <input
                         id="srtname"
                         class="exp-input-field form-control"
@@ -684,26 +691,26 @@ function LocInfoInput({ }) {
                         </div>
                       </div>
                       <div title="Select the City">
-                      <Select
-                        id="city"
-                        value={selectedCity}
-                        onChange={handleChangeCity}
-                        options={filteredOptionCity}
-                        className="exp-input-field"
-                        placeholder=""
-                        maxLength={100}
-                        ref={City}
-                        onKeyDown={(e) =>
-                          handleKeyDown(
-                            e,
-                            State,
-                            City,
-                            hasValueChanged,
-                            setHasValueChanged
-                          )
-                        }
-                      />
-                      {/* {error && !city && (
+                        <Select
+                          id="city"
+                          value={selectedCity}
+                          onChange={handleChangeCity}
+                          options={filteredOptionCity}
+                          className="exp-input-field"
+                          placeholder=""
+                          maxLength={100}
+                          ref={City}
+                          onKeyDown={(e) =>
+                            handleKeyDown(
+                              e,
+                              State,
+                              City,
+                              hasValueChanged,
+                              setHasValueChanged
+                            )
+                          }
+                        />
+                        {/* {error && !city && (
                         <div className="text-danger">
                           City should not be blank
                         </div>
@@ -721,31 +728,31 @@ function LocInfoInput({ }) {
                         </div>
                       </div>
                       <div title="Select the State">
-                      <Select
-                        id="state"
-                        value={selectedState}
-                        onChange={handleChangeState}
-                        options={filteredOptionState}
-                        className="exp-input-field"
-                        placeholder=""
-                        maxLength={100}
-                        ref={State}
-                        onKeyDown={(e) =>
-                          handleKeyDown(
-                            e,
-                            Pincode,
-                            State,
-                            hasValueChanged,
-                            setHasValueChanged
-                          )
-                        }
-                      />
-                      {/* {error && !state && (
+                        <Select
+                          id="state"
+                          value={selectedState}
+                          onChange={handleChangeState}
+                          options={filteredOptionState}
+                          className="exp-input-field"
+                          placeholder=""
+                          maxLength={100}
+                          ref={State}
+                          onKeyDown={(e) =>
+                            handleKeyDown(
+                              e,
+                              Pincode,
+                              State,
+                              hasValueChanged,
+                              setHasValueChanged
+                            )
+                          }
+                        />
+                        {/* {error && !state && (
                         <div className="text-danger">
                           State should not be blank
                         </div>
                       )} */}
-                    </div>
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-3 form-group  mb-2">
@@ -791,17 +798,17 @@ function LocInfoInput({ }) {
                         </div>
                       </div>
                       <div title="Select the Country ">
-                      <Select
-                        id="country"
-                        value={selectedCountry}
-                        onChange={handleChangeCountry}
-                        options={filteredOptionCountry}
-                        className="exp-input-field"
-                        placeholder=""
-                        maxLength={100}
-                        ref={Country}
-                        onKeyDown={(e) => handleKeyDown(e, email, Status)}
-                      />
+                        <Select
+                          id="country"
+                          value={selectedCountry}
+                          onChange={handleChangeCountry}
+                          options={filteredOptionCountry}
+                          className="exp-input-field"
+                          placeholder=""
+                          maxLength={100}
+                          ref={Country}
+                          onKeyDown={(e) => handleKeyDown(e, email, Status)}
+                        />
                       </div>
                     </div>
                   </div>
@@ -843,23 +850,23 @@ function LocInfoInput({ }) {
                           </label>
                         </div>
                       </div>
-                                      <div title="Select the Status ">
-                      <Select
-                        id="status"
-                        value={selectedStatus}
-                        onChange={handleChangeStatus}
-                        options={filteredOptionStatus}
-                        className="exp-input-field"
-                        placeholder=""
-                        ref={Status}
-                        onKeyDown={(e) => handleKeyDown(e, Contactno, Status)}
-                      />
-                      {/* {error && !status && (
+                      <div title="Select the Status ">
+                        <Select
+                          id="status"
+                          value={selectedStatus}
+                          onChange={handleChangeStatus}
+                          options={filteredOptionStatus}
+                          className="exp-input-field"
+                          placeholder=""
+                          ref={Status}
+                          onKeyDown={(e) => handleKeyDown(e, Contactno, Status)}
+                        />
+                        {/* {error && !status && (
                         <div className="text-danger">
                           Status should not be blank
                         </div>
                       )} */}
-                    </div>
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-3 form-group  mb-2">
@@ -882,10 +889,10 @@ function LocInfoInput({ }) {
                         ref={Contactno}
                         onChange={(e) =>
                           setcontact_no(
-                            e.target.value.replace(/\D/g, "").slice(0, 50)
+                            e.target.value.replace(/\D/g, "").slice(0, 15)
                           )
                         }
-                        maxLength={50}
+                        maxLength={15}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             if (mode === "create") {
@@ -896,11 +903,6 @@ function LocInfoInput({ }) {
                           }
                         }}
                       />
-                      {/* {error && !contact_no && (
-                        <div className="text-danger">
-                          Contact No should not be blank
-                        </div>
-                      )} */}
                     </div>
                   </div>
                   {/* <div className="col-md-3 form-group  mb-2">
