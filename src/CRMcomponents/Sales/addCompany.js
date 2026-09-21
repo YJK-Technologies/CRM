@@ -20,7 +20,7 @@ const NewContactModal = ({
   contactData,
   source,
   initialData,
-  screenType ,
+  screenType,
 }) => {
   const [type, setType] = useState(screenType || "company");
   const [activeTab, setActiveTab] = useState("contacts");
@@ -41,7 +41,7 @@ const NewContactModal = ({
     const file = e.target.files[0];
     if (file) {
       setCompanyImage(URL.createObjectURL(file));
-      setSelectedCompanyFile(file); 
+      setSelectedCompanyFile(file);
     }
   };
 
@@ -115,7 +115,7 @@ const NewContactModal = ({
     const file = e.target.files[0];
     if (file) {
       setPersonImage(URL.createObjectURL(file));
-      setSelectedPersonFile(file); 
+      setSelectedPersonFile(file);
     }
   };
 
@@ -183,7 +183,7 @@ const NewContactModal = ({
 
   useEffect(() => {
     if (showC) {
-      console.log(source); 
+      console.log(source);
     }
   }, [showC, source]);
 
@@ -515,49 +515,49 @@ const NewContactModal = ({
 
   if (!showC) return null;
 
-//   const handleDeleteCard = async (indexToRemove) => {
-//   try {
-//     const contactToDelete = contacts[indexToRemove];
+  //   const handleDeleteCard = async (indexToRemove) => {
+  //   try {
+  //     const contactToDelete = contacts[indexToRemove];
 
-//     const company_code = sessionStorage.getItem("selectedCompanyCode");
-//     const Created_by = sessionStorage.getItem("username");
+  //     const company_code = sessionStorage.getItem("selectedCompanyCode");
+  //     const Created_by = sessionStorage.getItem("username");
 
-//     const response = await fetch(
-//       `${config.apiBaseUrl}/deleteCRMContacts`,
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           company_code,
-//           contact_no: contactToDelete.contact_no,
-//           email: contactToDelete.email,
-//           Name: contactToDelete.Name,
-//           ContactID: contactToDelete.Contact_ID,
-//           Contact_info_id: contactToDelete.Contact_info_id,
-//           Created_by
-//         }),
-//       }
-//     );
+  //     const response = await fetch(
+  //       `${config.apiBaseUrl}/deleteCRMContacts`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           company_code,
+  //           contact_no: contactToDelete.contact_no,
+  //           email: contactToDelete.email,
+  //           Name: contactToDelete.Name,
+  //           ContactID: contactToDelete.Contact_ID,
+  //           Contact_info_id: contactToDelete.Contact_info_id,
+  //           Created_by
+  //         }),
+  //       }
+  //     );
 
-//     if (!response.ok) {
-//       const errData = await response.json();
-//       throw new Error(errData.message || "Delete failed");
-//     }
+  //     if (!response.ok) {
+  //       const errData = await response.json();
+  //       throw new Error(errData.message || "Delete failed");
+  //     }
 
-//     // UI update after successful delete
-//     setContacts((prev) =>
-//       prev.filter((_, index) => index !== indexToRemove)
-//     );
+  //     // UI update after successful delete
+  //     setContacts((prev) =>
+  //       prev.filter((_, index) => index !== indexToRemove)
+  //     );
 
-//     toast.success("Contact deleted successfully");
+  //     toast.success("Contact deleted successfully");
 
-//   } catch (error) {
-//     console.error(error);
-//     toast.error(error.message || "Failed to delete contact");
-//   }
-// };
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast.error(error.message || "Failed to delete contact");
+  //   }
+  // };
 
   const handleDeleteCard = async (indexToRemove) => {
     try {
@@ -591,78 +591,78 @@ const NewContactModal = ({
   };
 
   const validateForm = () => {
-  if (type === "person") {
-    if (
-      !personName ||
-      !personPhone ||
-      !personEmail ||
-      !personCompany ||
-      !personCity ||
-      !personCountry
-    ) {
-      toast.warning("Please fill all required fields before saving!");
-      return false;
+    if (type === "person") {
+      if (
+        !personName ||
+        !personPhone ||
+        !personEmail ||
+        !personCompany ||
+        !personCity ||
+        !personCountry
+      ) {
+        toast.warning("Please fill all required fields before saving!");
+        return false;
+      }
     }
-  }
 
-  if (type === "company") {
-    console.log(companyName,companyPhone,companyEmail,companyCity,selectedCompanyCountry)
-    if (
-      !companyName ||
-      !companyPhone ||
-      !companyEmail ||
-      !companyCity ||
-      !companyCountry
-    ) {
-      toast.warning("Please fill all required fields before saving!");
-      return false;
+    if (type === "company") {
+      console.log(companyName, companyPhone, companyEmail, companyCity, selectedCompanyCountry)
+      if (
+        !companyName ||
+        !companyPhone ||
+        !companyEmail ||
+        !companyCity ||
+        !companyCountry
+      ) {
+        toast.warning("Please fill all required fields before saving!");
+        return false;
+      }
     }
-  }
 
-  return true;
-};
+    return true;
+  };
 
-const clearForm = () => {
-  if (type === "person") {
-    setPersonCompany("");
-    setPersonPhone("");
-    setPersonGSTIn("");
-    setPersonEmail("");
-    setPersonWebsite("");
-    setPersonTags("");
-    setPersonAddress1("");
-    setPersonAddress2("");
-    setPersonAddress3("");
-    setPersonCity("");
-    setPersonZip("");
-    setSelectedPersonState("");
-    setSelectedPersonCountry("");
-    setSelectedPersonStatus("");
-    setPersonName("");
-    setSelectedPersonFile(null);
-  } else {
-    setCompanyName("");
-    setCompanyPhone("");
-    setcompanyGSTIn("");
-    setCompanyEmail("");
-    setCompanyWebsite("");
-    setCompanyTags("");
-    setCompanyAddress1("");
-    setCompanyAddress2("");
-    setCompanyAddress3("");
-    setCompanyCity("");
-    setCompanyZip("");
-    setSelectedCompanyState("");
-    setSelectedCompanyCountry("");
-    setSelectedCompanyStatus("");
-    setSelectedCompanyFile(null);
-  }
+  const clearForm = () => {
+    if (type === "person") {
+      setPersonCompany("");
+      setPersonPhone("");
+      setPersonGSTIn("");
+      setPersonEmail("");
+      setPersonWebsite("");
+      setPersonTags("");
+      setPersonAddress1("");
+      setPersonAddress2("");
+      setPersonAddress3("");
+      setPersonCity("");
+      setPersonZip("");
+      setSelectedPersonState("");
+      setSelectedPersonCountry("");
+      setSelectedPersonStatus("");
+      setPersonName("");
+      setSelectedPersonFile(null);
+    } else {
+      setCompanyName("");
+      setCompanyPhone("");
+      setcompanyGSTIn("");
+      setCompanyEmail("");
+      setCompanyWebsite("");
+      setCompanyTags("");
+      setCompanyAddress1("");
+      setCompanyAddress2("");
+      setCompanyAddress3("");
+      setCompanyCity("");
+      setCompanyZip("");
+      setSelectedCompanyState("");
+      setSelectedCompanyCountry("");
+      setSelectedCompanyStatus("");
+      setSelectedCompanyFile(null);
+    }
 
-  setSelectedDomainStatus("");
-  setRefferedBy("");
-  // setSelectedColumnId("new");
-  setContacts([]);
-};
+    setSelectedDomainStatus("");
+    setRefferedBy("");
+    // setSelectedColumnId("new");
+    setContacts([]);
+  };
 
   const handleSave = async () => {
 
@@ -796,7 +796,7 @@ const clearForm = () => {
             }
           }
         }
-         clearForm();
+        clearForm();
       } else {
         let errorMessage = "Something went wrong";
         try {
@@ -1055,47 +1055,47 @@ const clearForm = () => {
   };
 
   const handleDelete = async (keyfield) => {
-  if (!keyfield) {
-    toast.warning("Invalid contact id");
-    return;
-  }
-
-  if (!window.confirm("Are you sure you want to delete this contact?")) return;
-
-  try {
-    const response = await fetch(
-      `${config.apiBaseUrl}/CRM_ContactInfoDelete`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          keyfield: keyfield,
-          company_code: sessionStorage.getItem("selectedCompanyCode"),
-        }),
-      }
-    );
-
-    if (response.ok) {
-      const result = await response.json();
-      toast.success(result.message || "Deleted successfully");
-
-    } else {
-      let errorMessage = "Delete failed";
-      try {
-        const errorResponse = await response.json();
-        errorMessage = errorResponse.message || errorMessage;
-      } catch {
-        errorMessage = await response.text();
-      }
-      toast.warning(errorMessage);
+    if (!keyfield) {
+      toast.warning("Invalid contact id");
+      return;
     }
-  } catch (error) {
-    console.error("Delete error:", error);
-    toast.error("Error deleting data: " + error.message);
-  }
-};
+
+    if (!window.confirm("Are you sure you want to delete this contact?")) return;
+
+    try {
+      const response = await fetch(
+        `${config.apiBaseUrl}/CRM_ContactInfoDelete`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            keyfield: keyfield,
+            company_code: sessionStorage.getItem("selectedCompanyCode"),
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        toast.success(result.message || "Deleted successfully");
+
+      } else {
+        let errorMessage = "Delete failed";
+        try {
+          const errorResponse = await response.json();
+          errorMessage = errorResponse.message || errorMessage;
+        } catch {
+          errorMessage = await response.text();
+        }
+        toast.warning(errorMessage);
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error("Error deleting data: " + error.message);
+    }
+  };
 
 
 
@@ -1593,6 +1593,7 @@ const clearForm = () => {
                             }}
                             onFocus={() => setIsFocused("companyName")}
                             onBlur={() => setIsFocused("")}
+                            maxLength={250}
                             value={companyName}
                             onChange={(e) => setCompanyName(e.target.value)}
                           />
@@ -1604,6 +1605,8 @@ const clearForm = () => {
                           <input
                             type="text"
                             placeholder="Enter Phone No"
+                            maxLength={15}
+                            inputMode="numeric"
                             style={{
                               ...emailInputStyle,
                               ...(isFocused === "companyPhone"
@@ -1614,7 +1617,14 @@ const clearForm = () => {
                             onFocus={() => setIsFocused("companyPhone")}
                             onBlur={() => setIsFocused("")}
                             value={companyPhone}
-                            onChange={(e) => setCompanyPhone(e.target.value)}
+                            onChange={(e) => {
+                              const value = e.target.value;
+
+                              // Allow only numbers and maximum 15 digits
+                              if (/^\d{0,15}$/.test(value)) {
+                                setCompanyPhone(value);
+                              }
+                            }}
                           />
                         </div>
                       </div>
@@ -1636,6 +1646,7 @@ const clearForm = () => {
                             }}
                             onFocus={() => setIsFocused("companyGSTIn")}
                             onBlur={() => setIsFocused("")}
+                            maxLength={20}
                             value={companyGSTIn}
                             onChange={(e) => setcompanyGSTIn(e.target.value)}
                           />
@@ -1657,6 +1668,7 @@ const clearForm = () => {
                             onFocus={() => setIsFocused("companyEmail")}
                             onBlur={() => setIsFocused("")}
                             value={companyEmail}
+                            maxLength={255}
                             onChange={(e) => setCompanyEmail(e.target.value)}
                           />
                         </div>
@@ -1682,6 +1694,7 @@ const clearForm = () => {
                         onFocus={() => setIsFocused("companyWebsite")}
                         onBlur={() => setIsFocused("")}
                         value={companyWebsite}
+                        maxLength={150}
                         onChange={(e) => setCompanyWebsite(e.target.value)}
                       />
                     </div>
@@ -1702,6 +1715,7 @@ const clearForm = () => {
                         onFocus={() => setIsFocused("companyTags")}
                         onBlur={() => setIsFocused("")}
                         value={companyTags}
+                        maxLength={100}
                         onChange={(e) => setCompanyTags(e.target.value)}
                       />
                     </div>
@@ -1725,6 +1739,7 @@ const clearForm = () => {
                         onFocus={() => setIsFocused("companyAddress1")}
                         onBlur={() => setIsFocused("")}
                         value={companyAddress1}
+                        maxLength={100}
                         onChange={(e) => setCompanyAddress1(e.target.value)}
                       />
                     </div>
@@ -1745,6 +1760,7 @@ const clearForm = () => {
                         onFocus={() => setIsFocused("companyAddress2")}
                         onBlur={() => setIsFocused("")}
                         value={companyAddress2}
+                        maxLength={100}
                         onChange={(e) => setCompanyAddress2(e.target.value)}
                       />
                     </div>
@@ -1768,6 +1784,7 @@ const clearForm = () => {
                         onFocus={() => setIsFocused("companyAddress3")}
                         onBlur={() => setIsFocused("")}
                         value={companyAddress3}
+                        maxLength={100}
                         onChange={(e) => setCompanyAddress3(e.target.value)}
                       />
                     </div>
@@ -1788,6 +1805,7 @@ const clearForm = () => {
                         onFocus={() => setIsFocused("companyCity")}
                         onBlur={() => setIsFocused("")}
                         value={companyCity}
+                        maxLength={100}
                         onChange={(e) => setCompanyCity(e.target.value)}
                       />
                     </div>
@@ -1814,6 +1832,7 @@ const clearForm = () => {
                       <input
                         type="text"
                         placeholder="Enter Zip Code"
+                        maxLength={20}
                         style={{
                           ...emailInputStyle,
                           ...(isFocused === "companyZip"
@@ -1824,14 +1843,20 @@ const clearForm = () => {
                         onFocus={() => setIsFocused("companyZip")}
                         onBlur={() => setIsFocused("")}
                         value={companyZip}
-                        onChange={(e) => setCompanyZip(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+
+                          if (/^\d{0,20}$/.test(value)) {
+                            setCompanyZip(value);
+                          }
+                        }}
                       />
                     </div>
                   </div>
 
                   <div className="row mb-3">
                     <div className="col-md-6">
-                      <label className= {`"form-label d-flex justify-content-start" ${error && !selectedCompanyCountry ? 'text-danger' : ''}`}>
+                      <label className={`"form-label d-flex justify-content-start" ${error && !selectedCompanyCountry ? 'text-danger' : ''}`}>
                         Country<span className="text-danger">*</span>
                       </label>
 
@@ -1861,7 +1886,7 @@ const clearForm = () => {
               )}
             </form>
             <div
-              style={{    
+              style={{
                 display: "flex",
                 marginBottom: "1rem",
                 borderBottom: "1px solid #ddd",
