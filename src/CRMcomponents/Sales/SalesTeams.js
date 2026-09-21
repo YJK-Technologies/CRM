@@ -270,7 +270,7 @@ export default function SalesTeams({ showSalesTeamSearch, onSalesTeamSearchClose
           <div className="modal-content">
             <div className="modal-header">
               <div className="d-flex justify-content-between w-100">
-                <h5 className="modal-title">Sales Team</h5>
+                <h5 className="modal-title">Search Sales Team</h5>
                 <button
                   className="btn btn-danger"
                   onClick={onSalesTeamSearchClose}

@@ -578,11 +578,8 @@ function LocInfoInput({ }) {
                   </div>
                   <div className="col-md-3 form-group  mb-2">
                     <div class="exp-form-floating">
-                      {/* <label for="srtname" class="exp-form-labels">
+                      <label for="state" class="exp-form-labels">
                         Short Name
-                      </label> */}
-                      <label for="state" class="exp-form-labels" className={`${error && !short_name ? 'text-danger' : ''}`}>
-                        Short Name<span className="text-danger">*</span>
                       </label>
                       <input
                         id="srtname"
