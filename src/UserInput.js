@@ -83,6 +83,27 @@ function UserInput({ }) {
     }
   }, [mode, userCode]);
 
+  // Validation for 18 years old
+  const isAtLeast18 = (dob) => {
+  if (!dob) return false;
+
+  const birthDate = new Date(dob);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  return age >= 18;
+};
+
   const fetchUserData = async () => {
     try {
       setLoading(true);
@@ -420,6 +441,11 @@ function UserInput({ }) {
       toast.warning("Invalid email format.");
       return;
     }
+
+    if (!isAtLeast18(dob)) {
+  toast.warning("Employee must be at least 18 years old");
+  return;
+}
     setLoading(true);
 
     try {
@@ -552,6 +578,11 @@ function UserInput({ }) {
       toast.warning("Invalid email format.");
       return;
     }
+
+    if (!isAtLeast18(dob)) {
+  toast.warning("Employee must be at least 18 years old");
+  return;
+}
     setLoading(true);
 
     try {
@@ -888,16 +919,20 @@ function UserInput({ }) {
                         </div>
                       </div>
                       <input
-                        id="udob"
-                        class="exp-input-field form-control"
-                        type="date"
-                        placeholder=""
-                        required title="Please enter the DOB"
-                        value={dob}
-                        onChange={(e) => setDob(e.target.value)}
-                        ref={Dob}
-                        onKeyDown={(e) => handleKeyDown(e, Gender, Dob)}
-                      />
+  id="udob"
+  className="exp-input-field form-control"
+  type="date"
+  placeholder=""
+  required
+  title="Please enter the DOB"
+  value={dob}
+  max={new Date(
+    new Date().setFullYear(new Date().getFullYear() - 18)
+  ).toISOString().split("T")[0]}
+  onChange={(e) => setDob(e.target.value)}
+  ref={Dob}
+  onKeyDown={(e) => handleKeyDown(e, Gender, Dob)}
+/>
                       {/* {error && !user_status && <div className="text-danger">DOB should not be blank</div>} */}
                     </div>
                   </div>
