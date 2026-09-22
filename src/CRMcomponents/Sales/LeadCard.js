@@ -149,6 +149,7 @@ export default function LeadCard({ item, index, onDeleteLead }) {
   };
 
   const isWon = item.stage === 'won';
+  // const isLost = item.stage?.toLowerCase() === 'lost';
 
   return (
     <Draggable draggableId={item.id.toString()} index={index}>
@@ -160,6 +161,9 @@ export default function LeadCard({ item, index, onDeleteLead }) {
           className="mb-2 lead-card-3d"
           style={{
             userSelect: "none",
+            // For minimal height, you can adjust this value as needed
+            minHeight: "160px", 
+            // position: "relative",
             background: snapshot.isDragging ? "#e0e0e0" : "#f9f9f9",
             ...provided.draggableProps.style,
           }}
@@ -171,6 +175,13 @@ export default function LeadCard({ item, index, onDeleteLead }) {
               </div>
             </div>
           )}
+          {/* {isLost && (
+  <div className="lost-ribbon-container">
+    <div className="lost-ribbon">
+      <span className="lost-ribbon-text">LOST</span>
+    </div>
+  </div>
+)} */}
           <div className="card-body" style={{ padding: 0 }}>
             <div className="row">
               <div className="col-12 mb-1 d-flex align-items-center justify-content-between">
