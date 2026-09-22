@@ -9481,7 +9481,7 @@ const GetContactInfo = async (req, res) => {
 
 //Code added by pavun on 08-10-25
 const activitySearch = async (req, res) => {
-  const { stage, Company, OpportunityName, ContactName, company_code, ExpectedRevenue, Payment,  } = req.body;
+  const { stage, Company, OpportunityName, Type_of_Activity, ContactName, company_code, ExpectedRevenue, Payment,  } = req.body;
   try {
     const pool = await connection.connectToDatabase();
     const result = await pool
@@ -9492,10 +9492,11 @@ const activitySearch = async (req, res) => {
       .input("Company", sql.NVarChar, Company)
       .input("OpportunityName", sql.NVarChar, OpportunityName)
       .input("ContactName", sql.NVarChar, ContactName)
+      .input("Type_of_Activity", sql.NVarChar, Type_of_Activity)
       .input("ExpectedRevenue", sql.Decimal(12, 2), ExpectedRevenue)
       .input("Payment", sql.Decimal(12, 2), Payment)
       .query(
-        `EXEC sp_CRM_Activity @mode,0,0, '', '', '', '', '','',@Company_code,@stage,@Company,@OpportunityName,@ContactName,@ExpectedRevenue,@Payment,'','', '', '', '', '', ''`,
+        `EXEC sp_CRM_Activity @mode,0,0, '', @Type_of_Activity, '', '', '','',@Company_code,@stage,@Company,@OpportunityName,@ContactName,@ExpectedRevenue,@Payment,'','', '', '', '', '', ''`,
       );
 
     res.json(result.recordset);

@@ -283,123 +283,331 @@ function UserRoleGrid() {
     setGridColumnApi(params.columnApi);
   };
 
-  const generateReport = () => {
-    const selectedRows = gridApi.getSelectedRows();
-    if (selectedRows.length === 0) {
-      toast.warning("Please select at least one row to generate a report", {
-        autoClose: 2000,
-      });
-      return;
+  // const generateReport = () => {
+  //   const selectedRows = gridApi.getSelectedRows();
+  //   if (selectedRows.length === 0) {
+  //     toast.warning("Please select at least one row to generate a report", {
+  //       autoClose: 2000,
+  //     });
+  //     return;
+  //   }
+
+  //   const reportData = selectedRows.map((row) => {
+  //     const safeValue = (val) => (val !== undefined && val !== null ? val : '');
+
+  //     return {
+  //       "User Code": safeValue(row.user_code),
+  //       "User Name": safeValue(row.user_name),
+  //       "Role ID": safeValue(row.role_id),
+  //       "Role Name": safeValue(row.role_name),
+  //     };
+  //   });
+
+  //   const logoUrl = window.location.origin + "/favicon.ico";
+  //   const reportWindow = window.open("", "_blank");
+
+  //   const link = reportWindow.document.createElement("link");
+  //   link.rel = "icon";
+  //   link.type = "image/x-icon";
+  //   link.href = logoUrl;
+
+  //   // append to HEAD
+  //   reportWindow.document.head.appendChild(link);
+  //   reportWindow.document.write("<html><head><title>Role Mapping</title>");
+  //   reportWindow.document.write("<style>");
+  //   reportWindow.document.write(`
+  //      body {
+  //          font-family: Arial, sans-serif;
+  //          margin: 20px;
+  //      }
+  //      h1 {
+  //          color: maroon;
+  //          text-align: center;
+  //          font-size: 24px;
+  //          margin-bottom: 30px;
+  //          text-decoration: underline;
+  //      }
+  //      table {
+  //          width: 100%;
+  //          border-collapse: collapse;
+  //          margin-bottom: 20px;
+  //      }
+  //      th, td {
+  //          padding: 10px;
+  //          text-align: left;
+  //          border: 1px solid #ddd;
+  //          vertical-align: top;
+  //      }
+  //      th {
+  //          background-color: maroon;
+  //          color: white;
+  //          font-weight: bold;
+  //      }
+  //      td {
+  //          background-color: #fdd9b5;
+  //      }
+  //      tr:nth-child(even) td {
+  //          background-color: #fff0e1;
+  //      }
+  //      .report-button {
+  //          display: block;
+  //          width: 150px;
+  //          margin: 20px auto;
+  //          padding: 10px;
+  //          background-color: maroon;
+  //          color: white;
+  //          border: none;
+  //          cursor: pointer;
+  //          font-size: 16px;
+  //          text-align: center;
+  //          border-radius: 5px;
+  //      }
+  //      .report-button:hover {
+  //          background-color: darkred;
+  //      }
+  //      @media print {
+  //          .report-button {
+  //              display: none;
+  //          }
+  //          body {
+  //              margin: 0;
+  //              padding: 0;
+  //          }
+  //      }
+  //    `);
+  //   reportWindow.document.write("</style></head><body>");
+  //   reportWindow.document.write("<h1><u>UserRole Mapping</u></h1>");
+
+  //   reportWindow.document.write("<table><thead><tr>");
+  //   Object.keys(reportData[0]).forEach((key) => {
+  //     reportWindow.document.write(`<th>${key}</th>`);
+  //   });
+  //   reportWindow.document.write("</tr></thead><tbody>");
+
+  //   reportData.forEach((row) => {
+  //     reportWindow.document.write("<tr>");
+  //     Object.values(row).forEach((value) => {
+  //       reportWindow.document.write(`<td>${value}</td>`);
+  //     });
+  //     reportWindow.document.write("</tr>");
+  //   });
+
+  //   reportWindow.document.write("</tbody></table>");
+
+  //   reportWindow.document.write(
+  //     '<button class="report-button" title="Print" onclick="window.print()">Print</button>'
+  //   );
+  //   reportWindow.document.write("</body></html>");
+  //   reportWindow.document.close();
+  // };
+
+const generateReport = () => {
+  const selectedRows = gridApi.getSelectedRows();
+
+  if (selectedRows.length === 0) {
+    toast.warning("Please select at least one row to generate a report", {
+      autoClose: 2000,
+    });
+    return;
+  }
+
+  const reportData = selectedRows.map((row) => {
+    const safeValue = (val) =>
+      val !== undefined && val !== null ? val : "";
+
+    return {
+      "User Code": safeValue(row.user_code),
+      "User Name": safeValue(row.user_name),
+      "Role ID": safeValue(row.role_id),
+      "Role Name": safeValue(row.role_name),
+    };
+  });
+
+  const logoUrl = window.location.origin + "/favicon.ico";
+  const reportWindow = window.open("", "_blank");
+
+  const link = reportWindow.document.createElement("link");
+  link.rel = "icon";
+  link.type = "image/x-icon";
+  link.href = logoUrl;
+
+  reportWindow.document.head.appendChild(link);
+
+  reportWindow.document.write(
+    "<html><head><title>Role Mapping</title>"
+  );
+
+  reportWindow.document.write("<style>");
+
+  reportWindow.document.write(`
+    * {
+      box-sizing: border-box;
     }
 
-    const reportData = selectedRows.map((row) => {
-      const safeValue = (val) => (val !== undefined && val !== null ? val : '');
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+      background-color: white;
+      color: black;
+    }
 
-      return {
-        "User Code": safeValue(row.user_code),
-        "User Name": safeValue(row.user_name),
-        "Role ID": safeValue(row.role_id),
-        "Role Name": safeValue(row.role_name),
-      };
+    h1 {
+      color: maroon;
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 30px;
+      text-decoration: underline;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: maroon !important;
+      color: white !important;
+      font-weight: bold;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    td {
+      background-color: #fdd9b5 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #fff0e1 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .report-button {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: maroon;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: center;
+      border-radius: 5px;
+    }
+
+    .report-button:hover {
+      background-color: darkred;
+    }
+
+    @media print {
+
+      @page {
+        size: auto;
+        margin: 10mm;
+      }
+
+      body {
+        margin: 20px;
+        padding: 0;
+        background-color: white !important;
+      }
+
+      h1 {
+        color: maroon !important;
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 30px;
+        text-decoration: underline;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd !important;
+        vertical-align: top;
+      }
+
+      th {
+        background-color: maroon !important;
+        color: white !important;
+        font-weight: bold;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      td {
+        background-color: #fdd9b5 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      tr:nth-child(even) td {
+        background-color: #fff0e1 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .report-button {
+        display: none !important;
+      }
+    }
+  `);
+
+  reportWindow.document.write("</style></head><body>");
+
+  reportWindow.document.write(
+    "<h1><u>UserRole Mapping</u></h1>"
+  );
+
+  reportWindow.document.write("<table><thead><tr>");
+
+  Object.keys(reportData[0]).forEach((key) => {
+    reportWindow.document.write(`<th>${key}</th>`);
+  });
+
+  reportWindow.document.write("</tr></thead><tbody>");
+
+  reportData.forEach((row) => {
+    reportWindow.document.write("<tr>");
+
+    Object.values(row).forEach((value) => {
+      reportWindow.document.write(`<td>${value}</td>`);
     });
 
-    const logoUrl = window.location.origin + "/favicon.ico";
-    const reportWindow = window.open("", "_blank");
+    reportWindow.document.write("</tr>");
+  });
 
-    const link = reportWindow.document.createElement("link");
-    link.rel = "icon";
-    link.type = "image/x-icon";
-    link.href = logoUrl;
+  reportWindow.document.write("</tbody></table>");
 
-    // append to HEAD
-    reportWindow.document.head.appendChild(link);
-    reportWindow.document.write("<html><head><title>Role Mapping</title>");
-    reportWindow.document.write("<style>");
-    reportWindow.document.write(`
-       body {
-           font-family: Arial, sans-serif;
-           margin: 20px;
-       }
-       h1 {
-           color: maroon;
-           text-align: center;
-           font-size: 24px;
-           margin-bottom: 30px;
-           text-decoration: underline;
-       }
-       table {
-           width: 100%;
-           border-collapse: collapse;
-           margin-bottom: 20px;
-       }
-       th, td {
-           padding: 10px;
-           text-align: left;
-           border: 1px solid #ddd;
-           vertical-align: top;
-       }
-       th {
-           background-color: maroon;
-           color: white;
-           font-weight: bold;
-       }
-       td {
-           background-color: #fdd9b5;
-       }
-       tr:nth-child(even) td {
-           background-color: #fff0e1;
-       }
-       .report-button {
-           display: block;
-           width: 150px;
-           margin: 20px auto;
-           padding: 10px;
-           background-color: maroon;
-           color: white;
-           border: none;
-           cursor: pointer;
-           font-size: 16px;
-           text-align: center;
-           border-radius: 5px;
-       }
-       .report-button:hover {
-           background-color: darkred;
-       }
-       @media print {
-           .report-button {
-               display: none;
-           }
-           body {
-               margin: 0;
-               padding: 0;
-           }
-       }
-     `);
-    reportWindow.document.write("</style></head><body>");
-    reportWindow.document.write("<h1><u>UserRole Mapping</u></h1>");
+  reportWindow.document.write(
+    '<button class="report-button" title="Print" onclick="window.print()">Print</button>'
+  );
 
-    reportWindow.document.write("<table><thead><tr>");
-    Object.keys(reportData[0]).forEach((key) => {
-      reportWindow.document.write(`<th>${key}</th>`);
-    });
-    reportWindow.document.write("</tr></thead><tbody>");
+  reportWindow.document.write("</body></html>");
 
-    reportData.forEach((row) => {
-      reportWindow.document.write("<tr>");
-      Object.values(row).forEach((value) => {
-        reportWindow.document.write(`<td>${value}</td>`);
-      });
-      reportWindow.document.write("</tr>");
-    });
-
-    reportWindow.document.write("</tbody></table>");
-
-    reportWindow.document.write(
-      '<button class="report-button" title="Print" onclick="window.print()">Print</button>'
-    );
-    reportWindow.document.write("</body></html>");
-    reportWindow.document.close();
-  };
+  reportWindow.document.close();
+};
 
   const handleNavigateToForm = () => {
     navigate("/AddUserRoleMapping", { state: { mode: "create" } }); // Pass selectedRows as props to the Input component
