@@ -470,3 +470,14 @@
   font-size: 1em;
 }
 
+/* For the sidebar links, ensure they take up the full width and have no text decoration. */
+.nav-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+}
+
+.nav-link .menu-item {
+  width: 100%;
+  cursor: pointer;
+}
