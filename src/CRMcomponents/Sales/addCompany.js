@@ -1200,6 +1200,7 @@ const NewContactModal = ({
                             }}
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
+                            maxLength={60}
                             value={personName}
                             onChange={(e) => setPersonName(e.target.value)}
                           />
@@ -1219,7 +1220,15 @@ const NewContactModal = ({
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
                             value={personPhone}
-                            onChange={(e) => setPersonPhone(e.target.value)}
+                            // onChange={(e) => setPersonPhone(e.target.value)}
+                            onChange={(e) => {
+                              const value = e.target.value;
+
+                              // Allow only numbers and maximum 15 digits
+                              if (/^\d{0,15}$/.test(value)) {
+                                setPersonPhone(value);
+                              }
+                            }}
                           />
                         </div>
                       </div>
@@ -1240,6 +1249,7 @@ const NewContactModal = ({
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
                             value={personGSTIn}
+                            maxLength={20}
                             onChange={(e) => setPersonGSTIn(e.target.value)}
                           />
                         </div>
@@ -1258,6 +1268,7 @@ const NewContactModal = ({
                             onFocus={() => setIsFocused(true)}
                             onBlur={() => setIsFocused(false)}
                             value={personEmail}
+                            maxLength={255}
                             onChange={(e) => setPersonEmail(e.target.value)}
                           />
                         </div>
@@ -1332,6 +1343,7 @@ const NewContactModal = ({
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         value={personWebsite}
+                        maxLength={150}
                         onChange={(e) => setPersonWebsite(e.target.value)}
                       />
                     </div>
@@ -1353,6 +1365,7 @@ const NewContactModal = ({
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         value={personTags}
+                        maxLength={100}
                         onChange={(e) => setPersonTags(e.target.value)}
                       />
                     </div>
@@ -1373,6 +1386,7 @@ const NewContactModal = ({
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         value={personAddress1}
+                        maxLength={100}
                         onChange={(e) => setPersonAddress1(e.target.value)}
                       />
                     </div>
@@ -1394,6 +1408,7 @@ const NewContactModal = ({
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         value={personAddress2}
+                        maxLength={100}
                         onChange={(e) => setPersonAddress2(e.target.value)}
                       />
                     </div>
@@ -1413,6 +1428,7 @@ const NewContactModal = ({
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         value={personAddress3}
+                        maxLength={100}
                         onChange={(e) => setPersonAddress3(e.target.value)}
                       />
                     </div>
@@ -1433,6 +1449,7 @@ const NewContactModal = ({
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         value={personCity}
+                        maxLength={100}
                         onChange={(e) => setPersonCity(e.target.value)}
                       />
                     </div>
@@ -1479,6 +1496,7 @@ const NewContactModal = ({
                       <input
                         type="text"
                         placeholder="Enter Zip Code"
+                        maxLength={20}
                         style={{
                           ...emailInputStyle,
                           ...(isFocused ? emailInputFocusStyle : {}),
@@ -1487,7 +1505,14 @@ const NewContactModal = ({
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
                         value={personZip}
-                        onChange={(e) => setPersonZip(e.target.value)}
+                        // onChange={(e) => setPersonZip(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+
+                          if (/^\d{0,20}$/.test(value)) {
+                            setPersonZip(value);
+                          }
+                        }}
                       />
                     </div>
 
@@ -2096,6 +2121,7 @@ const NewContactModal = ({
                         }}
                         onFocus={() => setIsFocused("companyZip")}
                         onBlur={() => setIsFocused("")}
+                        maxLength={100}
                         value={refferedBy}
                         onChange={(e) => setRefferedBy(e.target.value)}
                       />
