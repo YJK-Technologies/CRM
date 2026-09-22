@@ -91,11 +91,15 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
   const [contactStatusDrop, setContactStatusDrop] = useState([]);
   const [selectedContactStatus, setSelectedContactStatus] = useState("");
   const [contactStatus, setContactStatus] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [CountryDrop, setCountryDrop] = useState([]);
 
   const [Invoice_Name, setInvoice_Name] = useState('');
   const [Invoice_contact_no, setInvoice_contact_no] = useState('');
   const [Invoice_Address, setInvoice_Address] = useState('');
   const [Invoice_Country, setInvoice_Country] = useState('');
+  const [selectedInvoice_Country, setSelectedInvoice_Country] = useState("");
+  const [Invoice_CountryDrop, setInvoice_CountryDrop] = useState([]);
   const [Invoice_Aadhar, setInvoice_Aadhar] = useState('');
   const [Invoice_Pan, setInvoice_Pan] = useState('');
   const [Invoice_email, setInvoice_email] = useState('');
@@ -108,6 +112,8 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
   const [Deliverycontact_no, setDeliverycontact_no] = useState('');
   const [DeliveryAddress, setDeliveryAddress] = useState('');
   const [DeliveryCountry, setDeliveryCountry] = useState('');
+  const [selectedDeliveryCountry, setSelectedDeliveryCountry] = useState("");
+  const [DeliveryCountryDrop, setDeliveryCountryDrop] = useState([]);
   const [DeliveryAadhar, setDeliveryAadhar] = useState('');
   const [DeliveryPan, setDeliveryPan] = useState('');
   const [Deliveryemail, setDeliveryemail] = useState('');
@@ -119,6 +125,8 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
   const [otherName, setOtherName] = useState("");
   const [otherAddress1, setOtherAddress1] = useState('');
   const [otherCountry, setOtherCountry] = useState('');
+  const [selectedotherCountry, setSelectedotherCountry] = useState("");
+  const [otherCountryDrop, setotherCountryDrop] = useState([]);
   const [otherEmail, setOtherEmail] = useState('');
   const [otherNotes, setOtherNotes] = useState('');
   const [otherContact_no, setOthercontact_no] = useState("");
@@ -180,6 +188,51 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
+  useEffect(() => {
+    const company_code = sessionStorage.getItem("selectedCompanyCode");
+    fetch(`${config.apiBaseUrl}/country`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ company_code }),
+    })
+      .then((data) => data.json())
+      .then((val) => setCountryDrop(val))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+  useEffect(() => {
+    const company_code = sessionStorage.getItem("selectedCompanyCode");
+    fetch(`${config.apiBaseUrl}/country`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ company_code }),
+    })
+      .then((data) => data.json())
+      .then((val) => setInvoice_CountryDrop(val))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+  useEffect(() => {
+    const company_code = sessionStorage.getItem("selectedCompanyCode");
+    fetch(`${config.apiBaseUrl}/country`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ company_code }),
+    })
+      .then((data) => data.json())
+      .then((val) => setDeliveryCountryDrop(val))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+  useEffect(() => {
+    const company_code = sessionStorage.getItem("selectedCompanyCode");
+    fetch(`${config.apiBaseUrl}/country`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ company_code }),
+    })
+      .then((data) => data.json())
+      .then((val) => setotherCountryDrop(val))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
   const filteredOptionContactStatus = contactStatusDrop.map((option) => ({
     value: option.attributedetails_name,
     label: option.attributedetails_name,
@@ -196,6 +249,26 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
   }));
 
   const filteredOptionOtherStatus = otherStatusDrop.map((option) => ({
+    value: option.attributedetails_name,
+    label: option.attributedetails_name,
+  }));
+
+  const filteredOptionCompanyCountry = CountryDrop.map((option) => ({
+    value: option.attributedetails_name,
+    label: option.attributedetails_name,
+  }));
+
+  const filteredOptionInvoice_Country = Invoice_CountryDrop.map((option) => ({
+    value: option.attributedetails_name,
+    label: option.attributedetails_name,
+  }));
+
+  const filteredOptionDeliveryCountry = DeliveryCountryDrop.map((option) => ({
+    value: option.attributedetails_name,
+    label: option.attributedetails_name,
+  }));
+
+  const filteredOptionotherCountry = otherCountryDrop.map((option) => ({
     value: option.attributedetails_name,
     label: option.attributedetails_name,
   }));
@@ -218,6 +291,24 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
   const handleChangeOtherStatus = (selectedOtherStatus) => {
     setSelectedOtherStatus(selectedOtherStatus);
     setOtherStatus(selectedOtherStatus ? selectedOtherStatus.value : "");
+  };
+
+  const handleChangeCountry = (selectedCountry) => {
+    setSelectedCountry(selectedCountry);
+    setCountry(selectedCountry ? selectedCountry.value : "");
+  };
+
+  const handleChangeInvoice_Country = (selectedInvoice_Country) => {
+    setSelectedInvoice_Country(selectedInvoice_Country);
+    setCountry(selectedInvoice_Country ? selectedInvoice_Country.value : "");
+  };
+  const handleChangeDeliveryCountry = (selectedDeliveryCountry) => {
+    setSelectedDeliveryCountry(selectedDeliveryCountry);
+    setDeliveryCountry(selectedDeliveryCountry ? selectedDeliveryCountry.value : "");
+  };
+  const handleChangeotherCountry = (selectedotherCountry) => {
+    setSelectedotherCountry(selectedotherCountry);
+    setOtherCountry(selectedotherCountry ? selectedotherCountry.value : "");
   };
 
 
@@ -722,7 +813,7 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
                       onChange={(e) => setAddress(e.target.value)}
                     />
                   </div>
-                  <div className="col-md-6 text-start">
+                  {/* <div className="col-md-6 text-start">
                     <label className="form-label d-flex justify-content-start">Country</label>
                     <input
                       type="text"
@@ -734,6 +825,16 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
                       placeholder="Country"
                       value={Country}
                       onChange={(e) => setCountry(e.target.value)}
+                    />
+                  </div> */}
+                   <div className="col-md-6">
+                    <label className={`"form-label d-flex justify-content-start" `}>Country</label>
+                    <Select
+                      placeholder="Select Country"
+                      value={selectedCountry}
+                      onChange={handleChangeCountry}
+                      options={filteredOptionCompanyCountry}
+                      styles={companySelectStyles}
                     />
                   </div>
                   <div className="col-md-6 text-start">
@@ -900,7 +1001,7 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
                       onChange={(e) => setInvoice_Address(e.target.value)}
                     />
                   </div>
-                  <div className="col-md-6 text-start">
+                  {/* <div className="col-md-6 text-start">
                     <label className="form-label d-flex justify-content-start">Country</label>
                     <input
                       type="text"
@@ -912,6 +1013,16 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
                       placeholder="Country"
                       value={Invoice_Country}
                       onChange={(e) => setInvoice_Country(e.target.value)}
+                    />
+                  </div> */}
+                  <div className="col-md-6">
+                    <label className={`"form-label d-flex justify-content-start" `}>Country</label>
+                    <Select
+                      placeholder="Select Country"
+                      value={selectedInvoice_Country}
+                      onChange={handleChangeInvoice_Country}
+                      options={filteredOptionInvoice_Country}
+                      styles={companySelectStyles}
                     />
                   </div>
                   <div className="col-md-6 text-start">
@@ -1068,7 +1179,7 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
                       onChange={(e) => setDeliveryAddress(e.target.value)}
                     />
                   </div>
-                  <div className="col-md-6 text-start">
+                  {/* <div className="col-md-6 text-start">
                     <label className="form-label d-flex justify-content-start">Country</label>
                     <input
                       type="text"
@@ -1080,6 +1191,16 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
                       placeholder="Country"
                       value={DeliveryCountry}
                       onChange={(e) => setDeliveryCountry(e.target.value)}
+                    />
+                  </div> */}
+                  <div className="col-md-6">
+                    <label className={`"form-label d-flex justify-content-start" `}>Country</label>
+                    <Select
+                      placeholder="Select Country"
+                      value={selectedDeliveryCountry}
+                      onChange={handleChangeDeliveryCountry}
+                      options={filteredOptionDeliveryCountry}
+                      styles={companySelectStyles}
                     />
                   </div>
                   <div className="col-md-6 text-start">
@@ -1235,7 +1356,7 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
                       onChange={(e) => setOtherAddress1(e.target.value)}
                     />
                   </div>
-                  <div className="col-md-6 text-start">
+                  {/* <div className="col-md-6 text-start">
                     <label className="form-label d-flex justify-content-start">Country</label>
                     <input
                       type="text"
@@ -1248,7 +1369,17 @@ const Typesofcontacts = ({ onClose, onSave, initialData, initialType }) => {
                       value={otherCountry}
                       onChange={(e) => setOtherCountry(e.target.value)}
                     />
-                  </div>
+                  </div> */}
+                  <div className="col-md-6">
+                    <label className={`"form-label d-flex justify-content-start" `}>Country</label>
+                    <Select
+                      placeholder="Select Country"
+                      value={selectedotherCountry}
+                      onChange={handleChangeotherCountry}
+                      options={filteredOptionotherCountry}
+                      styles={companySelectStyles}
+                    />
+                  </div>                  
                   <div className="col-md-6 text-start">
                     <label className="form-label d-flex justify-content-start">Aadhar</label>
                     <input

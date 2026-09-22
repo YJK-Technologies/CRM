@@ -764,65 +764,139 @@ function Grid() {
     reportWindow.document.write("<html><head><title>Company Report</title>");
     reportWindow.document.write("<style>");
     reportWindow.document.write(`
+  * {
+      box-sizing: border-box;
+  }
+
+  body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+      background: white;
+      color: black;
+  }
+
+  h1 {
+      color: maroon;
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 30px;
+      text-decoration: underline;
+  }
+
+  table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+  }
+
+  th,
+  td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+      vertical-align: top;
+  }
+
+  th {
+      background-color: maroon !important;
+      color: white !important;
+      font-weight: bold;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+  }
+
+  td {
+      background-color: #fdd9b5 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+  }
+
+  tr:nth-child(even) td {
+      background-color: #fff0e1 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+  }
+
+  .report-button {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: maroon;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: center;
+      border-radius: 5px;
+  }
+
+  .report-button:hover {
+      background-color: darkred;
+  }
+
+  @media print {
+
+      @page {
+          size: auto;
+          margin: 10mm;
+      }
+
       body {
-          font-family: Arial, sans-serif;
           margin: 20px;
+          padding: 0;
+          background: white !important;
       }
+
       h1 {
-          color: maroon;
-          text-align: center;
+          color: maroon !important;
           font-size: 24px;
-          margin-bottom: 30px;
+          text-align: center;
           text-decoration: underline;
+          margin-bottom: 30px;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
       }
+
       table {
           width: 100%;
           border-collapse: collapse;
-          margin-bottom: 20px;
       }
-      th, td {
+
+      th,
+      td {
+          border: 1px solid #ddd !important;
           padding: 10px;
-          text-align: left;
-          border: 1px solid #ddd;
           vertical-align: top;
       }
+
       th {
-          background-color: maroon;
-          color: white;
-          font-weight: bold;
+          background-color: maroon !important;
+          color: white !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
       }
+
       td {
-          background-color: #fdd9b5;
+          background-color: #fdd9b5 !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
       }
+
       tr:nth-child(even) td {
-          background-color: #fff0e1;
+          background-color: #fff0e1 !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
       }
+
       .report-button {
-          display: block;
-          width: 150px;
-          margin: 20px auto;
-          padding: 10px;
-          background-color: maroon;
-          color: white;
-          border: none;
-          cursor: pointer;
-          font-size: 16px;
-          text-align: center;
-          border-radius: 5px;
+          display: none !important;
       }
-      .report-button:hover {
-          background-color: darkred;
-      }
-      @media print {
-          .report-button {
-              display: none;
-          }
-          body {
-              margin: 0;
-              padding: 0;
-          }
-      }
+  }
     `);
+    reportWindow.document.write("</style>");
+
     reportWindow.document.write("</style></head><body>");
     reportWindow.document.write("<h1><u>Company Information</u></h1>");
 
