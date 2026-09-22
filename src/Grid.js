@@ -919,6 +919,11 @@ function Grid() {
     }
   };
 
+  const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 
   const saveEditedData = async () => {
     const selectedRowsData = editedData
@@ -928,6 +933,16 @@ function Grid() {
       toast.warning("Please select and modify at least one row to update its data");
       return;
     }
+
+    // Email validation
+  for (const row of selectedRowsData) {
+    if (!row.email || !isValidEmail(row.email.trim())) {
+      toast.warning(
+        `Please enter a valid email address for Company No: ${row.company_no}`
+      );
+      return;
+    }
+  }
 
     showConfirmationToast(
       "Are you sure you want to update the data in the selected rows?",
