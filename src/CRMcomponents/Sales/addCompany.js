@@ -503,9 +503,7 @@ const NewContactModal = ({
 
   const handleChangeCompanyCountry = (selectedCompanyCountry) => {
     setSelectedCompanyCountry(selectedCompanyCountry);
-    setCompanyCountry(
-      selectedCompanyCountry ? selectedCompanyCountry.value : ""
-    );
+    setCompanyCountry(selectedCompanyCountry ? selectedCompanyCountry.value : "");
   };
 
   const handleChangeCompanyStatus = (selectedCompanyStatus) => {
@@ -591,6 +589,8 @@ const NewContactModal = ({
   };
 
   const validateForm = () => {
+    // Gmail validation 
+    const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (type === "person") {
       if (
         !personName ||
@@ -603,6 +603,11 @@ const NewContactModal = ({
         toast.warning("Please fill all required fields before saving!");
         return false;
       }
+      // Validate person email 
+      if (!gmailRegex.test(personEmail.trim())) { 
+        toast.warning("Please enter a valid Person Email address!"); 
+          return false; 
+        }
     }
 
     if (type === "company") {
@@ -617,6 +622,12 @@ const NewContactModal = ({
         toast.warning("Please fill all required fields before saving!");
         return false;
       }
+      // Validate company email 
+      if (!gmailRegex.test(companyEmail.trim())) { 
+        toast.warning("Please enter a valid Company Email address!"); 
+        return false; 
+      }
+      
     }
 
     return true;

@@ -285,7 +285,7 @@ const SalesTeamHelp = ({ showSalesTeam, onCloseSalesTeam, selectedColumnId,initi
                   <div className="col-md-12">
                     <input
                       type="text"
-                      placeholder="Sales Team"
+                      placeholder="Sales Team Name"
                       value={Sales_Team}
                       onChange={(e) => setSales_Team(e.target.value)}
                       style={styles.largeTitleInput}

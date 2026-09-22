@@ -53,7 +53,8 @@ const CRMSalesActivity = () => {
   "Opportunity Name",
   "Contact Name",
   "Expected Revenue",
-  "Payment"
+  "Payment",
+  "Type of Activity"
 ];
 
 
@@ -123,7 +124,7 @@ const CRMSalesActivity = () => {
       flex: 1,
     },
     {
-      headerName: "Email",
+      headerName: "Type of Activity",
       field: "Type_of_Activity",
       flex: 1,
     },
@@ -325,6 +326,9 @@ const CRMSalesActivity = () => {
             break;
           case "Payment":
             payload.Payment = value;
+            break;
+          case "Type of Activity":
+            payload.Type_of_Activity = value;
             break;
           default:
             console.log("Unknown filter:", field);
