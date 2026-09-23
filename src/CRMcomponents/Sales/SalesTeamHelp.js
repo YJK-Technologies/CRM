@@ -205,6 +205,19 @@ const SalesTeamHelp = ({ showSalesTeam, onCloseSalesTeam, selectedColumnId,initi
     return;
   }
 
+  // Email format validation
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!emailRegex.test(Emails_From)) {
+  toast.warning("Please enter a valid From Email");
+  return;
+}
+
+if (!emailRegex.test(Email_alias)) {
+  toast.warning("Please enter a valid Email Alias");
+  return;
+}
+
   setLoading(true);
 
   try {

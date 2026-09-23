@@ -8,6 +8,8 @@ const config = require('../../Apiconfig');
 
 export default function LeadModal({ onSubmit, onCancel, selectedColumnId }) {
 
+  console.log("========== LeadModal rendered ==========");
+
   const [companyDrop, setCompanyDrop] = useState([]);
   const [nameDrop, setNameDrop] = useState([]);
   const [rateDrop, setRateDrop] = useState([]);
@@ -53,17 +55,39 @@ export default function LeadModal({ onSubmit, onCancel, selectedColumnId }) {
   }, []);
 
   useEffect(() => {
-    fetch(`${config.apiBaseUrl}/defaultContactsName`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        company_code: sessionStorage.getItem("selectedCompanyCode"),
-      }),
+  console.log("defaultContactsName useEffect STARTED");
+
+  const companyCode = sessionStorage.getItem("selectedCompanyCode");
+
+  console.log("Company Code:", companyCode);
+  console.log(
+    "API URL:",
+    `${config.apiBaseUrl}/defaultContactsName`
+  );
+
+  fetch(`${config.apiBaseUrl}/defaultContactsName`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      company_code: companyCode,
+    }),
+  })
+    .then((response) => {
+      console.log("defaultContactsName HTTP Status:", response.status);
+
+      return response.json();
     })
-      .then((data) => data.json())
-      .then((val) => setNameDrop(val))
-      .catch((error) => console.error('Error fetching data:', error));
-  }, []);
+    .then((val) => {
+      console.log("defaultContactsName API Response:", val);
+
+      setNameDrop(val);
+    })
+    .catch((error) => {
+      console.error("defaultContactsName API ERROR:", error);
+    });
+}, []);
 
   useEffect(() => {
     fetch(`${config.apiBaseUrl}/getPriority`, {
@@ -242,6 +266,9 @@ export default function LeadModal({ onSubmit, onCancel, selectedColumnId }) {
       setSelectedName(selectedName);
       setName(selectedName ? selectedName.value : "");
 
+      console.log("Selected Contact:", selectedName);
+  console.log("Source Type:", selectedName?.sourceType);
+
       if (selectedName) {
         fetchContactsByCompany(selectedName.value, selectedName.sourceType);
         fetchContactsByEmail(selectedName.value, selectedName.sourceType);
@@ -385,8 +412,8 @@ export default function LeadModal({ onSubmit, onCancel, selectedColumnId }) {
       <AddContactModal
         showContact={showContactModal}
         onClose={() => setshowContactModal(false)}
-         onSaveCompany={(selectedCompanyID, selectedCompanyName) => {
-          handleChangeName({ value: selectedCompanyID, label: selectedCompanyName });
+         onSaveCompany={(selectedCompanyID, selectedCompanyName, sourceType) => {
+          handleChangeName({ value: selectedCompanyID, label: selectedCompanyName, sourceType: sourceType });
           setshowContactModal(false);
         }}
         selectedColumnId={selectedColumnId}
