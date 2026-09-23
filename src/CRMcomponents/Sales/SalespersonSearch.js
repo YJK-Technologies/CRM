@@ -181,12 +181,18 @@ const SalespersonSearch = ({ showSpSearch, onSpSearchClose, onSalespersonSaved, 
   //   // }
   // };
 
+  // const handleRowClick = (params) => {
+  //   const selectedsetSalesperson = params.data.SalesCode;
+  //   if (selectedsetSalesperson) {
+  //     onSaveSP(selectedsetSalesperson);
+  //   }
+  // };
+
   const handleRowClick = (params) => {
-    const selectedsetSalesperson = params.data.SalesCode;
-    if (selectedsetSalesperson) {
-      onSaveSP(selectedsetSalesperson);
-    }
-  };
+  if (onSaveTeam && params.data) {
+    onSaveTeam(params.data);
+  }
+};
 
   const handleSalespersonClose = () => {
     setShowSpModal(false);
